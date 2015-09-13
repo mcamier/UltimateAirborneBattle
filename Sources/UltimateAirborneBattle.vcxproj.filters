@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\processes">
+      <UniqueIdentifier>{73fe2dbc-1c90-43e3-b8a7-6b35772e83c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\components">
+      <UniqueIdentifier>{b3c9c319-a9da-43be-a757-16e76fb03ba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\processes">
+      <UniqueIdentifier>{72bec923-1477-4278-9a84-da1fb098ef35}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="P_shapeRender.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_animationRenderer.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_gameManager.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_physic.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_player.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_spriteRenderer.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_particuleEmitter.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_particuleRenderer.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="UAB_events.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="C_animation.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_player.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_rigidbody.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_screenPosition.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_shape.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_sprite.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_transform.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="P_animationRenderer.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="P_gameManager.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="P_physic.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="P_player.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="P_shapeRender.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="P_spriteRenderer.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="C_particuleEmitter.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="P_particuleEmitter.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="P_particuleRenderer.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="UAB_math.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
