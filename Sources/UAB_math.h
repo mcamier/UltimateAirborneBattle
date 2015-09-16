@@ -3,9 +3,30 @@
 
 #include <random>
 #include <assert.h>
+#include <math.h>
 
 class MathUtils {
+
 public:
+    static const float PI;
+    static const float TWO_PI;
+    static const float HALF_PI;
+
+    static float cosFromDeg(float x) {
+        return cos(degToRad(x));
+    }
+
+    static float sinFromDeg(float x) {
+        return sin(degToRad(x));
+    }
+
+    static float degToRad(float x) {
+        return x*(MathUtils::PI / 180);
+    }
+
+    static float radToDeg(float x) {
+        return x * (180 / MathUtils::PI);
+    }
 
     static int randint(int n) {
         if ((n - 1) == RAND_MAX) {
@@ -21,5 +42,4 @@ public:
         }
     }
 };
-
 #endif

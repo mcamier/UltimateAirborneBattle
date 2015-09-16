@@ -9,7 +9,7 @@ public:
     const static ComponentType sk_componentType = 0x381cfbe0;
 
     Vec2f m_position;
-    int m_rotation;
+    float m_rotation;
     Vec2f m_scale;
 
     CTransform() : 
@@ -17,9 +17,14 @@ public:
         m_rotation(0), 
         m_scale(Vec2f(1, 1)) {}
 
-    CTransform(int x, int y) : 
-        m_rotation(0), 
-        m_scale(Vec2f(1, 1)), 
+    CTransform(int x, int y) :
+        m_rotation(0),
+        m_scale(Vec2f(1, 1)),
+        m_position(Vec2f(x, y)){}
+
+    CTransform(int x, int y, int rotation) :
+        m_rotation(rotation),
+        m_scale(Vec2f(1, 1)),
         m_position(Vec2f(x, y)){}
 
     virtual ~CTransform() {}

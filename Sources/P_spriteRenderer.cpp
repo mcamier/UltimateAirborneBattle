@@ -24,7 +24,7 @@ void PSpriteRenderer::v_processRender(entityID id, const GameTime& gameTime) {
     dest.w = sprite->m_pSprite->getWidth() * transform->m_scale.getX();
     dest.h = sprite->m_pSprite->getHeight() * transform->m_scale.getX();
 
-    RendererManager::get()->renderSprite(sprite->m_pSprite->getTexture(), &(sprite->m_pSprite->getSourceRect()), &dest);
+    RendererManager::get()->renderSprite(sprite->m_pSprite, &dest, transform->m_rotation, 1);
 }
 
 void PSpriteRenderer::v_destroy() {}

@@ -39,7 +39,7 @@ void PAnimationRenderer::v_processRender(entityID id, const GameTime& gameTime) 
     }
     SDL_Rect source = anim->m_animation->getFrame(anim->m_currentFrame);
 
-    RendererManager::get()->renderSpriteEx(anim->m_animation->getTexture(), &source, &dest, transform->m_rotation);
+    RendererManager::get()->renderAnimation(anim->m_animation, &source, &dest, transform->m_rotation, 1);
 }
 
 void PAnimationRenderer::v_destroy() {}

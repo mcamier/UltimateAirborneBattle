@@ -21,7 +21,7 @@ void PParticuleRenderer::v_processRender(entityID id, const GameTime& gameTime) 
             dest.w = particule.sprite->getWidth();
             dest.h = particule.sprite->getHeight();
 
-            RendererManager::get()->renderSpriteEx2(
+            RendererManager::get()->renderSprite(
                 particule.sprite,
                 &dest,
                 particule.angle,

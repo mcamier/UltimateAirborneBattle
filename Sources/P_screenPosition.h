@@ -1,22 +1,20 @@
-#ifndef _UAB_P_PLAYER_H_
-#define _UAB_P_PLAYER_H_
+#ifndef _P_SCREEN_POSITION_H_
+#define _P_SCREEN_POSITION_H_
 
 #include <vector>
 
 #include "CPT_component.h"
 #include "CPT_process.h"
 
-class PPlayer : public EntityUpdateProcess {
+class PScreenPosition : public EntityUpdateProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
-    double m_elapsedTime = 0;
-
 public:
-    PPlayer() {}
-    ~PPlayer() {}
+    PScreenPosition() {}
+    ~PScreenPosition() {}
 
-    inline const unsigned int getID() const { return 10003; }
+    inline const unsigned int getID() const { return 10011; }
 
     const std::vector<ComponentType> getRequirements() const {
         return sk_requirements;
@@ -26,8 +24,6 @@ public:
 
 private:
     void v_process(entityID id, const GameTime& gameTime);
-
-
 };
 
 
