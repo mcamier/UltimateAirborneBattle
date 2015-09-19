@@ -60,6 +60,9 @@
     <ClCompile Include="P_collider.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
+    <ClCompile Include="P_inputHandler.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UAB_events.h">
@@ -121,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="UAB_defines.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="C_inputHandler.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="P_inputHandler.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="C_playerInputHandler.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

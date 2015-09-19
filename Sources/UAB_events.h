@@ -17,9 +17,8 @@ class PlayerCollideFunctor : public Functor {
 public:
     void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
         printf("player collision reaction\n");
-
         // what about deactivate it instead of removing
-       // scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
+        scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
     }
 };
 
@@ -27,7 +26,7 @@ public:
 class BombCollideFunctor : public Functor {
     void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
         printf("bomb collision reaction\n");
-        //scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
+        scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
     }
 };
 
@@ -35,7 +34,7 @@ class BombCollideFunctor : public Functor {
 class MissileCollideFunctor : public Functor {
     void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
         printf("Missile collision reaction\n");
-        //scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
+        scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
     }
 };
 

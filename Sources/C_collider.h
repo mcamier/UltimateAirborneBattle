@@ -13,11 +13,13 @@ public:
     Functor *f_onCollisionFunctor;
     int m_colliderIndex;
     int m_radius;
+    bool m_bActivated;
 
     CCollider(int colliderIndex, int radius, Functor *onCollisionFunctor) :
         m_radius(radius), 
         m_colliderIndex(colliderIndex), 
-        f_onCollisionFunctor(onCollisionFunctor) {}
+        f_onCollisionFunctor(onCollisionFunctor),
+        m_bActivated(true) {}
 
     virtual ~CCollider() {}
 

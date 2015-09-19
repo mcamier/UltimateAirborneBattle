@@ -23,6 +23,7 @@ public:
     entityID            m_playerTwo;
 
     AnimatedSprite      *m_playerOneAnimation;
+    AnimatedSprite      *m_playerTwoAnimation;
     AnimatedSprite      *m_explosion;
     Sprite              *m_smoke;
     Sprite              *m_missile;
@@ -47,79 +48,5 @@ public:
 private:
     void                loadResources();
     void                onMissileFired(IEvent *eventData);
-};
-
-
-
-
-
-class FireCommand : public Command {
-private:
-    entityID m_playerID;
-    EntityManager& m_pEntityManager;
-
-public:
-    FireCommand(EntityManager& em, entityID playerID) : m_playerID(playerID), m_pEntityManager(em) {}
-
-    void execute(void) const {}
-};
-
-
-class IncreaseAngleCommand : public Command {
-private:
-    entityID m_playerID;
-    EntityManager& m_pEntityManager;
-
-public:
-    IncreaseAngleCommand(EntityManager& em, entityID playerID) : m_playerID(playerID), m_pEntityManager(em) {}
-
-    void execute(void) const {
-        CTransform *transform = m_pEntityManager.getAs<CTransform>(m_playerID);
-        transform->m_rotation += 1;
-        if (transform->m_rotation >= 360) transform->m_rotation -= 360;
-    }
-};
-
-
-class DecreaseAngleCommand : public Command {
-private:
-    entityID m_playerID;
-    EntityManager& m_pEntityManager;
-
-public:
-    DecreaseAngleCommand(EntityManager& em, entityID playerID) : m_playerID(playerID), m_pEntityManager(em) {}
-
-    void execute(void) const {
-        CTransform *transform = m_pEntityManager.getAs<CTransform>(m_playerID);
-        transform->m_rotation -= 1;
-        if (transform->m_rotation < 0) transform->m_rotation = 360;
-    }
-};
-
-
-class ThrustCommand : public Command {
-private:
-    entityID m_playerID;
-    EntityManager& m_pEntityManager;
-
-public:
-    ThrustCommand(EntityManager& em, entityID playerID) : m_playerID(playerID), m_pEntityManager(em) {}
-
-    void execute(void) const {
-        CRigidBody *body = m_pEntityManager.getAs<CRigidBody>(m_playerID);
-        CTransform *transform = m_pEntityManager.getAs<CTransform>(m_playerID);
-
-        int x = 1;
-        float angle = transform->m_rotation * (MathUtils::PI / 180);
-
-        Vec2f newVelocity;
-        newVelocity.setX(x * cos(angle));
-        newVelocity.setY(x * sin(angle));
-        newVelocity.normalize();
-        newVelocity *= 170;
-
-        body->m_velocity = newVelocity;
-        body->addForce(newVelocity);
-    }
 };
 #endif

@@ -18,18 +18,19 @@ void PCollider::v_process(entityID id, const GameTime& gameTime) {
 
         entityID obj = (*it);
 
-        // don't test entity collision against itself
-        if (obj != id) {
-            CCollider *c2 = getEntityAs<CCollider>(obj);
-            CTransform *t2 = getEntityAs<CTransform>(obj);
+        if (c1->m_bActivated){
+            // don't test entity collision against itself
+            if (obj != id) {
+                CCollider *c2 = getEntityAs<CCollider>(obj);
+                CTransform *t2 = getEntityAs<CTransform>(obj);
 
-            Vec2f distance = Vec2f(0, 0);
-            distance.setX(t2->m_position.getX() - t1->m_position.getX());
-            distance.setY(t2->m_position.getY() - t1->m_position.getY());
+                Vec2f distance = Vec2f(0, 0);
+                distance.setX(t2->m_position.getX() - t1->m_position.getX());
+                distance.setY(t2->m_position.getY() - t1->m_position.getY());
 
-            if ( distance.squareMagnitude() < (c1->m_radius * c1->m_radius + c2->m_radius * c2->m_radius) ) {
-                (*c1->f_onCollisionFunctor)(id, obj, &(getScene()));
-                (*c2->f_onCollisionFunctor)(obj, id, &(getScene()));
+                if (distance.squareMagnitude() < (c1->m_radius * c1->m_radius + c2->m_radius * c2->m_radius)) {
+                    (*c1->f_onCollisionFunctor)(id, obj, &(getScene()));
+                }
             }
         }
     }

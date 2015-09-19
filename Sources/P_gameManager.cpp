@@ -22,6 +22,7 @@
 #include "C_collider.h"
 #include "C_transform.h"
 #include "C_particuleEmitter.h"
+#include "C_playerInputHandler.h"
 
 #include "UAB_math.h"
 #include "UAB_events.h"
@@ -31,19 +32,24 @@
 void PGameManager::v_initialize() {
     loadResources();
     std::vector<SDL_Rect> frames = std::vector<SDL_Rect>();
-    SDL_Rect frame1; frame1.x = 0; frame1.y = 0; frame1.w = 66; frame1.h = 35; frames.push_back(frame1);
-    SDL_Rect frame2; frame2.x = 66; frame2.y = 0; frame2.w = 66; frame2.h = 35; frames.push_back(frame2);
-    SDL_Rect frame3; frame3.x = 132; frame3.y = 0; frame3.w = 66; frame3.h = 35; frames.push_back(frame3);
-    SDL_Rect frame4; frame4.x = 198; frame4.y = 0; frame4.w = 66; frame4.h = 35; frames.push_back(frame4);
+    SDL_Rect frame1; frame1.x = 0; frame1.y = 0; frame1.w = 132; frame1.h = 70; frames.push_back(frame1);
+    SDL_Rect frame2; frame2.x = 132; frame2.y = 0; frame2.w = 132; frame2.h = 70; frames.push_back(frame2);
+    SDL_Rect frame3; frame3.x = 264; frame3.y = 0; frame3.w = 132; frame3.h = 70; frames.push_back(frame3);
+    SDL_Rect frame4; frame4.x = 396; frame4.y = 0; frame4.w = 132; frame4.h = 70; frames.push_back(frame4);
+    std::vector<SDL_Rect> frames2 = std::vector<SDL_Rect>();
+    frame1; frame1.x = 0; frame1.y = 70; frame1.w = 132; frame1.h = 70; frames2.push_back(frame1);
+    frame2; frame2.x = 132; frame2.y = 70; frame2.w = 132; frame2.h = 70; frames2.push_back(frame2);
+    frame3; frame3.x = 264; frame3.y = 70; frame3.w = 132; frame3.h = 70; frames2.push_back(frame3);
+    frame4; frame4.x = 396; frame4.y = 70; frame4.w = 132; frame4.h = 70; frames2.push_back(frame4);
 
     SDL_Rect frame;
     std::vector<SDL_Rect> framesEx = std::vector<SDL_Rect>();
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 8; j++) {
-            frame.x = j*48; 
-            frame.y = i*48; 
-            frame.w = 48; 
-            frame.h = 48; 
+            frame.x = j*48*2; 
+            frame.y = i*48*2; 
+            frame.w = 48*2; 
+            frame.h = 48*2; 
             framesEx.push_back(frame);
         }
     }
@@ -51,10 +57,11 @@ void PGameManager::v_initialize() {
 
     //m_background = new Sprite(m_pBackground, 0, 0, 640, 360);
     m_explosion = new AnimatedSprite(m_pExplosion, framesEx, 16);
-    m_playerOneAnimation = new AnimatedSprite(m_pSpriteSheet, frames, 4);
-    m_smoke = new Sprite(m_pSpriteSheet, 15, 43, 15, 16);
-    m_missile = new Sprite(m_pSpriteSheet, 15, 56, 13, 11);
-    m_bomb = new Sprite(m_pSpriteSheet, 0, 43, 15, 30);
+    m_playerTwoAnimation = new AnimatedSprite(m_pSpriteSheet, frames, 4);
+    m_playerOneAnimation = new AnimatedSprite(m_pSpriteSheet, frames2, 4);
+    m_smoke = new Sprite(m_pSpriteSheet, 30, 140, 30, 30);
+    m_missile = new Sprite(m_pSpriteSheet, 30, 172, 26, 22);
+    m_bomb = new Sprite(m_pSpriteSheet, 0, 140, 30, 60);
 
     /* create background 
     entityID background = getScene().getEntityManager().createEntity();
@@ -65,28 +72,21 @@ void PGameManager::v_initialize() {
     /* create player */
     m_playerOne = getScene().getEntityManager().createEntity();
     getScene().getEntityManager().addComponent(m_playerOne, new CPlayer());
-    getScene().getEntityManager().addComponent(m_playerOne, new CScreenPosition(50, 50));
-    getScene().getEntityManager().addComponent(m_playerOne, new CTransform(50, 50));
+    getScene().getEntityManager().addComponent(m_playerOne, new CScreenPosition(200, 200));
+    getScene().getEntityManager().addComponent(m_playerOne, new CTransform(200, 200));
     getScene().getEntityManager().addComponent(m_playerOne, new CRigidBody(0.5f, false));
     getScene().getEntityManager().addComponent(m_playerOne, new CAnimation(m_playerOneAnimation, 110.0f));
     getScene().getEntityManager().addComponent(m_playerOne, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new PlayerCollideFunctor()));
-    
-    // commands binding
-    inputEvent_t ThrustInput; 
-    ThrustInput.keyCode = SDL_SCANCODE_SPACE; 
-    ThrustInput.eventType = CPT_HELD;
+    getScene().getEntityManager().addComponent(m_playerOne, new CPlayerInputHandler());
 
-    inputEvent_t IncreaseAngleInput; 
-    IncreaseAngleInput.keyCode = SDL_SCANCODE_UP; 
-    IncreaseAngleInput.eventType = CPT_HELD;
-
-    inputEvent_t DecreaseAngleInput; 
-    DecreaseAngleInput.keyCode = SDL_SCANCODE_DOWN; 
-    DecreaseAngleInput.eventType = CPT_HELD;
-
-    getScene().getInputHandler().registerInput(ThrustInput, new ThrustCommand(getScene().getEntityManager(), m_playerOne));
-    getScene().getInputHandler().registerInput(IncreaseAngleInput, new IncreaseAngleCommand(getScene().getEntityManager(), m_playerOne));
-    getScene().getInputHandler().registerInput(DecreaseAngleInput, new DecreaseAngleCommand(getScene().getEntityManager(), m_playerOne));
+    /* create player */
+    /*m_playerTwo = getScene().getEntityManager().createEntity();
+    getScene().getEntityManager().addComponent(m_playerTwo, new CPlayer());
+    getScene().getEntityManager().addComponent(m_playerTwo, new CScreenPosition(500, 500));
+    getScene().getEntityManager().addComponent(m_playerTwo, new CTransform(500, 500));
+    getScene().getEntityManager().addComponent(m_playerTwo, new CRigidBody(0.5f, false));
+    getScene().getEntityManager().addComponent(m_playerTwo, new CAnimation(m_playerTwoAnimation, 110.0f));
+    getScene().getEntityManager().addComponent(m_playerTwo, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new PlayerCollideFunctor()));*/
 
     d_missileFired = Delegate<IEvent*>::make<PGameManager, &PGameManager::onMissileFired>(this);
     EventManager::get()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);
@@ -98,7 +98,7 @@ void PGameManager::v_update(const GameTime& gameTime) {
     if (m_bombTiming > 3000) {
         m_bombTiming = 0;
 
-        int x = MathUtils::randint(640);
+        int x = MathUtils::randint(1280);
         
         entityID bomb = getScene().getEntityManager().createEntity();
         getScene().getEntityManager().addComponent(bomb, new CSprite(m_bomb));
@@ -119,7 +119,7 @@ void PGameManager::loadResources() {
     int imgFlags = IMG_INIT_PNG;
     assert(IMG_Init(imgFlags) & imgFlags);
 
-    SDL_Surface *surface = IMG_Load("../Resources/UAB_red_player.png");
+    SDL_Surface *surface = IMG_Load("../Resources/UAB_spritesheet.png");
     assert(surface != NULL);
     this->m_pSpriteSheet = SDL_CreateTextureFromSurface(RendererManager::get()->getRenderer(), surface);
 

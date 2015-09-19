@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<actions>
+	<action eventID="1" name="Fire">
+		<actionType value="ACTION"/>
+		<inputCode value="10" />
+		<controller type="XBOX_CONTROLLER" index="0" />
+	</action>
+	
+	<action eventID="2" name="Thrust">
+		<actionType value="STATE"/>
+		<inputCode value="13" />
+		<controller type="XBOX_CONTROLLER" index="0" />
+	</action>
+	<action eventID="666" name="pouet">
+		<actionType value="STATE"/>
+		<inputCode value="12" />
+		<controller type="XBOX_CONTROLLER" index="0" />
+	</action>
+	
+	<action eventID="3" name="Direction">
+		<actionType value="VECTOR"/>
+		<inputCode value="12" />
+		<controller type="XBOX_CONTROLLER" index="0" />
+	</action>
+	
+	<action eventID="10" name="RequestPauseFromKeyboard">
+		<actionType value="ACTION"/>
+		<inputCode value="112" />
+		<controller type="KEYBOARD" index="0" />
+	</action>
+	
+	<action eventID="10" name="RequestPauseFromGamePad">
+		<actionType value="ACTION"/>
+		<inputCode value="1" />
+		<controller type="XBOX_CONTROLLER" index="0" />
+	</action>
+</actions>

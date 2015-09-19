@@ -17,6 +17,5 @@ void PScreenPosition::v_process(entityID id, const GameTime& gameTime) {
         
         printf("entity %d out of bounds then remove it\n", id);
         getScene().getEntityManager().removeEntity(id);
-
     }
 }
