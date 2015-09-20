@@ -35,6 +35,10 @@ public:
 
     Delegate<IEvent*>   d_missileFired;
 
+    Delegate<IEvent*>   d_inputFire;
+    Delegate<IEvent*>   d_inputThrust;
+    Delegate<IEvent*>   d_inputOrientation;
+
 public:
                         PGameManager() {}
     virtual             ~PGameManager() {}
@@ -48,5 +52,8 @@ public:
 private:
     void                loadResources();
     void                onMissileFired(IEvent *eventData);
+    void                onInputFire(IEvent *eventData);
+    void                onInputThrust(IEvent *eventData);
+    void                onInputOrientation(IEvent *eventData);
 };
 #endif

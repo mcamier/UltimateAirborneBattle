@@ -33,7 +33,7 @@ void PPlayer::v_process(entityID id, const GameTime& gameTime) {
     if (player->m_cooldown > 0) {
         player->m_cooldown -= gameTime.getElapsedMillisecond();
     }
-
+    /*
     // plane's orientation
     int rawX = 0;
     int rawY = 0;
@@ -72,18 +72,5 @@ void PPlayer::v_process(entityID id, const GameTime& gameTime) {
         if (angle < 0) angle = 360 + angle;
         
         transform->m_rotation = angle;
-    }
-
-    // firing missile event
-    if (SystemInputHandler::get()->isGamepadButtonPressedOnce(0, XBOX_BUTTON_Y)) {
-        if (player->m_cooldown <= 0) {
-            player->m_cooldown = player->m_defaultCooldown;
-
-            Vec2f direction;
-            direction.setX(MathUtils::cosFromDeg(transform->m_rotation));
-            direction.setY(MathUtils::sinFromDeg(transform->m_rotation));
-
-            EventManager::get()->queueEvent(new MissileFiredEvent(getScene().getID(), transform->m_position, direction));
-        }
-    }
+    }*/
 }

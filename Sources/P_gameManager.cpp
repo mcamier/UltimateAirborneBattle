@@ -13,6 +13,7 @@
 #include "CPT_event.h"
 #include "CPT_scene.h"
 #include "CPT_rendererManager.h"
+#include "CPT_vec2f.h"
 
 #include "C_rigidbody.h"
 #include "C_player.h"
@@ -77,19 +78,27 @@ void PGameManager::v_initialize() {
     getScene().getEntityManager().addComponent(m_playerOne, new CRigidBody(0.5f, false));
     getScene().getEntityManager().addComponent(m_playerOne, new CAnimation(m_playerOneAnimation, 110.0f));
     getScene().getEntityManager().addComponent(m_playerOne, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new PlayerCollideFunctor()));
-    getScene().getEntityManager().addComponent(m_playerOne, new CPlayerInputHandler());
 
     /* create player */
-    /*m_playerTwo = getScene().getEntityManager().createEntity();
+    m_playerTwo = getScene().getEntityManager().createEntity();
     getScene().getEntityManager().addComponent(m_playerTwo, new CPlayer());
     getScene().getEntityManager().addComponent(m_playerTwo, new CScreenPosition(500, 500));
     getScene().getEntityManager().addComponent(m_playerTwo, new CTransform(500, 500));
     getScene().getEntityManager().addComponent(m_playerTwo, new CRigidBody(0.5f, false));
     getScene().getEntityManager().addComponent(m_playerTwo, new CAnimation(m_playerTwoAnimation, 110.0f));
-    getScene().getEntityManager().addComponent(m_playerTwo, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new PlayerCollideFunctor()));*/
+    getScene().getEntityManager().addComponent(m_playerTwo, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new PlayerCollideFunctor()));
 
     d_missileFired = Delegate<IEvent*>::make<PGameManager, &PGameManager::onMissileFired>(this);
     EventManager::get()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);
+
+    d_inputFire = Delegate<IEvent*>::make<PGameManager, &PGameManager::onInputFire>(this);
+    EventManager::get()->addListener(InputEvent::sk_EventType, d_inputFire);
+
+    d_inputThrust = Delegate<IEvent*>::make<PGameManager, &PGameManager::onInputThrust>(this);
+    EventManager::get()->addListener(InputEvent::sk_EventType, d_inputThrust);
+
+    d_inputOrientation = Delegate<IEvent*>::make<PGameManager, &PGameManager::onInputOrientation>(this);
+    EventManager::get()->addListener(InputEvent::sk_EventType, d_inputOrientation);
     
 }
 
@@ -152,4 +161,76 @@ void PGameManager::onMissileFired(IEvent *eventData) {
     getScene().getEntityManager().addComponent(missile, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 12, new MissileCollideFunctor()));
 
     std::cout << "missile fired" << std::endl;
+}
+
+
+void PGameManager::onInputFire(IEvent *eventData) {
+    InputEvent *e = static_cast<InputEvent*>(eventData);
+
+    if (e->m_spaceIDTarget == getScene().getID() && e->m_eventID == INPUT_FIRE_EVENT) {
+        CPlayer* player = getScene().getEntityManager().getAs<CPlayer>(m_playerOne);
+        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(m_playerOne);
+        if (player->m_cooldown <= 0) {
+            player->m_cooldown = player->m_defaultCooldown;
+
+            Vec2f direction;
+            direction.setX(MathUtils::cosFromDeg(transform->m_rotation)*2);
+            direction.setY(MathUtils::sinFromDeg(transform->m_rotation)*2);
+
+            EventManager::get()->queueEvent(new MissileFiredEvent(getScene().getID(), transform->m_position, direction));
+        }
+    }
+}
+
+void PGameManager::onInputThrust(IEvent *eventData) {
+    InputEvent *e = static_cast<InputEvent*>(eventData);
+
+    if (e->m_spaceIDTarget == getScene().getID() && e->m_eventID == INPUT_THRUST_EVENT) {
+        
+        CRigidBody* rigidBody = getScene().getEntityManager().getAs<CRigidBody>(m_playerOne);
+        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(m_playerOne);
+        
+        Vec2f newVelocity = Vec2f();
+        newVelocity.setX(MathUtils::cosFromDeg(transform->m_rotation)*300);
+        newVelocity.setY(MathUtils::sinFromDeg(transform->m_rotation)*300);
+        
+        rigidBody->m_velocity.set(newVelocity.getX(), newVelocity.getY());
+    }
+}
+
+void PGameManager::onInputOrientation(IEvent *eventData) {
+    InputEvent *e = static_cast<InputEvent*>(eventData);
+
+    if (e->m_spaceIDTarget == getScene().getID() && e->m_eventID == INPUT_ORIENTATION_EVENT) {
+        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(m_playerOne);
+        float floatX, floatY;
+        int rawX, rawY;
+
+        rawX = e->m_inputPayload.m_range2D.getX();
+        rawY = e->m_inputPayload.m_range2D.getY();
+
+        if (rawX >= DEAD_ZONE_STICK || rawX <= -DEAD_ZONE_STICK) {
+            rawX = (rawX > 0) ? rawX - DEAD_ZONE_STICK : rawX + DEAD_ZONE_STICK;
+        }
+        else { rawX = 0; }
+
+        if (rawY >= DEAD_ZONE_STICK || rawY <= -DEAD_ZONE_STICK) {
+            rawY = (rawY > 0) ? rawY - DEAD_ZONE_STICK : rawY + DEAD_ZONE_STICK;
+        }
+        else { rawY = 0; }
+        rawY = -rawY;
+
+        floatX = (rawX != 0) ? rawX / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
+        floatY = (rawY != 0) ? rawY / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
+
+        int angle = 0;
+        if (floatX != 0 || floatY != 0) {
+            angle = (float)atan2(floatX, floatY) * (180 / MathUtils::PI);
+        }
+        angle -= 90;
+        if (angle < 0) angle = 360 + angle;
+
+        transform->m_rotation = angle;
+    }
+    
 }
