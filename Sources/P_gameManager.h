@@ -17,7 +17,7 @@
 class PGameManager : public UpdateProcess {
 public:
     SDL_Texture         *m_pSpriteSheet;
-    SDL_Texture         *m_pExplosion;
+    SDL_Texture         *m_pBackground;
 
     entityID            m_playerOne;
     entityID            m_playerTwo;
@@ -34,7 +34,8 @@ public:
     int                 m_bombTiming = 0;
 
     Delegate<IEvent*>   d_missileFired;
-
+    Delegate<IEvent*>   d_explosionOccurs;
+    Delegate<IEvent*>   d_playerDestroyed;
     Delegate<IEvent*>   d_inputFire;
     Delegate<IEvent*>   d_inputThrust;
     Delegate<IEvent*>   d_inputOrientation;
@@ -55,5 +56,6 @@ private:
     void                onInputFire(IEvent *eventData);
     void                onInputThrust(IEvent *eventData);
     void                onInputOrientation(IEvent *eventData);
+    void                onExplosion(IEvent *eventData);
 };
 #endif

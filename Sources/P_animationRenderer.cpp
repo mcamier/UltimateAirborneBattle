@@ -25,9 +25,11 @@ void PAnimationRenderer::v_processRender(entityID id, const GameTime& gameTime) 
         if (anim->m_elapsedTime >= anim->m_frameDuration) {
             anim->m_currentFrame++;
             if (anim->m_currentFrame >= anim->m_animation->getFrameCount()) {
-                anim->m_currentFrame = 0;
+                
                 if (anim->m_bLoop == false) {
                     anim->m_bActivated = false;
+                } else {
+                    anim->m_currentFrame = 0;
                 }
             }
             anim->m_elapsedTime = 0;
@@ -39,7 +41,7 @@ void PAnimationRenderer::v_processRender(entityID id, const GameTime& gameTime) 
     }
     SDL_Rect source = anim->m_animation->getFrame(anim->m_currentFrame);
 
-    RendererManager::get()->renderAnimation(anim->m_animation, &source, &dest, transform->m_rotation, 1);
+    RendererManager::get()->renderAnimation(anim->m_animation, &source, &dest, transform->m_rotation, 1, anim->m_layer);
 }
 
 void PAnimationRenderer::v_destroy() {}

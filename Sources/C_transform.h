@@ -27,6 +27,11 @@ public:
         m_scale(Vec2f(1, 1)),
         m_position(Vec2f(x, y)){}
 
+    CTransform(int x, int y, int rotation, Vec2f scale) :
+        m_rotation(rotation),
+        m_position(Vec2f(x, y)),
+        m_scale(scale) {}
+
     virtual ~CTransform() {}
 
     inline const ComponentType getComponentType(void) const {

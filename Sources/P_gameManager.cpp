@@ -23,7 +23,7 @@
 #include "C_collider.h"
 #include "C_transform.h"
 #include "C_particuleEmitter.h"
-#include "C_playerInputHandler.h"
+#include "C_explosion.h"
 
 #include "UAB_math.h"
 #include "UAB_events.h"
@@ -47,36 +47,36 @@ void PGameManager::v_initialize() {
     std::vector<SDL_Rect> framesEx = std::vector<SDL_Rect>();
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 8; j++) {
-            frame.x = j*48*2; 
-            frame.y = i*48*2; 
-            frame.w = 48*2; 
-            frame.h = 48*2; 
+            frame.x = j*96; 
+            frame.y = i*96 + 200; 
+            frame.w = 96; 
+            frame.h = 96; 
             framesEx.push_back(frame);
         }
     }
     
 
-    //m_background = new Sprite(m_pBackground, 0, 0, 640, 360);
-    m_explosion = new AnimatedSprite(m_pExplosion, framesEx, 16);
+    m_background = new Sprite(m_pBackground, 0, 0, 1280, 720);
+    m_explosion = new AnimatedSprite(m_pSpriteSheet, framesEx, 16);
     m_playerTwoAnimation = new AnimatedSprite(m_pSpriteSheet, frames, 4);
     m_playerOneAnimation = new AnimatedSprite(m_pSpriteSheet, frames2, 4);
     m_smoke = new Sprite(m_pSpriteSheet, 30, 140, 30, 30);
     m_missile = new Sprite(m_pSpriteSheet, 30, 172, 26, 22);
     m_bomb = new Sprite(m_pSpriteSheet, 0, 140, 30, 60);
 
-    /* create background 
+    /* create background */
     entityID background = getScene().getEntityManager().createEntity();
     getScene().getEntityManager().addComponent(background, new CScreenPosition(0, 0));
     getScene().getEntityManager().addComponent(background, new CTransform(0, 0));
-    getScene().getEntityManager().addComponent(background, new CSprite(m_background));
-*/
+    getScene().getEntityManager().addComponent(background, new CSprite(m_background, 0));
+
     /* create player */
     m_playerOne = getScene().getEntityManager().createEntity();
     getScene().getEntityManager().addComponent(m_playerOne, new CPlayer());
     getScene().getEntityManager().addComponent(m_playerOne, new CScreenPosition(200, 200));
     getScene().getEntityManager().addComponent(m_playerOne, new CTransform(200, 200));
     getScene().getEntityManager().addComponent(m_playerOne, new CRigidBody(0.5f, false));
-    getScene().getEntityManager().addComponent(m_playerOne, new CAnimation(m_playerOneAnimation, 110.0f));
+    getScene().getEntityManager().addComponent(m_playerOne, new CAnimation(m_playerOneAnimation, 110.0f, 3));
     getScene().getEntityManager().addComponent(m_playerOne, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new PlayerCollideFunctor()));
 
     /* create player */
@@ -85,7 +85,7 @@ void PGameManager::v_initialize() {
     getScene().getEntityManager().addComponent(m_playerTwo, new CScreenPosition(500, 500));
     getScene().getEntityManager().addComponent(m_playerTwo, new CTransform(500, 500));
     getScene().getEntityManager().addComponent(m_playerTwo, new CRigidBody(0.5f, false));
-    getScene().getEntityManager().addComponent(m_playerTwo, new CAnimation(m_playerTwoAnimation, 110.0f));
+    getScene().getEntityManager().addComponent(m_playerTwo, new CAnimation(m_playerTwoAnimation, 110.0f, 3));
     getScene().getEntityManager().addComponent(m_playerTwo, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new PlayerCollideFunctor()));
 
     d_missileFired = Delegate<IEvent*>::make<PGameManager, &PGameManager::onMissileFired>(this);
@@ -100,6 +100,11 @@ void PGameManager::v_initialize() {
     d_inputOrientation = Delegate<IEvent*>::make<PGameManager, &PGameManager::onInputOrientation>(this);
     EventManager::get()->addListener(InputEvent::sk_EventType, d_inputOrientation);
     
+    d_playerDestroyed = Delegate<IEvent*>::make<PGameManager, &PGameManager::onExplosion>(this);
+    EventManager::get()->addListener(PlayerDestroyedEvent::sk_EventType, d_playerDestroyed);
+
+    d_explosionOccurs = Delegate<IEvent*>::make<PGameManager, &PGameManager::onExplosion>(this);
+    EventManager::get()->addListener(ExplosionEvent::sk_EventType, d_explosionOccurs);
 }
 
 void PGameManager::v_update(const GameTime& gameTime) {
@@ -110,7 +115,7 @@ void PGameManager::v_update(const GameTime& gameTime) {
         int x = MathUtils::randint(1280);
         
         entityID bomb = getScene().getEntityManager().createEntity();
-        getScene().getEntityManager().addComponent(bomb, new CSprite(m_bomb));
+        getScene().getEntityManager().addComponent(bomb, new CSprite(m_bomb, 3));
         getScene().getEntityManager().addComponent(bomb, new CScreenPosition(x, -100));
         getScene().getEntityManager().addComponent(bomb, new CTransform(x, -100));
         getScene().getEntityManager().addComponent(bomb, new CRigidBody(true));
@@ -132,10 +137,9 @@ void PGameManager::loadResources() {
     assert(surface != NULL);
     this->m_pSpriteSheet = SDL_CreateTextureFromSurface(RendererManager::get()->getRenderer(), surface);
 
-    surface = IMG_Load("../Resources/explosion.png");
+    surface = IMG_Load("../Resources/background.png");
     assert(surface != NULL);
-    this->m_pExplosion = SDL_CreateTextureFromSurface(RendererManager::get()->getRenderer(), surface);
-
+    this->m_pBackground = SDL_CreateTextureFromSurface(RendererManager::get()->getRenderer(), surface);
 
     SDL_FreeSurface(surface);
     assert(this->m_pSpriteSheet != NULL);
@@ -153,7 +157,7 @@ void PGameManager::onMissileFired(IEvent *eventData) {
     rb->m_velocity.addScaledVector(e->m_direction, 400);
 
     entityID missile = getScene().getEntityManager().createEntity();
-    getScene().getEntityManager().addComponent(missile, new CSprite(m_missile));
+    getScene().getEntityManager().addComponent(missile, new CSprite(m_missile, 3));
     getScene().getEntityManager().addComponent(missile, new CScreenPosition(e->m_sourcePosition.getX(), e->m_sourcePosition.getY()));
     getScene().getEntityManager().addComponent(missile, new CTransform(e->m_sourcePosition.getX(), e->m_sourcePosition.getY(), angle));
     getScene().getEntityManager().addComponent(missile, rb);
@@ -168,8 +172,10 @@ void PGameManager::onInputFire(IEvent *eventData) {
     InputEvent *e = static_cast<InputEvent*>(eventData);
 
     if (e->m_spaceIDTarget == getScene().getID() && e->m_eventID == INPUT_FIRE_EVENT) {
-        CPlayer* player = getScene().getEntityManager().getAs<CPlayer>(m_playerOne);
-        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(m_playerOne);
+        entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
+
+        CPlayer* player = getScene().getEntityManager().getAs<CPlayer>(playerID);
+        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(playerID);
         if (player->m_cooldown <= 0) {
             player->m_cooldown = player->m_defaultCooldown;
 
@@ -186,9 +192,9 @@ void PGameManager::onInputThrust(IEvent *eventData) {
     InputEvent *e = static_cast<InputEvent*>(eventData);
 
     if (e->m_spaceIDTarget == getScene().getID() && e->m_eventID == INPUT_THRUST_EVENT) {
-        
-        CRigidBody* rigidBody = getScene().getEntityManager().getAs<CRigidBody>(m_playerOne);
-        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(m_playerOne);
+        entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
+        CRigidBody* rigidBody = getScene().getEntityManager().getAs<CRigidBody>(playerID);
+        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(playerID);
         
         Vec2f newVelocity = Vec2f();
         newVelocity.setX(MathUtils::cosFromDeg(transform->m_rotation)*300);
@@ -202,7 +208,8 @@ void PGameManager::onInputOrientation(IEvent *eventData) {
     InputEvent *e = static_cast<InputEvent*>(eventData);
 
     if (e->m_spaceIDTarget == getScene().getID() && e->m_eventID == INPUT_ORIENTATION_EVENT) {
-        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(m_playerOne);
+        entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
+        CTransform* transform = getScene().getEntityManager().getAs<CTransform>(playerID);
         float floatX, floatY;
         int rawX, rawY;
 
@@ -232,5 +239,17 @@ void PGameManager::onInputOrientation(IEvent *eventData) {
 
         transform->m_rotation = angle;
     }
-    
+}
+
+void PGameManager::onExplosion(IEvent *eventData) {
+    PlayerDestroyedEvent *e = static_cast<PlayerDestroyedEvent*>(eventData);
+
+    if (e->m_spaceIDTarget == getScene().getID()) {
+        entityID explosion = getScene().getEntityManager().createEntity();
+        getScene().getEntityManager().addComponent(explosion, new CAnimation(m_explosion, 80, true, false, 3));
+        getScene().getEntityManager().addComponent(explosion, new CScreenPosition(e->m_location.getX(), e->m_location.getY()));
+        getScene().getEntityManager().addComponent(explosion, new CTransform(e->m_location.getX(), e->m_location.getY(), 0));
+        //getScene().getEntityManager().addComponent(explosion, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new ExplosionCollideFunctor()));
+        getScene().getEntityManager().addComponent(explosion, new CExplosion());
+    }
 }

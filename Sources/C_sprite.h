@@ -10,8 +10,9 @@ public:
     static const ComponentType sk_componentType = 0x44a7aa1a;
 
     Sprite         *m_pSprite;
+    int             m_layer;
 
-    CSprite(Sprite *sprite) : m_pSprite(sprite) {}
+    CSprite(Sprite *sprite, int layer) : m_pSprite(sprite), m_layer(layer) {}
 
     virtual ~CSprite() {}
 

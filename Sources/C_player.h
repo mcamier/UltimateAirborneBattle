@@ -16,6 +16,8 @@ public:
     static const int    m_defaultCooldown = 1500;
     int                 m_cooldown = 0;
 
+    double              m_elapsedTime = 0;
+
     CPlayer() : 
         m_floatingAmount(0), 
         m_forward(Vec2f(1, 0)), 

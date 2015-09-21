@@ -9,13 +9,13 @@
 	
 	<action eventID="100" name="INPUT_FIRE_EVENT">
 		<actionType value="ACTION"/>
-		<inputCode value="10" />
+		<inputCode value="11" />
 		<controller type="XBOX_CONTROLLER" index="0" />
 	</action>
 	
 	<action eventID="101" name="INPUT_THRUST_EVENT">
 		<actionType value="STATE"/>
-		<inputCode value="13" />
+		<inputCode value="10" />
 		<controller type="XBOX_CONTROLLER" index="0" />
 	</action>
 	
@@ -26,23 +26,29 @@
 	</action>
 	
 	<!-- PLAYER TWO INPUTS-->
-	<!--<action eventID="100" name="INPUT_FIRE_EVENT">
+	<action eventID="99" name="INPUT_PAUSE_EVENT">
 		<actionType value="ACTION"/>
-		<inputCode value="10" />
+		<inputCode value="4" />
+		<controller type="XBOX_CONTROLLER" index="1" />
+	</action>
+	
+	<action eventID="100" name="INPUT_FIRE_EVENT">
+		<actionType value="ACTION"/>
+		<inputCode value="11" />
 		<controller type="XBOX_CONTROLLER" index="1" />
 	</action>
 	
 	<action eventID="101" name="INPUT_THRUST_EVENT">
 		<actionType value="STATE"/>
-		<inputCode value="13" />
+		<inputCode value="10" />
 		<controller type="XBOX_CONTROLLER" index="1" />
 	</action>
 	
 	<action eventID="102" name="INPUT_ORIENTATION_EVENT">
 		<actionType value="VECTOR"/>
-		<inputCode value="12" />
+		<inputCode value="20" />
 		<controller type="XBOX_CONTROLLER" index="1" />
-	</action>-->
+	</action>
 	
 	<!-- PLAYER THREE INPUTS-->
 	<!--<action eventID="100" name="INPUT_FIRE_EVENT">

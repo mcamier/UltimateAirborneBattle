@@ -10,6 +10,7 @@
 typedef struct particule_s {
     Sprite* sprite;
     float lifetime; // as milliseconds
+    float maxLifetime; // as milliseconds
     int angle;
     float x;
     float y;
@@ -37,17 +38,12 @@ public:
     float                       m_elapsedRate;
     int                         m_angleRotationPerSecond;
 
-    std::vector<particule_t>    m_particulesEmitted;
-
-    
-
     CParticuleEmitter(Sprite *sprite, float lifetime, Vec2f forceApplied, int particulePerSecond, int angleRotationPerSecond) :
         m_sprite(sprite),
         m_lifetime(lifetime),
         m_forceApplied(forceApplied),
         m_particulePerSecond(particulePerSecond),
         m_bIsEmitting(true),
-        m_particulesEmitted(std::vector<particule_t>()),
         m_rate(1000.0f / particulePerSecond),
         m_elapsedRate(0),
         m_angleRotationPerSecond(angleRotationPerSecond) {}

@@ -42,12 +42,6 @@
     <ClCompile Include="P_spriteRenderer.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
-    <ClCompile Include="P_particuleEmitter.cpp">
-      <Filter>Fichiers sources\processes</Filter>
-    </ClCompile>
-    <ClCompile Include="P_particuleRenderer.cpp">
-      <Filter>Fichiers sources\processes</Filter>
-    </ClCompile>
     <ClCompile Include="UAB_events.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -60,7 +54,10 @@
     <ClCompile Include="P_collider.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
-    <ClCompile Include="P_inputHandler.cpp">
+    <ClCompile Include="P_particuleManager.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_explosion.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,12 +101,6 @@
     <ClInclude Include="C_particuleEmitter.h">
       <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
-    <ClInclude Include="P_particuleEmitter.h">
-      <Filter>Fichiers d%27en-tête\processes</Filter>
-    </ClInclude>
-    <ClInclude Include="P_particuleRenderer.h">
-      <Filter>Fichiers d%27en-tête\processes</Filter>
-    </ClInclude>
     <ClInclude Include="UAB_math.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -125,14 +116,14 @@
     <ClInclude Include="UAB_defines.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="C_inputHandler.h">
-      <Filter>Fichiers d%27en-tête\components</Filter>
-    </ClInclude>
-    <ClInclude Include="P_inputHandler.h">
+    <ClInclude Include="P_particuleManager.h">
       <Filter>Fichiers d%27en-tête\processes</Filter>
     </ClInclude>
-    <ClInclude Include="C_playerInputHandler.h">
+    <ClInclude Include="C_explosion.h">
       <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="P_explosion.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
