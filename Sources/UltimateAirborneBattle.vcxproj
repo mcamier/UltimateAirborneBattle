@@ -196,7 +196,6 @@
     <ClCompile Include="P_screenPosition.cpp" />
     <ClCompile Include="P_spriteRenderer.cpp" />
     <ClCompile Include="UAB_events.cpp" />
-    <ClCompile Include="UAB_math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C_animation.h" />
@@ -219,7 +218,6 @@
     <ClInclude Include="P_spriteRenderer.h" />
     <ClInclude Include="UAB_defines.h" />
     <ClInclude Include="UAB_events.h" />
-    <ClInclude Include="UAB_math.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

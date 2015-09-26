@@ -1,4 +1,5 @@
 #include <iostream>
+#include <assert.h>
 
 #include "CPT_engine.h"
 #include "CPT_scene.h"
@@ -12,6 +13,7 @@
 #include "P_collider.h"
 #include "P_screenPosition.h"
 #include "P_explosion.h"
+#include "UAB_defines.h"
 
 //int __frameDuration = 10;
 
@@ -23,7 +25,7 @@ public:
 
 protected:
     void initialize(void) {
-        std::cout << " UABGameScene initialized " << std::endl;
+        assert(ActorFactory::get() != NULL);
 
         this->addProcess(new PGameManager());
         this->addProcess(new PExplosion());
@@ -36,6 +38,7 @@ protected:
         this->addRenderProcess(new PAnimationRenderer());
         this->addRenderProcess(new PSpriteRenderer());
 
+        std::cout << " UABGameScene initialized " << std::endl;
     }
 };
 

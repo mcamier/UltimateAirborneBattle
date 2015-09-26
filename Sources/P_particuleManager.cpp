@@ -67,8 +67,8 @@ void PParticuleManager::v_process(entityID id, const GameTime& gameTime) {
 void PParticuleManager::v_after(const GameTime& gameTime) {
     for (auto& particule : m_particulesEmitted) {
         SDL_Rect dest;
-        dest.x = particule.x;
-        dest.y = particule.y;
+        dest.x = particule.x - particule.sprite->getWidth() / 2;
+        dest.y = particule.y - particule.sprite->getHeight() / 2;
         dest.w = particule.sprite->getWidth();
         dest.h = particule.sprite->getHeight();
 

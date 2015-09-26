@@ -19,8 +19,8 @@ void PSpriteRenderer::v_processRender(entityID id, const GameTime& gameTime) {
     CScreenPosition *position = getEntityAs<CScreenPosition>(id);
 
     SDL_Rect dest;
-    dest.x = transform->m_position.getX();
-    dest.y = transform->m_position.getY();
+    dest.x = transform->m_position.getX() - sprite->m_pSprite->getWidth()/2;
+    dest.y = transform->m_position.getY() - sprite->m_pSprite->getHeight() / 2;
     dest.w = sprite->m_pSprite->getWidth() * transform->m_scale.getX();
     dest.h = sprite->m_pSprite->getHeight() * transform->m_scale.getX();
 

@@ -16,8 +16,8 @@ void PAnimationRenderer::v_processRender(entityID id, const GameTime& gameTime) 
     CScreenPosition *position = getEntityAs<CScreenPosition>(id);
 
     SDL_Rect dest;
-    dest.x = position->m_pData->getX();
-    dest.y = position->m_pData->getY();
+    dest.x = position->m_pData->getX() - anim->m_animation->getWidth(anim->m_currentFrame)/2;
+    dest.y = position->m_pData->getY() - anim->m_animation->getHeight(anim->m_currentFrame) / 2;
     dest.w = anim->m_animation->getWidth(anim->m_currentFrame) * transform->m_scale.getX();
     dest.h = anim->m_animation->getHeight(anim->m_currentFrame) * transform->m_scale.getY();
 

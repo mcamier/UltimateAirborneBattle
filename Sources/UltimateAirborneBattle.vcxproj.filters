@@ -48,9 +48,6 @@
     <ClCompile Include="P_screenPosition.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
-    <ClCompile Include="UAB_math.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="P_collider.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
@@ -100,9 +97,6 @@
     </ClInclude>
     <ClInclude Include="C_particuleEmitter.h">
       <Filter>Fichiers d%27en-tête\components</Filter>
-    </ClInclude>
-    <ClInclude Include="UAB_math.h">
-      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="P_screenPosition.h">
       <Filter>Fichiers d%27en-tête\processes</Filter>

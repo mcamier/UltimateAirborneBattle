@@ -16,19 +16,9 @@
 
 class PGameManager : public UpdateProcess {
 public:
-    SDL_Texture         *m_pSpriteSheet;
-    SDL_Texture         *m_pBackground;
-
     entityID            m_playerOne;
     entityID            m_playerTwo;
-
-    AnimatedSprite      *m_playerOneAnimation;
-    AnimatedSprite      *m_playerTwoAnimation;
-    AnimatedSprite      *m_explosion;
-    Sprite              *m_smoke;
-    Sprite              *m_missile;
-    Sprite              *m_bomb;
-    Sprite              *m_background;
+    entityID            m_titleEntity;
     
     int                 m_bombSpawnRate = 9000;
     int                 m_bombTiming = 0;
@@ -51,7 +41,6 @@ public:
     void                v_destroy(void) {}
 
 private:
-    void                loadResources();
     void                onMissileFired(IEvent *eventData);
     void                onInputFire(IEvent *eventData);
     void                onInputThrust(IEvent *eventData);
