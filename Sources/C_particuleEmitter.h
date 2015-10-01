@@ -16,9 +16,11 @@ typedef struct particule_s {
     float y;
     float vx;
     float vy;
+    bool gravityApplied;
 } particule_t;
 
 class CParticuleEmitter : public IComponent {
+    friend class PParticuleManager;
 public:
     const static ComponentType sk_componentType = 0xcf69cb7d;
 
@@ -30,23 +32,37 @@ public:
     Vec2f                       m_forceApplied;
 
     //                          Emitter settings
-    bool                        m_bIsEmitting;
+    bool                        m_bActive;
     int                         m_particulePerSecond;
     float                       m_angle;
-    float                       m_angleThreshold;
+    float                       m_angleVariation;
+    
+private:
     float                       m_rate;
     float                       m_elapsedRate;
-    int                         m_angleRotationPerSecond;
-
-    CParticuleEmitter(Sprite *sprite, float lifetime, Vec2f forceApplied, int particulePerSecond, int angleRotationPerSecond) :
+public:
+    
+    CParticuleEmitter(Sprite *sprite, float lifetime, Vec2f forceApplied, int particulePerSecond, bool gravityApplied) :
         m_sprite(sprite),
         m_lifetime(lifetime),
         m_forceApplied(forceApplied),
         m_particulePerSecond(particulePerSecond),
-        m_bIsEmitting(true),
+        m_bActive(true),
+        m_rate(1000.0f / particulePerSecond),
+        m_elapsedRate(0), 
+        m_bIsGravityApplied(gravityApplied) {}
+
+    CParticuleEmitter(Sprite *sprite, float lifetime, Vec2f forceApplied, int particulePerSecond, bool gravityApplied, float angle, float angleVariation) :
+        m_sprite(sprite),
+        m_lifetime(lifetime),
+        m_forceApplied(forceApplied),
+        m_particulePerSecond(particulePerSecond),
+        m_bActive(true),
         m_rate(1000.0f / particulePerSecond),
         m_elapsedRate(0),
-        m_angleRotationPerSecond(angleRotationPerSecond) {}
+        m_angle(angle),
+        m_angleVariation(angleVariation),
+        m_bIsGravityApplied(gravityApplied) {}
 
     virtual ~CParticuleEmitter() {}
 

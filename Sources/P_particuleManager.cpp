@@ -32,6 +32,11 @@ void PParticuleManager::v_before(const GameTime& gameTime) {
             p->x += p->vx * gameTime.getElapsedSecond();
             p->y += p->vy * gameTime.getElapsedSecond();
 
+            if (p->gravityApplied){
+                p->vx += 0;
+                p->vy += 5.0f;
+            }
+
             // compute new particule's velocity according elapsed time and applied force
             // TODO
             //p->vx += (float)(e->m_forceApplied.getX() * gameTime.getElapsedSecond());
@@ -46,21 +51,27 @@ void PParticuleManager::v_process(entityID id, const GameTime& gameTime) {
     CParticuleEmitter *e = getEntityAs<CParticuleEmitter>(id);
     CTransform *transform = getEntityAs<CTransform>(id);
 
-    e->m_elapsedRate += gameTime.getElapsedMillisecond();
-    if (e->m_elapsedRate > e->m_rate)  {
-        particule_t p;
-        p.x = transform->m_position.getX();
-        p.y = transform->m_position.getY();
-        p.lifetime = e->m_lifetime;
-        p.maxLifetime = e->m_lifetime;
-        p.sprite = e->m_sprite;
-        p.vx = 0;
-        p.vy = 0;
-        p.angle = MathUtils::randint(360);
-       
-        m_particulesEmitted.push_back(p);
+    if (e->m_bActive) {
+        e->m_elapsedRate += gameTime.getElapsedMillisecond();
+        if (e->m_elapsedRate > e->m_rate)  {
+            particule_t p;
+            //position
+            p.x = transform->m_position.getX();
+            p.y = transform->m_position.getY();
+            p.vx = 0;
+            p.vy = 0;
+            // lifetime
+            p.lifetime = e->m_lifetime;
+            p.maxLifetime = e->m_lifetime;
+            
+            p.sprite = e->m_sprite;
+            p.angle = MathUtils::randint(360);
+            p.gravityApplied = e->m_bIsGravityApplied;
 
-        e->m_elapsedRate = 0;
+            m_particulesEmitted.push_back(p);
+
+            e->m_elapsedRate = 0;
+        }
     }
 }
 

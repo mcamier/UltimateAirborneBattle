@@ -22,6 +22,9 @@
     <Filter Include="Fichiers sources\processes">
       <UniqueIdentifier>{72bec923-1477-4278-9a84-da1fb098ef35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\scenes">
+      <UniqueIdentifier>{9e80a8ac-7a6c-41da-a7eb-6ee80fef9a49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,9 +48,6 @@
     <ClCompile Include="UAB_events.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="P_screenPosition.cpp">
-      <Filter>Fichiers sources\processes</Filter>
-    </ClCompile>
     <ClCompile Include="P_collider.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
@@ -56,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="P_explosion.cpp">
       <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="UAB_gameScene.h">
+      <Filter>Fichiers d%27en-tête\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +101,6 @@
     <ClInclude Include="C_particuleEmitter.h">
       <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
-    <ClInclude Include="P_screenPosition.h">
-      <Filter>Fichiers d%27en-tête\processes</Filter>
-    </ClInclude>
     <ClInclude Include="C_collider.h">
       <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
@@ -118,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="P_explosion.h">
       <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="UAB_scoreScene.h">
+      <Filter>Fichiers d%27en-tête\scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

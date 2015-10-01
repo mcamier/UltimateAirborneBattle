@@ -41,7 +41,15 @@ void PAnimationRenderer::v_processRender(entityID id, const GameTime& gameTime) 
     }
     SDL_Rect source = anim->m_animation->getFrame(anim->m_currentFrame);
 
-    RendererManager::get()->renderAnimation(anim->m_animation, &source, &dest, transform->m_rotation, 1, anim->m_layer);
+    RendererManager::get()->renderAnimation(
+        anim->m_animation, 
+        &source, 
+        &dest, 
+        transform->m_rotation,
+        anim->m_hflip,
+        anim->m_vflip,
+        1, 
+        anim->m_layer);
 }
 
 void PAnimationRenderer::v_destroy() {}

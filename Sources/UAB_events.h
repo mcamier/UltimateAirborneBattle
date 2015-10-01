@@ -6,6 +6,7 @@
 #include "CPT_scene.h"
 #include "CPT_entityManager.h"
 #include "C_collider.h"
+#include "C_player.h"
 #include "C_transform.h"
 
 
@@ -58,6 +59,18 @@ public:
     const char* getName(void) const { return "Player_Destroyed"; }
 };
 
+class GameWonEvent : public BaseEvent {
+public:
+    GameWonEvent() {}
+    ~GameWonEvent() {}
+
+    static const EventType sk_EventType;
+
+    const EventType getEventType(void) const { return sk_EventType; }
+    const char* getName(void) const { return "GameWon"; }
+};
+
+
 
 class ExplosionEvent : public SceneAwareEvent {
 
@@ -91,8 +104,11 @@ public:
     void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
         printf("player collision reaction\n");
         // what about deactivate it instead of removing
-        //scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
+        scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
         Vec2f location = Vec2f(0, 0);
+        CPlayer *player = scene->getEntityManager().getAs<CPlayer>(thisEntity);
+        player->m_bAlive = false;
+
         CTransform *t1 = scene->getEntityManager().getAs<CTransform>(thisEntity);
         CTransform *t2 = scene->getEntityManager().getAs<CTransform>(collidesAgainst);
 

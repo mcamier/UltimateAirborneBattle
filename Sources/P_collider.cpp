@@ -23,7 +23,6 @@ void PCollider::v_process(entityID id, const GameTime& gameTime) {
         ; it != m_cache.end()
         ; ++it) {
 
-
         entityID obj = (*it);
 
         if (c1->m_bActivated){
@@ -36,7 +35,7 @@ void PCollider::v_process(entityID id, const GameTime& gameTime) {
                 distance = t1->m_position - t2->m_position;
 
                 if (distance.squareMagnitude() < ((c1->m_radius + c2->m_radius) * (c1->m_radius + c2->m_radius))) {
-                    (*c1->f_onCollisionFunctor)(id, obj, &(getScene()));
+                    (*c1->f_onCollisionCallback)(id, obj, &(getScene()));
                 }
             }
         }

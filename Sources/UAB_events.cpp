@@ -3,3 +3,4 @@
 const EventType MissileFiredEvent::sk_EventType(0xb823a69d);
 const EventType PlayerDestroyedEvent::sk_EventType(0x602870de);
 const EventType ExplosionEvent::sk_EventType(0x592870de);
+const EventType GameWonEvent::sk_EventType(0x68d495a3);

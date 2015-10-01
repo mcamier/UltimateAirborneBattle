@@ -15,18 +15,13 @@
 #include "CPT_rendererManager.h"
 #include "CPT_vec2f.h"
 
-
-
 #include "UAB_math.h"
 
 #include "UAB_defines.h"
 
 
 void PGameManager::v_initialize() {
-
-    //ActorFactory::get()->createBackground(getScene().getEntityManager());
-    m_playerOne = ActorFactory::get()->createPlayerOne(getScene().getEntityManager());
-    m_playerTwo = ActorFactory::get()->createPlayerTwo(getScene().getEntityManager());
+    initGame();
 
     d_missileFired = Delegate<IEvent*>::make<PGameManager, &PGameManager::onMissileFired>(this);
     EventManager::get()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);
@@ -49,16 +44,114 @@ void PGameManager::v_initialize() {
 
 void PGameManager::v_update(const GameTime& gameTime) {
 
-    if (m_bombTiming > 5000) {
-        m_bombTiming = 0;
+    if (!isMatchDone()) {
+        // check if entities are out of world borders
+        for (std::vector<entityID>::iterator it = m_gameWorldEntities.begin()
+            ; it != m_gameWorldEntities.end()
+            ; it++) {
+            CTransform *pos = getScene().getEntityManager().getAs<CTransform>((*it));
+            if (pos != NULL) {
+                // if too far out of screen, remove the entity
+                if (pos->m_position.getX() > 1500 ||
+                    pos->m_position.getX() < -1500 ||
+                    pos->m_position.getY() > 1000 ||
+                    pos->m_position.getY() < -1000) {
 
-        int x = MathUtils::randint(1280);
-        ActorFactory::get()->createBomb(getScene().getEntityManager(), x);
+                    printf("entity %d out of bounds then remove it\n", (*it));
+                    getScene().getEntityManager().removeEntity((*it));
+                }
+            }
+        }
+
+        // Bomb spawning
+        /*
+        if (m_bombTiming > 5000) {
+            m_bombTiming = 0;
+            int x = MathUtils::randint(1280);
+            ActorFactory::get()->createBomb(getScene().getEntityManager(), x);
+        }
+        else {
+            m_bombTiming += gameTime.getElapsedMillisecond();
+        }*/
     }
-    else {
-        m_bombTiming += gameTime.getElapsedMillisecond();
-    } 
+    else if(isMatchDone() && !m_gameDone) {    
+        printf("The game is done\n");
+        m_gameDone = true;
+        EventManager::get()->queueEvent(new GameWonEvent());
+    }
 }
+
+void PGameManager::initGame() {
+    ActorFactory::get()->createBackground(getScene().getEntityManager());
+    switch (m_gameMode) {
+    case ONE_VS_ONE:
+        initOneVsOne();
+        break;
+    case TWO_VS_TWO:
+        initTwoVsTwo();
+        break;
+    case FFA_THEE_PLAYERS:
+        initThreePlayersFFA();
+        break;
+    case FFA_FOUR_PLAYERS:
+        initFourPlayersFFA();
+        break;
+    }
+}
+
+void PGameManager::initOneVsOne() {
+    m_playerOne = ActorFactory::get()->createPlayerOne(getScene().getEntityManager(), 320, 360);
+    m_playerTwo = ActorFactory::get()->createPlayerTwo(getScene().getEntityManager(), 960, 360);
+    m_playerThree = -1;
+    m_playerFour = -1;
+}
+void PGameManager::initTwoVsTwo() {
+    m_playerOne = ActorFactory::get()->createPlayerOne(getScene().getEntityManager(), 320, 180);
+    m_playerTwo = ActorFactory::get()->createPlayerTwo(getScene().getEntityManager(), 960, 180);
+    m_playerThree = ActorFactory::get()->createPlayerThree(getScene().getEntityManager(),320, 540);
+    m_playerFour = ActorFactory::get()->createPlayerFour(getScene().getEntityManager(), 960, 540);
+}
+
+void PGameManager::initThreePlayersFFA() {
+    m_playerOne = ActorFactory::get()->createPlayerOne(getScene().getEntityManager(), 320, 180);
+    m_playerTwo = ActorFactory::get()->createPlayerTwo(getScene().getEntityManager(), 960, 180);
+    m_playerThree = ActorFactory::get()->createPlayerThree(getScene().getEntityManager(), 320, 540);
+    m_playerFour = -1;
+}
+
+void PGameManager::initFourPlayersFFA() {
+    m_playerOne = ActorFactory::get()->createPlayerOne(getScene().getEntityManager(), 320, 180);
+    m_playerTwo = ActorFactory::get()->createPlayerTwo(getScene().getEntityManager(), 960, 180);
+    m_playerThree = ActorFactory::get()->createPlayerThree(getScene().getEntityManager(), 320, 540);
+    m_playerFour = ActorFactory::get()->createPlayerFour(getScene().getEntityManager(), 960, 540);
+}
+
+bool PGameManager::isMatchDone() {
+    int alive = 0;
+    switch (m_gameMode) {
+    case ONE_VS_ONE:
+        return (m_bPlayerOneDead || m_bPlayerTwoDead);
+        break;
+    case TWO_VS_TWO:
+        return (m_bPlayerOneDead && m_bPlayerTwoDead) || (m_bPlayerThreeDead && m_bPlayerFourDead);
+        break;
+    case FFA_THEE_PLAYERS:
+        alive = (!m_bPlayerOneDead) ? alive++ : alive;
+        alive = (!m_bPlayerTwoDead) ? alive++ : alive;
+        alive = (!m_bPlayerThreeDead) ? alive++ : alive;
+        return (alive <= 1);
+        break;
+    case FFA_FOUR_PLAYERS:
+        alive = (!m_bPlayerOneDead) ? alive++ : alive;
+        alive = (!m_bPlayerTwoDead) ? alive++ : alive;
+        alive = (!m_bPlayerThreeDead) ? alive++ : alive;
+        alive = (!m_bPlayerFourDead) ? alive++ : alive;
+        return (alive <= 1);
+        break;
+    }
+    return false;
+}
+
 
 void PGameManager::onMissileFired(IEvent *eventData) {
     MissileFiredEvent *e = static_cast<MissileFiredEvent*>(eventData);
@@ -68,7 +161,8 @@ void PGameManager::onMissileFired(IEvent *eventData) {
        angle = (float)atan2(e->m_direction.getX(), e->m_direction.getY()) * (180 / MathUtils::PI);
     }
 
-    ActorFactory::get()->createMissile(getScene().getEntityManager(), e->m_direction, e->m_sourcePosition, angle);
+    entityID id = ActorFactory::get()->createMissile(getScene().getEntityManager(), e->m_direction, e->m_sourcePosition, angle);
+    m_gameWorldEntities.push_back(id);
     std::cout << "missile fired" << std::endl;
 }
 
@@ -81,14 +175,16 @@ void PGameManager::onInputFire(IEvent *eventData) {
 
         CPlayer* player = getScene().getEntityManager().getAs<CPlayer>(playerID);
         CTransform* transform = getScene().getEntityManager().getAs<CTransform>(playerID);
-        if (player->m_cooldown <= 0) {
-            player->m_cooldown = player->m_defaultCooldown;
+        if (player->m_bAlive){
+            if (player->m_cooldown <= 0) {
+                player->m_cooldown = player->m_defaultCooldown;
 
-            Vec2f direction;
-            direction.setX(MathUtils::cosFromDeg(transform->m_rotation)*2);
-            direction.setY(MathUtils::sinFromDeg(transform->m_rotation)*2);
+                Vec2f direction;
+                direction.setX(MathUtils::cosFromDeg(transform->m_rotation) * 2);
+                direction.setY(MathUtils::sinFromDeg(transform->m_rotation) * 2);
 
-            EventManager::get()->queueEvent(new MissileFiredEvent(getScene().getID(), transform->m_position, direction));
+                EventManager::get()->queueEvent(new MissileFiredEvent(getScene().getID(), transform->m_position, direction));
+            }
         }
     }
 }
@@ -100,12 +196,20 @@ void PGameManager::onInputThrust(IEvent *eventData) {
         entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
         CRigidBody* rigidBody = getScene().getEntityManager().getAs<CRigidBody>(playerID);
         CTransform* transform = getScene().getEntityManager().getAs<CTransform>(playerID);
-        
-        Vec2f newVelocity = Vec2f();
-        newVelocity.setX(MathUtils::cosFromDeg(transform->m_rotation)*300);
-        newVelocity.setY(MathUtils::sinFromDeg(transform->m_rotation)*300);
-        
-        rigidBody->m_velocity.set(newVelocity.getX(), newVelocity.getY());
+        CPlayer* player = getScene().getEntityManager().getAs<CPlayer>(playerID);
+
+        if (player->m_bAlive){
+            int x = player->m_forward.getX();
+            int y = player->m_forward.getY();
+
+            Vec2f newVelocity = Vec2f(player->m_forward);
+
+            newVelocity.setX(x * MathUtils::cosFromDeg(transform->m_rotation) - y * MathUtils::sinFromDeg(transform->m_rotation));
+            newVelocity.setY(y * MathUtils::cosFromDeg(transform->m_rotation) + x * MathUtils::sinFromDeg(transform->m_rotation));
+            newVelocity *= 300.0f;
+
+            rigidBody->m_velocity.set(newVelocity.getX(), newVelocity.getY());
+        }
     }
 }
 
@@ -115,41 +219,57 @@ void PGameManager::onInputOrientation(IEvent *eventData) {
     if (e->m_spaceIDTarget == getScene().getID() && e->m_eventID == INPUT_ORIENTATION_EVENT) {
         entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
         CTransform* transform = getScene().getEntityManager().getAs<CTransform>(playerID);
-        float floatX, floatY;
-        int rawX, rawY;
+        CPlayer* player = getScene().getEntityManager().getAs<CPlayer>(playerID);
 
-        rawX = e->m_inputPayload.m_range2D.getX();
-        rawY = e->m_inputPayload.m_range2D.getY();
+        if (player->m_bAlive){
+            float floatX, floatY;
+            int rawX, rawY;
 
-        if (rawX >= DEAD_ZONE_STICK || rawX <= -DEAD_ZONE_STICK) {
-            rawX = (rawX > 0) ? rawX - DEAD_ZONE_STICK : rawX + DEAD_ZONE_STICK;
+            rawX = e->m_inputPayload.m_range2D.getX();
+            rawY = e->m_inputPayload.m_range2D.getY();
+
+            if (rawX >= DEAD_ZONE_STICK || rawX <= -DEAD_ZONE_STICK) {
+                rawX = (rawX > 0) ? rawX - DEAD_ZONE_STICK : rawX + DEAD_ZONE_STICK;
+            }
+            else { rawX = 0; }
+
+            if (rawY >= DEAD_ZONE_STICK || rawY <= -DEAD_ZONE_STICK) {
+                rawY = (rawY > 0) ? rawY - DEAD_ZONE_STICK : rawY + DEAD_ZONE_STICK;
+            }
+            else { rawY = 0; }
+           // rawY = -rawY;
+            rawY = (player->m_forward.getX() > 0) ? -rawY : rawY;
+            rawX = (player->m_forward.getX() > 0) ? rawX : -rawX;
+
+            floatX = (rawX != 0) ? rawX / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
+            floatY = (rawY != 0) ? rawY / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
+
+            int angle = 0;
+            if (floatX != 0 || floatY != 0) {
+                angle = (float)atan2(floatX, floatY) * (180 / MathUtils::PI);
+            }
+            angle -= 90;
+            if (angle < 0) angle = 360 + angle;
+
+            transform->m_rotation = angle;
         }
-        else { rawX = 0; }
-
-        if (rawY >= DEAD_ZONE_STICK || rawY <= -DEAD_ZONE_STICK) {
-            rawY = (rawY > 0) ? rawY - DEAD_ZONE_STICK : rawY + DEAD_ZONE_STICK;
-        }
-        else { rawY = 0; }
-        rawY = -rawY;
-
-        floatX = (rawX != 0) ? rawX / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
-        floatY = (rawY != 0) ? rawY / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
-
-        int angle = 0;
-        if (floatX != 0 || floatY != 0) {
-            angle = (float)atan2(floatX, floatY) * (180 / MathUtils::PI);
-        }
-        angle -= 90;
-        if (angle < 0) angle = 360 + angle;
-
-        transform->m_rotation = angle;
     }
 }
 
 void PGameManager::onExplosion(IEvent *eventData) {
     PlayerDestroyedEvent *e = static_cast<PlayerDestroyedEvent*>(eventData);
 
+    if (e->m_player == m_playerOne) { m_bPlayerOneDead = true; }
+    else if (e->m_player == m_playerTwo) { m_bPlayerTwoDead = true; }
+    else if (e->m_player == m_playerThree) { m_bPlayerThreeDead = true; }
+    else if (e->m_player == m_playerFour) { m_bPlayerFourDead = true; }
+
     if (e->m_spaceIDTarget == getScene().getID()) {
-        ActorFactory::get()->createExplosion(getScene().getEntityManager(), e->m_location);
+        entityID id = ActorFactory::get()->createExplosion(getScene().getEntityManager(), e->m_location);
+        //CRigidBody *rb = getScene().getEntityManager().getAs<CRigidBody>(e->m_player);
+        //rb->m_bApplyGravity = true;
+
+        m_gameWorldEntities.push_back(id);
+        
     }
 }

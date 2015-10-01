@@ -10,15 +10,16 @@ class CCollider : public IComponent {
 public:
     const static ComponentType sk_componentType = 0x6b47e35;
     
-    Functor *f_onCollisionFunctor;
-    int m_colliderIndex;
     int m_radius;
-    bool m_bActivated;
 
-    CCollider(int colliderIndex, int radius, Functor *onCollisionFunctor) :
+    int m_colliderLayer;
+    bool m_bActivated;
+    Functor *f_onCollisionCallback;
+
+    CCollider(int colliderLayer, int radius, Functor *onCollisionFunctor) :
         m_radius(radius), 
-        m_colliderIndex(colliderIndex), 
-        f_onCollisionFunctor(onCollisionFunctor),
+        m_colliderLayer(colliderLayer),
+        f_onCollisionCallback(onCollisionFunctor),
         m_bActivated(true) {}
 
     virtual ~CCollider() {}
@@ -32,4 +33,4 @@ public:
     }
 };
 
-#endif
+#endif  

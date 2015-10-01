@@ -193,9 +193,9 @@
     <ClCompile Include="P_particuleManager.cpp" />
     <ClCompile Include="P_physic.cpp" />
     <ClCompile Include="P_player.cpp" />
-    <ClCompile Include="P_screenPosition.cpp" />
     <ClCompile Include="P_spriteRenderer.cpp" />
     <ClCompile Include="UAB_events.cpp" />
+    <ClCompile Include="UAB_gameScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C_animation.h" />
@@ -214,10 +214,10 @@
     <ClInclude Include="P_particuleManager.h" />
     <ClInclude Include="P_physic.h" />
     <ClInclude Include="P_player.h" />
-    <ClInclude Include="P_screenPosition.h" />
     <ClInclude Include="P_spriteRenderer.h" />
     <ClInclude Include="UAB_defines.h" />
     <ClInclude Include="UAB_events.h" />
+    <ClInclude Include="UAB_scoreScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

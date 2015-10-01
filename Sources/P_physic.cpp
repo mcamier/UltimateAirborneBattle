@@ -15,7 +15,7 @@ void PPhysics2D::v_process(entityID id, const GameTime& gameTime) {
 
     transform->m_position.addScaledVector(body->m_velocity, gameTime.getElapsedSecond());
     if (body->m_bApplyGravity) {
-        body->addForce(Vec2f(0, 150.0f));
+        body->addForce(Vec2f(0, 200.0f));
     }
     body->m_velocity.addScaledVector(body->m_forceAccum, gameTime.getElapsedSecond());
 
