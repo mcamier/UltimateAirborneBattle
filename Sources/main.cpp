@@ -7,13 +7,10 @@
 #include "UAB_gameScene.h"
 #include "UAB_ScoreScene.h"
 
-//int __frameDuration = 10;
-
 class UltimateAirborneBattle : public CompoteEngine {
 
 public:
     UABGameScene *gameScreen;
-    
     Delegate<IEvent*>   d_gameWon;
 
     UltimateAirborneBattle() : CompoteEngine(1280, 720, 1280, 720) {}

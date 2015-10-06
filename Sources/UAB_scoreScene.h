@@ -7,7 +7,6 @@
 #include "UAB_defines.h"
 #include "P_physic.h"
 #include "P_player.h"
-#include "P_gameManager.h"
 #include "P_particuleRenderer.h"
 #include "P_animationRenderer.h"
 #include "P_spriteRenderer.h"
@@ -25,14 +24,14 @@ protected:
     void initialize(void) {
         assert(ActorFactory::get() != NULL);
 
-        ActorFactory::get()->createExplosion(this->getEntityManager(), Vec2f(200, 244));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), Vec2f(544, 700));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), Vec2f(35, 244));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), Vec2f(580, 125));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), Vec2f(402, 370));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), Vec2f(222, 244));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), Vec2f(358, 666));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), Vec2f(1000, 54));
+        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(200, 244));
+        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(544, 700));
+        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(35, 244));
+        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(580, 125));
+        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(402, 370));
+        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(222, 244));
+        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(358, 666));
+        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(1000, 54));
 
         this->addProcess(new PExplosion());
 

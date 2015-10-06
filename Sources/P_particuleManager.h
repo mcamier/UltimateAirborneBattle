@@ -13,11 +13,11 @@ class PParticuleManager : public EntityUpdateProcess {
 private:
     static const std::vector<ComponentType>     sk_requirements;
 
-    std::vector<particule_t>                    m_particulesEmitted;
+    std::list<particule_t>                      m_particulesEmitted;
 
 public:
     PParticuleManager() :
-        m_particulesEmitted(std::vector<particule_t>()) {}
+        m_particulesEmitted(std::list<particule_t>()) {}
 
     virtual ~PParticuleManager() {}
 

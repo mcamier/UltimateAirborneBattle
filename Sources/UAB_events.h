@@ -2,12 +2,13 @@
 #define _UAB_EVENTS_H
 
 #include "CPT_event.h"
-#include "CPT_vec2f.h"
 #include "CPT_scene.h"
 #include "CPT_entityManager.h"
 #include "C_collider.h"
 #include "C_player.h"
 #include "C_transform.h"
+
+#include "vec2.hpp"
 
 
 #define INPUT_PAUSE_EVENT       99
@@ -22,11 +23,11 @@ class MissileFiredEvent : public SceneAwareEvent {
 
 public:
     entityID m_playerSource;
-    Vec2f m_sourcePosition;
-    Vec2f m_direction;
+    glm::vec2 m_sourcePosition;
+    glm::vec2 m_direction;
 
 public:
-    MissileFiredEvent(unsigned int spaceIDTarget, Vec2f& sourcePosition, Vec2f direction) :
+    MissileFiredEvent(unsigned int spaceIDTarget, glm::vec2& sourcePosition, glm::vec2 direction) :
         SceneAwareEvent(spaceIDTarget),
         m_sourcePosition(sourcePosition),
         m_direction(direction) {}
@@ -43,10 +44,10 @@ class PlayerDestroyedEvent : public SceneAwareEvent {
 
 public:
     entityID m_player;
-    Vec2f m_location;
+    glm::vec2 m_location;
 
 public:
-    PlayerDestroyedEvent(unsigned int spaceIDTarget, entityID player, Vec2f location) :
+    PlayerDestroyedEvent(unsigned int spaceIDTarget, entityID player, glm::vec2 location) :
         SceneAwareEvent(spaceIDTarget),
         m_player(player),
         m_location(location) {}
@@ -76,10 +77,10 @@ class ExplosionEvent : public SceneAwareEvent {
 
 public:
     entityID m_player;
-    Vec2f m_location;
+    glm::vec2 m_location;
 
 public:
-    ExplosionEvent(unsigned int spaceIDTarget, Vec2f location) :
+    ExplosionEvent(unsigned int spaceIDTarget, glm::vec2 location) :
         SceneAwareEvent(spaceIDTarget),
         m_location(location) {}
 
@@ -105,7 +106,7 @@ public:
         printf("player collision reaction\n");
         // what about deactivate it instead of removing
         scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
-        Vec2f location = Vec2f(0, 0);
+        glm::vec2 location = glm::vec2(.0f, .0f);
         CPlayer *player = scene->getEntityManager().getAs<CPlayer>(thisEntity);
         player->m_bAlive = false;
 

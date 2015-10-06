@@ -1,8 +1,8 @@
 #ifndef _C_PLAYER_H_
 #define _C_PLAYER_H_
 
+#include "vec2.hpp"
 #include "CPT_component.h"
-#include "CPT_vec2f.h"
 
 class CPlayer : public IComponent {
 public:
@@ -11,7 +11,7 @@ public:
 public:
     bool                m_bAlive;
     float               m_floatingAmount;
-    Vec2f               m_forward;
+    glm::vec2           m_forward;
 
     static const int    m_defaultCooldown = 1500;
     int                 m_cooldown = 0;
@@ -20,10 +20,10 @@ public:
 
     CPlayer() : 
         m_floatingAmount(0), 
-        m_forward(Vec2f(1, 0)), 
+        m_forward(glm::vec2(1.0f, .0f)),
         m_bAlive(true) {}
 
-    CPlayer(Vec2f forward) : 
+    CPlayer(glm::vec2 forward) :
         m_floatingAmount(0), 
         m_forward(forward), 
         m_bAlive(true) {}

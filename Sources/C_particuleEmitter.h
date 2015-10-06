@@ -2,10 +2,9 @@
 #define _C_PARTICULE_EMITTER_H_
 
 #include <vector>
-
+#include "vec2.hpp"
 #include "CPT_component.h"
 #include "CPT_graphic.h"
-#include "CPT_vec2f.h"
 
 typedef struct particule_s {
     Sprite* sprite;
@@ -29,7 +28,7 @@ public:
     Sprite                     *m_sprite;
     float                       m_lifetime;
     bool                        m_bIsGravityApplied;
-    Vec2f                       m_forceApplied;
+    glm::vec2                   m_forceApplied;
 
     //                          Emitter settings
     bool                        m_bActive;
@@ -42,7 +41,7 @@ private:
     float                       m_elapsedRate;
 public:
     
-    CParticuleEmitter(Sprite *sprite, float lifetime, Vec2f forceApplied, int particulePerSecond, bool gravityApplied) :
+    CParticuleEmitter(Sprite *sprite, float lifetime, glm::vec2 forceApplied, int particulePerSecond, bool gravityApplied) :
         m_sprite(sprite),
         m_lifetime(lifetime),
         m_forceApplied(forceApplied),
@@ -52,7 +51,7 @@ public:
         m_elapsedRate(0), 
         m_bIsGravityApplied(gravityApplied) {}
 
-    CParticuleEmitter(Sprite *sprite, float lifetime, Vec2f forceApplied, int particulePerSecond, bool gravityApplied, float angle, float angleVariation) :
+    CParticuleEmitter(Sprite *sprite, float lifetime, glm::vec2 forceApplied, int particulePerSecond, bool gravityApplied, float angle, float angleVariation) :
         m_sprite(sprite),
         m_lifetime(lifetime),
         m_forceApplied(forceApplied),

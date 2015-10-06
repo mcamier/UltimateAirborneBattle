@@ -33,9 +33,6 @@
     <ClCompile Include="P_animationRenderer.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
-    <ClCompile Include="P_gameManager.cpp">
-      <Filter>Fichiers sources\processes</Filter>
-    </ClCompile>
     <ClCompile Include="P_physic.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
@@ -84,9 +81,6 @@
       <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
     <ClInclude Include="P_animationRenderer.h">
-      <Filter>Fichiers d%27en-tête\processes</Filter>
-    </ClInclude>
-    <ClInclude Include="P_gameManager.h">
       <Filter>Fichiers d%27en-tête\processes</Filter>
     </ClInclude>
     <ClInclude Include="P_physic.h">

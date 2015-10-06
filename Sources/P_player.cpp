@@ -8,7 +8,6 @@
 #include "C_transform.h"
 #include "C_screenPosition.h"
 #include "UAB_events.h"
-#include "CPT_vec2f.h"
 
 #include "UAB_math.h"
 #include "UAB_defines.h"
@@ -27,8 +26,8 @@ void PPlayer::v_process(entityID id, const GameTime& gameTime) {
 
     // set screen position with floating in account
     player->m_floatingAmount = temp;
-    screenPos->m_pData->setY(transform->m_position.getY() + player->m_floatingAmount);
-    screenPos->m_pData->setX(transform->m_position.getX());
+    screenPos->m_pData->y = transform->m_position.y + player->m_floatingAmount;
+    screenPos->m_pData->x = transform->m_position.x;
 
     if (player->m_cooldown > 0) {
         player->m_cooldown -= gameTime.getElapsedMillisecond();

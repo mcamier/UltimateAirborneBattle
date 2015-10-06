@@ -17,15 +17,15 @@ const unsigned int PParticuleManager::getID() const {
 }
 
 void PParticuleManager::v_before(const GameTime& gameTime) {
-    for (std::vector<particule_t>::iterator it = m_particulesEmitted.begin()
+    for (std::list<particule_t>::iterator it = m_particulesEmitted.begin()
         ; it != m_particulesEmitted.end()
-        ; ++it) {
+        ; ) {
 
         particule_t *p = &(*it);
         p->lifetime -= gameTime.getElapsedMillisecond();
 
         if (p->lifetime <= 0) {
-            it = m_particulesEmitted.erase(it);
+            m_particulesEmitted.erase(it++);
         }
         else {
             // compute new particule's position according elapsed time and velocity
@@ -41,8 +41,7 @@ void PParticuleManager::v_before(const GameTime& gameTime) {
             // TODO
             //p->vx += (float)(e->m_forceApplied.getX() * gameTime.getElapsedSecond());
             //p->vy += (float)(e->m_forceApplied.getY() * gameTime.getElapsedSecond());
-
-
+            ++it;
         }
     }
 }
@@ -56,8 +55,8 @@ void PParticuleManager::v_process(entityID id, const GameTime& gameTime) {
         if (e->m_elapsedRate > e->m_rate)  {
             particule_t p;
             //position
-            p.x = transform->m_position.getX();
-            p.y = transform->m_position.getY();
+            p.x = transform->m_position.x;
+            p.y = transform->m_position.y;
             p.vx = 0;
             p.vy = 0;
             // lifetime

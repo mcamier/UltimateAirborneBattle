@@ -2,7 +2,6 @@
 #define _C_EXPLOSION_H_
 
 #include "CPT_component.h"
-#include "CPT_vec2f.h"
 
 class CExplosion : public IComponent {
 public:

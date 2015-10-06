@@ -2,34 +2,35 @@
 #define _C_TRANSFORM_H
 
 #include "CPT_component.h"
-#include "CPT_vec2f.h"
+
+#include "vec2.hpp"
 
 class CTransform : public IComponent {
 public:
     const static ComponentType sk_componentType = 0x381cfbe0;
 
-    Vec2f m_position;
+    glm::vec2 m_position;
     float m_rotation;
-    Vec2f m_scale;
+    glm::vec2 m_scale;
 
     CTransform() : 
-        m_position(Vec2f()), 
+        m_position(glm::vec2()),
         m_rotation(0), 
-        m_scale(Vec2f(1, 1)) {}
+        m_scale(glm::vec2(1, 1)) {}
 
     CTransform(int x, int y) :
         m_rotation(0),
-        m_scale(Vec2f(1, 1)),
-        m_position(Vec2f(x, y)){}
+        m_scale(glm::vec2(1, 1)),
+        m_position(glm::vec2(x, y)){}
 
     CTransform(int x, int y, int rotation) :
         m_rotation(rotation),
-        m_scale(Vec2f(1, 1)),
-        m_position(Vec2f(x, y)){}
+        m_scale(glm::vec2(1, 1)),
+        m_position(glm::vec2(x, y)){}
 
-    CTransform(int x, int y, int rotation, Vec2f scale) :
+    CTransform(int x, int y, int rotation, glm::vec2 scale) :
         m_rotation(rotation),
-        m_position(Vec2f(x, y)),
+        m_position(glm::vec2(x, y)),
         m_scale(scale) {}
 
     virtual ~CTransform() {}

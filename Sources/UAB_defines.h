@@ -4,8 +4,9 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "vec2.hpp"
+
 #include "CPT_utils.h"
-#include "CPT_vec2f.h"
 #include "UAB_events.h"
 
 #include "C_rigidbody.h"
@@ -92,28 +93,28 @@ public:
     entityID createPlayerOne(EntityManager& em, float x, float y) {
         entityID id = createPlayer(em, x, y);
         em.addComponent(id, new CAnimation(m_playerOneAnimation, 110.0f, true, true, false, false, 3));
-        em.addComponent(id, new CPlayer(Vec2f(1, 0)));
+        em.addComponent(id, new CPlayer(glm::vec2(1.0f, .0f)));
         return id;
     }
 
     entityID createPlayerTwo(EntityManager& em, float x, float y) {
         entityID id = createPlayer(em, x, y);
         em.addComponent(id, new CAnimation(m_playerTwoAnimation, 110.0f, true, true, false, true, 3));
-        em.addComponent(id, new CPlayer(Vec2f(-1, 0)));
+        em.addComponent(id, new CPlayer(glm::vec2(-1.0f, .0f)));
         return id;
     }
 
     entityID createPlayerThree(EntityManager& em, float x, float y) {
         entityID id = createPlayer(em, x, y);
         em.addComponent(id, new CAnimation(m_playerOneAnimation, 110.0f, true, true, false, false, 3));
-        em.addComponent(id, new CPlayer(Vec2f(1, 0)));
+        em.addComponent(id, new CPlayer(glm::vec2(1.0f, .0f)));
         return id;
     }
 
     entityID createPlayerFour(EntityManager& em, float x, float y) {
         entityID id = createPlayer(em, x, y);
         em.addComponent(id, new CAnimation(m_playerOneAnimation, 110.0f, true, true, false, true, 3));
-        em.addComponent(id, new CPlayer(Vec2f(-1, 0)));
+        em.addComponent(id, new CPlayer(glm::vec2(-1.0f, .0f)));
         return id;
     }
 
@@ -126,17 +127,19 @@ public:
         return player;
     }
 
-    entityID createMissile(EntityManager& em, Vec2f direction, Vec2f location, int angle) {
+    entityID createMissile(EntityManager& em, glm::vec2 direction, glm::vec2 location, int angle) {
         entityID missile = em.createEntity();
 
         CRigidBody *rb = new CRigidBody(true, 0.99f);
-        rb->m_velocity.addScaledVector(direction, 400);
+        //rb->m_velocity.addScaledVector(direction, 400);
+        rb->m_velocity.x += direction.x * 400;
+        rb->m_velocity.y += direction.y * 400;
 
         em.addComponent(missile, new CSprite(m_missile, 3));
-        em.addComponent(missile, new CScreenPosition(location.getX(), location.getY()));
-        em.addComponent(missile, new CTransform(location.getX(), location.getY(), angle));
+        em.addComponent(missile, new CScreenPosition(location.x, location.y));
+        em.addComponent(missile, new CTransform(location.x, location.y, angle));
         em.addComponent(missile, rb);
-        em.addComponent(missile, new CParticuleEmitter(m_smoke, 700, Vec2f(0, -120), 20, false));
+        em.addComponent(missile, new CParticuleEmitter(m_smoke, 700, glm::vec2(0.0f, -120.0f), 20, false));
         em.addComponent(missile, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 12, new MissileCollideFunctor()));
 
         return missile;
@@ -148,17 +151,17 @@ public:
         em.addComponent(bomb, new CScreenPosition(x, -100.0f));
         em.addComponent(bomb, new CTransform(x, -100.0f));
         em.addComponent(bomb, new CRigidBody(true, 0.99f));
-        em.addComponent(bomb, new CParticuleEmitter(m_smoke, 700, Vec2f(0, -120), 10, false));
+        em.addComponent(bomb, new CParticuleEmitter(m_smoke, 700, glm::vec2(.0f, -120.0f), 10, false));
         em.addComponent(bomb, new CCollider(BOMBS_LAYER, 25, new BombCollideFunctor()));
 
         return bomb;
     }
 
-    entityID createExplosion(EntityManager& em, Vec2f location) {
+    entityID createExplosion(EntityManager& em, glm::vec2 location) {
         entityID explosion = em.createEntity();
         em.addComponent(explosion, new CAnimation(m_explosion, 80, true, false, false, false, 3));
-        em.addComponent(explosion, new CScreenPosition(location.getX(), location.getY()));
-        em.addComponent(explosion, new CTransform(location.getX(), location.getY(), 0, Vec2f(2,2)));
+        em.addComponent(explosion, new CScreenPosition(location.x, location.y));
+        em.addComponent(explosion, new CTransform(location.x, location.y, 0, glm::vec2(2.0f, 2.0f)));
         //em.addComponent(explosion, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new ExplosionCollideFunctor()));
         em.addComponent(explosion, new CExplosion());
 
