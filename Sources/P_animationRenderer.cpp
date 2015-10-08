@@ -1,6 +1,7 @@
 #include <math.h>
 
 #include "P_animationRenderer.h"
+#include "CPT_math.h"
 #include "C_screenPosition.h"
 
 ComponentType c[] = { CAnimation::sk_componentType, CScreenPosition::sk_componentType, CTransform::sk_componentType };
@@ -45,7 +46,7 @@ void PAnimationRenderer::v_processRender(entityID id, const GameTime& gameTime) 
         anim->m_animation, 
         &source, 
         &dest, 
-        transform->m_rotation,
+        MathUtils::radToDeg(transform->m_rotation),
         anim->m_hflip,
         anim->m_vflip,
         1, 

@@ -209,18 +209,19 @@ private:
     void onMissileFired(IEvent *eventData) {
         MissileFiredEvent *e = static_cast<MissileFiredEvent*>(eventData);
 
-        // get player orientation
-        // get player velocity
-        // get player position
+        CTransform *transform = getEntityManager().getAs<CTransform>(e->m_playerSource);
+        
 
-        // create missile with orientation and velocity and and add its thrusting, startging at player position
+        glm::vec2 direction;
+        direction.x = cos(transform->m_rotation) * 2;
+        direction.y = sin(transform->m_rotation) * 2;
 
         float angle = 0;
-        if (e->m_direction.x != 0 || e->m_direction.y != 0) {
-            angle = (float)atan2(e->m_direction.x, e->m_direction.y) * (180 / MathUtils::PI);
+        if (direction.x != 0 || direction.y != 0) {
+            angle = (float)atan2(direction.x, direction.y) * (180 / MathUtils::PI);
         }
 
-        entityID id = ActorFactory::get()->createMissile(getEntityManager(), e->m_direction, e->m_sourcePosition, angle);
+        entityID id = ActorFactory::get()->createMissile(getEntityManager(), direction, transform->m_position, angle);
         m_gameWorldEntities.push_back(id);
     }
 
@@ -230,18 +231,11 @@ private:
 
         if (e->m_spaceIDTarget == getID() && e->m_eventID == INPUT_FIRE_EVENT) {
             entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
-
             CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
-            CTransform* transform = getEntityManager().getAs<CTransform>(playerID);
             if (player->m_bAlive){
                 if (player->m_cooldown <= 0) {
                     player->m_cooldown = player->m_defaultCooldown;
-
-                    glm::vec2 direction;
-                    direction.x = MathUtils::cosFromDeg(transform->m_rotation) * 2;
-                    direction.y = MathUtils::sinFromDeg(transform->m_rotation) * 2;
-
-                    EventManager::get()->queueEvent(new MissileFiredEvent(getID(), transform->m_position, direction));
+                    EventManager::get()->queueEvent(new MissileFiredEvent(getID(), playerID));
                 }
             }
         }
@@ -262,8 +256,8 @@ private:
 
                 glm::vec2 newVelocity = glm::vec2(player->m_forward);
 
-                newVelocity.x = x * MathUtils::cosFromDeg(transform->m_rotation) - y * MathUtils::sinFromDeg(transform->m_rotation);
-                newVelocity.y = y * MathUtils::cosFromDeg(transform->m_rotation) + x * MathUtils::sinFromDeg(transform->m_rotation);
+                newVelocity.x = x * cos(transform->m_rotation) - y * sin(transform->m_rotation);
+                newVelocity.y = y * cos(transform->m_rotation) + x * sin(transform->m_rotation);
                 newVelocity *= 300.0f;
 
                 rigidBody->m_velocity.x = newVelocity.x;
@@ -279,14 +273,15 @@ private:
             entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
             CTransform* transform = getEntityManager().getAs<CTransform>(playerID);
             CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
+            CRigidBody* rigidBody = getEntityManager().getAs<CRigidBody>(playerID);
 
             if (player->m_bAlive){
                 float floatX, floatY;
-                int rawX, rawY;
-
+                float rawX, rawY;
+                
                 rawX = e->m_inputPayload.m_range2D.x;
                 rawY = e->m_inputPayload.m_range2D.y;
-
+                
                 if (rawX >= DEAD_ZONE_STICK || rawX <= -DEAD_ZONE_STICK) {
                     rawX = (rawX > 0) ? rawX - DEAD_ZONE_STICK : rawX + DEAD_ZONE_STICK;
                 }
@@ -296,21 +291,23 @@ private:
                     rawY = (rawY > 0) ? rawY - DEAD_ZONE_STICK : rawY + DEAD_ZONE_STICK;
                 }
                 else { rawY = 0; }
-                 rawY = -rawY;
+
                 rawY = (player->m_forward.y > 0) ? -rawY : rawY;
                 rawX = (player->m_forward.x > 0) ? rawX : -rawX;
 
                 floatX = (rawX != 0) ? rawX / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
                 floatY = (rawY != 0) ? rawY / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
-
-                int angle = 0;
+                
+                float angle = 0;
                 if (floatX != 0 || floatY != 0) {
-                    angle = (float)atan2(floatX, floatY) * (180 / MathUtils::PI);
+                    angle = atan2(floatX, -floatY);
                 }
-                angle -= 90;
-                if (angle < 0) angle = 360 + angle;
+                angle -= MathUtils::PI/2;
 
                 transform->m_rotation = angle;
+
+                rigidBody->m_velocity.x = rigidBody->m_velocity.x * cos(angle) - rigidBody->m_velocity.y * sin(angle);
+                rigidBody->m_velocity.y = rigidBody->m_velocity.y * cos(angle) + rigidBody->m_velocity.x * sin(angle);
             }
         }
     }
@@ -329,7 +326,6 @@ private:
             rb->m_bApplyGravity = true;
 
             m_gameWorldEntities.push_back(id);
-
         }
     }
 };

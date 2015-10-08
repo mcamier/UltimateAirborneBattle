@@ -15,20 +15,20 @@ public:
 
     CTransform() : 
         m_position(glm::vec2()),
-        m_rotation(0), 
+        m_rotation(.0f), 
         m_scale(glm::vec2(1, 1)) {}
 
     CTransform(int x, int y) :
-        m_rotation(0),
+        m_rotation(.0f),
         m_scale(glm::vec2(1, 1)),
         m_position(glm::vec2(x, y)){}
 
-    CTransform(int x, int y, int rotation) :
+    CTransform(int x, int y, float rotation) :
         m_rotation(rotation),
         m_scale(glm::vec2(1, 1)),
         m_position(glm::vec2(x, y)){}
 
-    CTransform(int x, int y, int rotation, glm::vec2 scale) :
+    CTransform(int x, int y, float rotation, glm::vec2 scale) :
         m_rotation(rotation),
         m_position(glm::vec2(x, y)),
         m_scale(scale) {}

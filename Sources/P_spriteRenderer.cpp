@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-
+#include "CPT_math.h"
 #include "P_spriteRenderer.h"
 #include "C_screenPosition.h"
 
@@ -24,7 +24,7 @@ void PSpriteRenderer::v_processRender(entityID id, const GameTime& gameTime) {
     dest.w = sprite->m_pSprite->getWidth() * transform->m_scale.x;
     dest.h = sprite->m_pSprite->getHeight() * transform->m_scale.y;
 
-    RendererManager::get()->renderSprite(sprite->m_pSprite, &dest, transform->m_rotation, 1, sprite->m_layer);
+    RendererManager::get()->renderSprite(sprite->m_pSprite, &dest, MathUtils::radToDeg(transform->m_rotation), 1, sprite->m_layer);
 }
 
 void PSpriteRenderer::v_destroy() {}

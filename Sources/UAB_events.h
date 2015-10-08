@@ -23,14 +23,11 @@ class MissileFiredEvent : public SceneAwareEvent {
 
 public:
     entityID m_playerSource;
-    glm::vec2 m_sourcePosition;
-    glm::vec2 m_direction;
 
 public:
-    MissileFiredEvent(unsigned int spaceIDTarget, glm::vec2& sourcePosition, glm::vec2 direction) :
+    MissileFiredEvent(unsigned int spaceIDTarget, entityID shooter) :
         SceneAwareEvent(spaceIDTarget),
-        m_sourcePosition(sourcePosition),
-        m_direction(direction) {}
+        m_playerSource(shooter) {}
 
     ~MissileFiredEvent() {}
 
