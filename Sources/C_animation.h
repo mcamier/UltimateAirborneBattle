@@ -4,57 +4,41 @@
 #include <vector>
 
 #include <SDL.h>
-
+#include "C_rendereable2D.h"
 #include "CPT_component.h"
 #include "CPT_graphic.h"
 
 using namespace std;
 
-class CAnimation : public IComponent {
+class CAnimation : public CRendereable2D {
+    friend class PAnimation;
 
-public:
-    static const ComponentType sk_componentType = 0x10edddc8;
-
+private:
     AnimatedSprite          *m_animation;
     bool                    m_bActivated;
     bool                    m_bLoop;
     int                     m_currentFrame;
     double                  m_elapsedTime;
     float                   m_frameDuration;
-    int                     m_layer;
-    bool                    m_vflip;
-    bool                    m_hflip;
 
-    CAnimation(AnimatedSprite *animation, float frameDuration, int layer) :
-        m_animation(animation), 
-        m_frameDuration(frameDuration), 
-        m_currentFrame(0), 
-        m_elapsedTime(0), 
-        m_bLoop(true), 
-        m_bActivated(true),
-        m_layer(layer),
-        m_vflip(false),
-        m_hflip(false) {}
-
-    CAnimation(AnimatedSprite *animation, float frameDuration, bool activated, bool loop, bool vflip, bool hflip, int layer) :
+public:
+    CAnimation(AnimatedSprite *animation, float frameDuration, bool activated, bool loop) :
         m_animation(animation), 
         m_frameDuration(frameDuration), 
         m_currentFrame(0), 
         m_elapsedTime(0), 
         m_bLoop(loop), 
-        m_bActivated(activated),
-        m_layer(layer),
-        m_vflip(vflip),
-        m_hflip(hflip){}
+        m_bActivated(activated){}
 
     virtual ~CAnimation() {}
 
-    inline const ComponentType getComponentType(void) const {
-        return CAnimation::sk_componentType;
-    }
+    SDL_Texture*            getTexture() const override { return m_animation->getTexture(); }
+    SDL_Rect                getSource() const override { return m_animation->getFrame(m_currentFrame); }
+    int                     getWidth() const override { return m_animation->getWidth(m_currentFrame); }
+    int                     getHeight() const override { return m_animation->getHeight(m_currentFrame); }
 
     inline const char* getName(void) const {
-        return "CSprite";
+        return "CAnimation";
     }
 };
 

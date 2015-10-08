@@ -8,8 +8,7 @@
 #include "P_physic.h"
 #include "P_player.h"
 #include "P_particuleRenderer.h"
-#include "P_animationRenderer.h"
-#include "P_spriteRenderer.h"
+#include "P_rendereable2D.h"
 #include "P_particuleManager.h"
 #include "P_collider.h"
 #include "P_explosion.h"
@@ -35,9 +34,8 @@ protected:
 
         this->addProcess(new PExplosion());
 
-        this->addRenderProcess(new PAnimationRenderer());
-        this->addRenderProcess(new PSpriteRenderer());
-
+        this->addRenderProcess(new PRendereable2D());
+        
         std::cout << " UABScoreScene initialized " << std::endl;
     }
 };

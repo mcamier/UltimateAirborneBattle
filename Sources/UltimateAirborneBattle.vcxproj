@@ -186,13 +186,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="P_animationRenderer.cpp" />
+    <ClCompile Include="P_animation.cpp" />
     <ClCompile Include="P_collider.cpp" />
     <ClCompile Include="P_explosion.cpp" />
     <ClCompile Include="P_particuleManager.cpp" />
     <ClCompile Include="P_physic.cpp" />
     <ClCompile Include="P_player.cpp" />
-    <ClCompile Include="P_spriteRenderer.cpp" />
+    <ClCompile Include="P_rendereable2D.cpp" />
     <ClCompile Include="UAB_events.cpp" />
     <ClCompile Include="UAB_gameScene.h" />
   </ItemGroup>
@@ -202,17 +202,18 @@
     <ClInclude Include="C_explosion.h" />
     <ClInclude Include="C_particuleEmitter.h" />
     <ClInclude Include="C_player.h" />
+    <ClInclude Include="C_rendereable2D.h" />
     <ClInclude Include="C_rigidbody.h" />
     <ClInclude Include="C_screenPosition.h" />
     <ClInclude Include="C_sprite.h" />
     <ClInclude Include="C_transform.h" />
-    <ClInclude Include="P_animationRenderer.h" />
+    <ClInclude Include="P_animation.h" />
     <ClInclude Include="P_collider.h" />
     <ClInclude Include="P_explosion.h" />
     <ClInclude Include="P_particuleManager.h" />
     <ClInclude Include="P_physic.h" />
     <ClInclude Include="P_player.h" />
-    <ClInclude Include="P_spriteRenderer.h" />
+    <ClInclude Include="P_rendereable2D.h" />
     <ClInclude Include="UAB_defines.h" />
     <ClInclude Include="UAB_events.h" />
     <ClInclude Include="UAB_scoreScene.h" />

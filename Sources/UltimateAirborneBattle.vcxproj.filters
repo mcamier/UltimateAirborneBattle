@@ -30,16 +30,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="P_animationRenderer.cpp">
-      <Filter>Fichiers sources\processes</Filter>
-    </ClCompile>
     <ClCompile Include="P_physic.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
     <ClCompile Include="P_player.cpp">
-      <Filter>Fichiers sources\processes</Filter>
-    </ClCompile>
-    <ClCompile Include="P_spriteRenderer.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
     <ClCompile Include="UAB_events.cpp">
@@ -56,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="UAB_gameScene.h">
       <Filter>Fichiers d%27en-tête\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_rendereable2D.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_animation.cpp">
+      <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,16 +80,10 @@
     <ClInclude Include="C_transform.h">
       <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
-    <ClInclude Include="P_animationRenderer.h">
-      <Filter>Fichiers d%27en-tête\processes</Filter>
-    </ClInclude>
     <ClInclude Include="P_physic.h">
       <Filter>Fichiers d%27en-tête\processes</Filter>
     </ClInclude>
     <ClInclude Include="P_player.h">
-      <Filter>Fichiers d%27en-tête\processes</Filter>
-    </ClInclude>
-    <ClInclude Include="P_spriteRenderer.h">
       <Filter>Fichiers d%27en-tête\processes</Filter>
     </ClInclude>
     <ClInclude Include="C_particuleEmitter.h">
@@ -115,6 +109,15 @@
     </ClInclude>
     <ClInclude Include="UAB_scoreScene.h">
       <Filter>Fichiers d%27en-tête\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="C_rendereable2D.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="P_rendereable2D.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="P_animation.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

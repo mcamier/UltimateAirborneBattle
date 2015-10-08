@@ -8,9 +8,9 @@
 #include "P_physic.h"
 #include "P_player.h"
 #include "P_particuleRenderer.h"
-#include "P_animationRenderer.h"
-#include "P_spriteRenderer.h"
+#include "P_rendereable2D.h"
 #include "P_particuleManager.h"
+#include "P_animation.h"
 #include "P_collider.h"
 #include "P_explosion.h"
 #include "CPT_math.h"
@@ -70,12 +70,13 @@ protected:
         assert(ActorFactory::get() != NULL);
 
         this->addProcess(new PExplosion());
+        this->addProcess(new PAnimation());
         this->addProcess(new PPhysics2D());
         this->addProcess(new PPlayer());
         this->addProcess(new PCollider());
         this->addProcess(new PParticuleManager());
-        this->addRenderProcess(new PAnimationRenderer());
-        this->addRenderProcess(new PSpriteRenderer());
+
+        this->addRenderProcess(new PRendereable2D());
     
         d_missileFired = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onMissileFired>(this);
         EventManager::get()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);

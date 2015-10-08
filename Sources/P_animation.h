@@ -13,12 +13,12 @@
 #include "C_transform.h"
 #include "C_animation.h"
 
-class PAnimationRenderer : public EntityRenderProcess {
+class PAnimation : public EntityUpdateProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
 public:
-    PAnimationRenderer() {}
+    PAnimation() {}
 
     const std::vector<ComponentType> getRequirements() const {
         return sk_requirements;
@@ -26,7 +26,7 @@ public:
 
 private:
     const unsigned int getID() const;
-    void v_processRender(entityID id, const GameTime& gameTime);
+    void v_process(entityID id, const GameTime& gameTime);
     void v_destroy();
 };
 #endif

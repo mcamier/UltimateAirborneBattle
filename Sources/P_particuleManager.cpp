@@ -82,12 +82,12 @@ void PParticuleManager::v_after(const GameTime& gameTime) {
         dest.w = particule.sprite->getWidth();
         dest.h = particule.sprite->getHeight();
 
-        RendererManager::get()->renderSprite(
+        /*RendererManager::get()->renderSprite(
             particule.sprite,
             &dest,
             particule.angle,
             particule.lifetime / particule.maxLifetime,
-            1);
+            1);*/
 
     }
 }
