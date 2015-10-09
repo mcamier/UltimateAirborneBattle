@@ -14,8 +14,8 @@ void PPhysics2D::v_process(entityID id, const GameTime& gameTime) {
     CTransform *transform = getEntityAs<CTransform>(id);
 
     //transform->m_position.addScaledVector(body->m_velocity, gameTime.getElapsedSecond());
-    transform->m_position.x += body->m_velocity.x * gameTime.getElapsedSecond();
-    transform->m_position.y += body->m_velocity.y * gameTime.getElapsedSecond();
+    transform->setX(transform->getX()  + body->m_velocity.x * gameTime.getElapsedSecond());
+    transform->setY(transform->getY()  + body->m_velocity.y * gameTime.getElapsedSecond());
     if (body->m_bApplyGravity) {
         body->addForce(glm::vec2(.0f, 200.0f));
     }

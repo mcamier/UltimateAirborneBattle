@@ -104,10 +104,10 @@ protected:
                 CTransform *pos = getEntityManager().getAs<CTransform>((*it));
                 if (pos != NULL) {
                     // if too far out of screen, remove the entity
-                    if (pos->m_position.x > GameConstant::X_LIMIT ||
-                        pos->m_position.x < -GameConstant::X_LIMIT ||
-                        pos->m_position.y > GameConstant::Y_LIMIT ||
-                        pos->m_position.y < -GameConstant::Y_LIMIT) {
+                    if (pos->getX() > GameConstant::X_LIMIT ||
+                        pos->getX() < -GameConstant::X_LIMIT ||
+                        pos->getY() > GameConstant::Y_LIMIT ||
+                        pos->getY() < -GameConstant::Y_LIMIT) {
 
                         printf("entity [%d] out of bounds then remove it\n", (*it));
                         getEntityManager().removeEntity((*it));
@@ -214,15 +214,16 @@ private:
         
 
         glm::vec2 direction;
-        direction.x = cos(transform->m_rotation) * 2;
-        direction.y = sin(transform->m_rotation) * 2;
+        direction.x = cos(transform->getRotation()) * 2;
+        direction.y = sin(transform->getRotation()) * 2;
 
         float angle = 0;
         if (direction.x != 0 || direction.y != 0) {
             angle = (float)atan2(direction.x, direction.y) * (180 / MathUtils::PI);
         }
 
-        entityID id = ActorFactory::get()->createMissile(getEntityManager(), direction, transform->m_position, angle);
+        glm::vec2 position = glm::vec2(transform->getScaleX(), transform->getScaleY());
+        entityID id = ActorFactory::get()->createMissile(getEntityManager(), direction, position, angle);
         m_gameWorldEntities.push_back(id);
     }
 
@@ -257,8 +258,8 @@ private:
 
                 glm::vec2 newVelocity = glm::vec2(player->m_forward);
 
-                newVelocity.x = x * cos(transform->m_rotation) - y * sin(transform->m_rotation);
-                newVelocity.y = y * cos(transform->m_rotation) + x * sin(transform->m_rotation);
+                newVelocity.x = x * cos(transform->getRotation()) - y * sin(transform->getRotation());
+                newVelocity.y = y * cos(transform->getRotation()) + x * sin(transform->getRotation());
                 newVelocity *= 300.0f;
 
                 rigidBody->m_velocity.x = newVelocity.x;
@@ -305,7 +306,7 @@ private:
                 }
                 angle -= MathUtils::PI/2;
 
-                transform->m_rotation = angle;
+                transform->setRotation(angle);
 
                 rigidBody->m_velocity.x = rigidBody->m_velocity.x * cos(angle) - rigidBody->m_velocity.y * sin(angle);
                 rigidBody->m_velocity.y = rigidBody->m_velocity.y * cos(angle) + rigidBody->m_velocity.x * sin(angle);

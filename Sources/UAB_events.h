@@ -111,8 +111,8 @@ public:
         CTransform *t2 = scene->getEntityManager().getAs<CTransform>(collidesAgainst);
 
         //location = (t1->m_position - t2->m_position) + t1->m_position;
-
-        EventManager::get()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, t1->m_position));
+        glm::vec2 position = glm::vec2(t1->getX(), t1->getY());
+        EventManager::get()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position));
     }
 };
 
@@ -121,7 +121,8 @@ class BombCollideFunctor : public Functor {
     void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
         scene->getEntityManager().removeEntity(thisEntity);
         CTransform *t1 = scene->getEntityManager().getAs<CTransform>(thisEntity);
-        EventManager::get()->queueEvent(new ExplosionEvent(scene->getID(), t1->m_position));
+        glm::vec2 position = glm::vec2(t1->getX(), t1->getY());
+        EventManager::get()->queueEvent(new ExplosionEvent(scene->getID(), position));
     }
 };
 
@@ -130,7 +131,8 @@ class MissileCollideFunctor : public Functor {
     void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
         scene->getEntityManager().removeEntity(thisEntity);
         CTransform *t1 = scene->getEntityManager().getAs<CTransform>(thisEntity);
-        EventManager::get()->queueEvent(new ExplosionEvent(scene->getID(), t1->m_position));
+        glm::vec2 position = glm::vec2(t1->getX(), t1->getY());
+        EventManager::get()->queueEvent(new ExplosionEvent(scene->getID(), position));
     }
 };
 

@@ -15,8 +15,8 @@ void PCollider::v_process(entityID id, const GameTime& gameTime) {
     CTransform *t1 = getEntityAs<CTransform>(id);
 
 #ifdef _DEBUG
-    glm::vec2 to = glm::vec2();
-    DebugRenderer::get()->addCircle(t1->m_position, c1->m_radius);
+    glm::vec2 to = glm::vec2(t1->getX(), t1->getY());
+    DebugRenderer::get()->addCircle(to, c1->m_radius);
 #endif
 
     for (std::set<entityID>::iterator it = m_cache.begin()
@@ -32,7 +32,7 @@ void PCollider::v_process(entityID id, const GameTime& gameTime) {
                 CTransform *t2 = getEntityAs<CTransform>(obj);
 
                 glm::vec2 distance = glm::vec2(.0f, .0f);
-                distance = t1->m_position - t2->m_position;
+                //distance = t1->m_position - t2->m_position;
 
                 /* WRONG
                 if (distance.length() < sqrtf((c1->m_radius + c2->m_radius) * (c1->m_radius + c2->m_radius))) {

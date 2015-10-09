@@ -26,8 +26,8 @@ void PPlayer::v_process(entityID id, const GameTime& gameTime) {
 
     // set screen position with floating in account
     player->m_floatingAmount = temp;
-    screenPos->m_pData->y = transform->m_position.y + player->m_floatingAmount;
-    screenPos->m_pData->x = transform->m_position.x;
+    screenPos->m_pData->y = transform->getY() + player->m_floatingAmount;
+    screenPos->m_pData->x = transform->getX();
 
     if (player->m_cooldown > 0) {
         player->m_cooldown -= gameTime.getElapsedMillisecond();

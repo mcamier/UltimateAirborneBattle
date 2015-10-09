@@ -55,8 +55,8 @@ void PParticuleManager::v_process(entityID id, const GameTime& gameTime) {
         if (e->m_elapsedRate > e->m_rate)  {
             particule_t p;
             //position
-            p.x = transform->m_position.x;
-            p.y = transform->m_position.y;
+            p.x = transform->getX();
+            p.y = transform->getY();
             p.vx = 0;
             p.vy = 0;
             // lifetime

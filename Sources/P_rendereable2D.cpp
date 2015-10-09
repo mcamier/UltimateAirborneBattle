@@ -22,14 +22,14 @@ void PRendereable2D::v_processRender(entityID id, const GameTime& gameTime) {
     SDL_Rect dest;
     dest.x = position->m_pData->x - rendereable->getWidth() / 2;
     dest.y = position->m_pData->y - rendereable->getHeight() / 2;
-    dest.w = rendereable->getWidth() * transform->m_scale.x;
-    dest.h = rendereable->getHeight() * transform->m_scale.y;
+    dest.w = rendereable->getWidth() * transform->getScaleX();
+    dest.h = rendereable->getHeight() * transform->getScaleY();
 
     RendererManager::get()->renderTexture(
         rendereable->getTexture(),
         &rendereable->getSource(),
         &dest,
-        MathUtils::radToDeg(transform->m_rotation),
+        MathUtils::radToDeg(transform->getRotation()),
         rendereable->getFlip(),
         rendereable->getAlpha());
 }
