@@ -222,7 +222,7 @@ private:
             angle = (float)atan2(direction.x, direction.y) * (180 / MathUtils::PI);
         }
 
-        glm::vec2 position = glm::vec2(transform->getScaleX(), transform->getScaleY());
+        glm::vec2 position = glm::vec2(transform->getX(), transform->getY());
         entityID id = ActorFactory::get()->createMissile(getEntityManager(), direction, position, angle);
         m_gameWorldEntities.push_back(id);
     }

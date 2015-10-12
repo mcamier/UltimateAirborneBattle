@@ -20,8 +20,8 @@ void PRendereable2D::v_processRender(entityID id, const GameTime& gameTime) {
     CScreenPosition *position = getEntityAs<CScreenPosition>(id);
     
     SDL_Rect dest;
-    dest.x = position->m_pData->x - rendereable->getWidth() / 2;
-    dest.y = position->m_pData->y - rendereable->getHeight() / 2;
+    dest.x = transform->getX() - rendereable->getWidth() / 2;
+    dest.y = transform->getY() - rendereable->getHeight() / 2;
     dest.w = rendereable->getWidth() * transform->getScaleX();
     dest.h = rendereable->getHeight() * transform->getScaleY();
 
