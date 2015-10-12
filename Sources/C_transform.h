@@ -52,12 +52,12 @@ public:
 
     virtual ~CTransform() {}
 
-    float getX(){ 
+    float getX() { 
         refresh();
         return _x;
     }
     
-    float getY(){ 
+    float getY() { 
         refresh();
         return _y;
     }

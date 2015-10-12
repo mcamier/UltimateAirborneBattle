@@ -5,13 +5,21 @@
 
 #include "CPT_component.h"
 #include "CPT_process.h"
+#include "CPT_memory.h"
+
+typedef struct collision_s {
+    entityID obj1;
+    entityID obj2;
+} collision_t;
 
 class PCollider : public EntityUpdateProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
+    DoubleBufferedStackAllocator            *m_lastFrameCollisions;
+
 public:
-    PCollider() {}
+    PCollider() : m_lastFrameCollisions(new DoubleBufferedStackAllocator(sizeof(collision_s) * 100)) {}
     ~PCollider() {}
 
     inline const unsigned int getID() const { return 10012; }
@@ -20,7 +28,8 @@ public:
         return sk_requirements;
     }
 
-    void v_destroy(void) {};
+    void v_initialize(void);
+    void v_destroy(void);
 
 private:
     void v_process(entityID id, const GameTime& gameTime);

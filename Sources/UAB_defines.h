@@ -131,7 +131,6 @@ public:
         entityID missile = em.createEntity();
 
         CRigidBody *rb = new CRigidBody(true, 0.99f);
-        //rb->m_velocity.addScaledVector(direction, 400);
         rb->m_velocity.x += direction.x * 400;
         rb->m_velocity.y += direction.y * 400;
 

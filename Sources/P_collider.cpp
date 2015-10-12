@@ -32,13 +32,32 @@ void PCollider::v_process(entityID id, const GameTime& gameTime) {
                 CTransform *t2 = getEntityAs<CTransform>(obj);
 
                 glm::vec2 distance = glm::vec2(.0f, .0f);
-                //distance = t1->m_position - t2->m_position;
+                distance.x = t1->getX() - t2->getX();
+                distance.y = t1->getY() - t2->getY();
+                float length = (distance.x * distance.x) + (distance.y * distance.y);
 
-                /* WRONG
-                if (distance.length() < sqrtf((c1->m_radius + c2->m_radius) * (c1->m_radius + c2->m_radius))) {
-                    (*c1->f_onCollisionCallback)(id, obj, &(getScene()));
-                }*/
+                float val = (c1->m_radius + c2->m_radius) * (c1->m_radius + c2->m_radius);
+                if (length <= val) {
+                    printf("collision detected : [%f] <= [%f]\n", length, val);
+                    
+                    // execute collision callback
+                    // add collision information to the DoubleBufferedStackAllocator
+
+                    //(*c1->f_onCollisionCallback)(id, obj, &(getScene()));
+                    /*collision_t infos;
+                    infos.obj1 = id;
+                    infos.obj2 = obj;*/
+                }
             }
         }
     }
 }
+
+void PCollider::v_initialize(void) {
+    EntityUpdateProcess::v_initialize();
+    m_lastFrameCollisions->initialize();
+};
+
+void PCollider::v_destroy(void) {
+    m_lastFrameCollisions->destroy();
+};

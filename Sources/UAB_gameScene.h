@@ -69,11 +69,11 @@ protected:
     void initialize(void) {
         assert(ActorFactory::get() != NULL);
 
-        this->addProcess(new PExplosion());
-        this->addProcess(new PAnimation());
-        this->addProcess(new PPhysics2D());
-        this->addProcess(new PPlayer());
         this->addProcess(new PCollider());
+        this->addProcess(new PAnimation());
+        this->addProcess(new PPlayer());
+        this->addProcess(new PExplosion());
+        this->addProcess(new PPhysics2D());
         this->addProcess(new PParticuleManager());
 
         this->addRenderProcess(new PRendereable2D());
@@ -308,8 +308,6 @@ private:
 
                 transform->setRotation(angle);
 
-                rigidBody->m_velocity.x = rigidBody->m_velocity.x * cos(angle) - rigidBody->m_velocity.y * sin(angle);
-                rigidBody->m_velocity.y = rigidBody->m_velocity.y * cos(angle) + rigidBody->m_velocity.x * sin(angle);
             }
         }
     }

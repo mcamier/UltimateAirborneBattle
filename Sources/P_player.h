@@ -24,8 +24,6 @@ public:
 
 private:
     void v_process(entityID id, const GameTime& gameTime);
-
-
 };
 
 
