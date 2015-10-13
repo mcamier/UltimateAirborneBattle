@@ -46,7 +46,7 @@ void PParticuleManager::v_before(const GameTime& gameTime) {
     }
 }
 
-void PParticuleManager::v_process(entityID id, const GameTime& gameTime) {
+void PParticuleManager::v_updateEntity(entityID id, const GameTime& gameTime) {
     CParticuleEmitter *e = getEntityAs<CParticuleEmitter>(id);
     CTransform *transform = getEntityAs<CTransform>(id);
 

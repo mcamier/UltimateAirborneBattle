@@ -29,7 +29,7 @@ private:
     const unsigned int getID() const;
     void v_before(const GameTime& gameTime) override;
     void v_after(const GameTime& gameTime) override;
-    void v_process(entityID id, const GameTime& gameTime) override;
+    void v_updateEntity(entityID id, const GameTime& gameTime) override;
     void v_destroy() override;
 };
 #endif

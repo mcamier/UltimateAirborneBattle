@@ -7,7 +7,6 @@
 #include "UAB_defines.h"
 #include "P_physic.h"
 #include "P_player.h"
-#include "P_particuleRenderer.h"
 #include "P_rendereable2D.h"
 #include "P_particuleManager.h"
 #include "P_collider.h"

@@ -16,7 +16,7 @@
 ComponentType h[] = { CScreenPosition::sk_componentType, CPlayer::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PPlayer::sk_requirements(h, h + 3);
 
-void PPlayer::v_process(entityID id, const GameTime& gameTime) {
+void PPlayer::v_updateEntity(entityID id, const GameTime& gameTime) {
     CPlayer *player = getEntityAs<CPlayer>(id);
     CScreenPosition *screenPos = getEntityAs<CScreenPosition>(id);
     CTransform *transform = getEntityAs<CTransform>(id);

@@ -14,7 +14,7 @@ const unsigned int PRendereable2D::getID() const {
     return 10017;
 }
 
-void PRendereable2D::v_processRender(entityID id, const GameTime& gameTime) {
+void PRendereable2D::v_renderEntity(entityID id, const GameTime& gameTime) {
     CRendereable2D *rendereable = getEntityAs<CRendereable2D>(id);
     CTransform *transform = getEntityAs<CTransform>(id);
     CScreenPosition *position = getEntityAs<CScreenPosition>(id);

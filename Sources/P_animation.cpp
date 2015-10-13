@@ -11,7 +11,7 @@ const unsigned int PAnimation::getID() const {
     return 10007;
 }
 
-void PAnimation::v_process(entityID id, const GameTime& gameTime) {
+void PAnimation::v_updateEntity(entityID id, const GameTime& gameTime) {
     CAnimation *anim = getEntityAs<CAnimation>(id);
 
     if (anim->m_bActivated) {

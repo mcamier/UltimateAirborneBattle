@@ -9,7 +9,7 @@ const std::vector<ComponentType> PPhysics2D::sk_requirements(f, f + 2);
 void PPhysics2D::v_destroy() {
 }
 
-void PPhysics2D::v_process(entityID id, const GameTime& gameTime) {
+void PPhysics2D::v_updateEntity(entityID id, const GameTime& gameTime) {
     CRigidBody *body = getEntityAs<CRigidBody>(id);
     CTransform *transform = getEntityAs<CTransform>(id);
 

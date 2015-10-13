@@ -26,7 +26,7 @@ public:
 
 private:
     const unsigned int getID() const;
-    void v_process(entityID id, const GameTime& gameTime);
+    void v_updateEntity(entityID id, const GameTime& gameTime);
     void v_destroy();
 };
 #endif

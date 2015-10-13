@@ -7,7 +7,7 @@
 ComponentType aa[] = { CExplosion::sk_componentType };
 const std::vector<ComponentType> PExplosion::sk_requirements(aa, aa + 1);
 
-void PExplosion::v_process(entityID id, const GameTime& gameTime) {
+void PExplosion::v_updateEntity(entityID id, const GameTime& gameTime) {
     CExplosion *explosion = getEntityAs<CExplosion>(id);
     //CCollider *collider = getEntityAs<CCollider>(id);
    

@@ -8,8 +8,9 @@
 #include "CPT_memory.h"
 
 typedef struct collision_s {
-    entityID obj1;
-    entityID obj2;
+    entityID    obj1;
+    entityID    obj2;
+    float       penetrationDistance;
 } collision_t;
 
 class PCollider : public EntityUpdateProcess {
@@ -32,6 +33,6 @@ public:
     void v_destroy(void);
 
 private:
-    void v_process(entityID id, const GameTime& gameTime);
+    void v_updateEntity(entityID id, const GameTime& gameTime);
 };
 #endif

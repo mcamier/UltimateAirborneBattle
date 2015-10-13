@@ -10,7 +10,7 @@
 ComponentType w[] = { CCollider::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PCollider::sk_requirements(w, w + 2);
 
-void PCollider::v_process(entityID id, const GameTime& gameTime) {
+void PCollider::v_updateEntity(entityID id, const GameTime& gameTime) {
     CCollider *c1 = getEntityAs<CCollider>(id);
     CTransform *t1 = getEntityAs<CTransform>(id);
 
@@ -43,10 +43,12 @@ void PCollider::v_process(entityID id, const GameTime& gameTime) {
                     // execute collision callback
                     // add collision information to the DoubleBufferedStackAllocator
 
-                    //(*c1->f_onCollisionCallback)(id, obj, &(getScene()));
-                    /*collision_t infos;
-                    infos.obj1 = id;
-                    infos.obj2 = obj;*/
+                    (*c1->f_onCollisionCallback)(id, obj, &(getScene()));
+
+                    collision_t *infos = m_lastFrameCollisions->alloc<collision_t>();
+                    infos->obj1 = id;
+                    infos->obj2 = obj;
+                    infos->penetrationDistance = val - length;
                 }
             }
         }

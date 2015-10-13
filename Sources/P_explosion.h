@@ -23,7 +23,7 @@ public:
     void v_destroy(void) {};
 
 private:
-    void v_process(entityID id, const GameTime& gameTime);
+    void v_updateEntity(entityID id, const GameTime& gameTime);
 };
 
 

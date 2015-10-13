@@ -20,7 +20,7 @@ public:
 
 private:
     const unsigned int  getID() const;
-    void                v_processRender(entityID id, const GameTime& gameTime);
+    void                v_renderEntity(entityID id, const GameTime& gameTime);
     void                v_destroy();
 };
 #endif
