@@ -7,11 +7,13 @@
 #include "C_collider.h"
 #include "C_player.h"
 #include "C_transform.h"
+#include "C_missile.h"
 
 #include "vec2.hpp"
 
 
 #define INPUT_PAUSE_EVENT       99
+#define INPUT_RESET_EVENT       98
 
 #define INPUT_FIRE_EVENT        100
 #define INPUT_THRUST_EVENT      101
@@ -41,12 +43,14 @@ class PlayerDestroyedEvent : public SceneAwareEvent {
 
 public:
     entityID m_player;
+    entityID m_killer;
     glm::vec2 m_location;
 
 public:
-    PlayerDestroyedEvent(unsigned int spaceIDTarget, entityID player, glm::vec2 location) :
+    PlayerDestroyedEvent(unsigned int spaceIDTarget, entityID player, glm::vec2 location, entityID killer) :
         SceneAwareEvent(spaceIDTarget),
         m_player(player),
+        m_killer(killer),
         m_location(location) {}
 
     ~PlayerDestroyedEvent() {}
@@ -91,7 +95,6 @@ public:
 
 
 class Functor {
-
 public:
     virtual void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* withinScene) const = 0;
 };
@@ -100,45 +103,41 @@ public:
 class PlayerCollideFunctor : public Functor {
 public:
     void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
-        printf("player collision reaction\n");
-        // what about deactivate it instead of removing
-        scene->getEntityManager().removeComponent(thisEntity, CCollider::sk_componentType);
-        glm::vec2 location = glm::vec2(.0f, .0f);
-        CPlayer *player = scene->getEntityManager().getAs<CPlayer>(thisEntity);
-        player->m_bAlive = false;
+        printf("player collision reaction once\n");
+        CMissile* missile = scene->getEntityManager().getAs<CMissile>(collidesAgainst);
 
-        CTransform *t1 = scene->getEntityManager().getAs<CTransform>(thisEntity);
-        CTransform *t2 = scene->getEntityManager().getAs<CTransform>(collidesAgainst);
+        // when player shoot the missile will collide with shooter for a short period of time
+        // so in the case we are colliding with missile from this player we are preventing
+        // that missile destroy the aircraft at its begin lifetime
+        if (missile != nullptr && 
+            missile->m_bThrowerStillImmune && 
+            missile->m_throwerID == thisEntity) {
+            // in order this trick works, collision callback should be fired once for all contact duration
+            missile->m_bThrowerStillImmune = false;
+        }
+        else {
+            CPlayer *player = scene->getEntityManager().getAs<CPlayer>(thisEntity);
+            if (player->m_bAlive) {
+                player->m_bAlive = false;
 
-        //location = (t1->m_position - t2->m_position) + t1->m_position;
-        glm::vec2 position = glm::vec2(t1->getX(), t1->getY());
-        EventManager::get()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position));
+                CTransform *t1 = scene->getEntityManager().getAs<CTransform>(thisEntity);
+                glm::vec2 position = glm::vec2(t1->getX(), t1->getY());
+                
+                if (missile != nullptr) {
+                    EventManager::get()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position, missile->m_throwerID));
+                }
+                else {
+                    EventManager::get()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position, -1));
+                }
+            }
+        }
     }
 };
 
 
-class BombCollideFunctor : public Functor {
+class DestructibeColliderFunctor : public Functor {
     void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
         scene->getEntityManager().removeEntity(thisEntity);
-        CTransform *t1 = scene->getEntityManager().getAs<CTransform>(thisEntity);
-        glm::vec2 position = glm::vec2(t1->getX(), t1->getY());
-        EventManager::get()->queueEvent(new ExplosionEvent(scene->getID(), position));
-    }
-};
-
-
-class MissileCollideFunctor : public Functor {
-    void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
-        scene->getEntityManager().removeEntity(thisEntity);
-        CTransform *t1 = scene->getEntityManager().getAs<CTransform>(thisEntity);
-        glm::vec2 position = glm::vec2(t1->getX(), t1->getY());
-        EventManager::get()->queueEvent(new ExplosionEvent(scene->getID(), position));
-    }
-};
-
-class ExplosionCollideFunctor : public Functor {
-    void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
-    
     }
 };
 

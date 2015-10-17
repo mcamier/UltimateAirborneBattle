@@ -21,6 +21,8 @@ public:
 private:
     const unsigned int  getID() const;
     void                v_renderEntity(entityID id, const GameTime& gameTime);
+
+public:
     void                v_destroy();
 };
 #endif

@@ -10,8 +10,9 @@
 #include "P_rendereable2D.h"
 #include "P_particuleManager.h"
 #include "P_animation.h"
-#include "P_collider.h"
 #include "P_explosion.h"
+#include "P_colliderManager.h"
+#include "P_plusOne.h"
 #include "CPT_math.h"
 
 using namespace std;
@@ -40,7 +41,7 @@ public:
 
 
 private:
-    GameMode            m_gameMode = GameMode::ONE_VS_ONE;
+    GameMode            m_gameMode = GameMode::TWO_VS_TWO;
     bool                m_gameDone = false;
 
     bool                m_bPlayerOneDead = false;
@@ -68,12 +69,14 @@ protected:
     void initialize(void) {
         assert(ActorFactory::get() != NULL);
 
-        this->addProcess(new PCollider());
+        this->addProcess(new PColliderManager());
+        //this->addProcess(new PCollider());
         this->addProcess(new PAnimation());
         this->addProcess(new PPlayer());
         this->addProcess(new PExplosion());
         this->addProcess(new PPhysics2D());
-        this->addProcess(new PParticuleManager());
+        this->addProcess(new PParticuleManager()); 
+        this->addProcess(new PPlusOne());
 
         this->addRenderProcess(new PRendereable2D());
     
@@ -205,13 +208,11 @@ private:
     }
 
 
-
     void onMissileFired(IEvent *eventData) {
         MissileFiredEvent *e = static_cast<MissileFiredEvent*>(eventData);
 
         CTransform *transform = getEntityManager().getAs<CTransform>(e->m_playerSource);
         
-
         glm::vec2 direction;
         direction.x = cos(transform->getRotation()) * 2;
         direction.y = sin(transform->getRotation()) * 2;
@@ -222,7 +223,7 @@ private:
         }
 
         glm::vec2 position = glm::vec2(transform->getX(), transform->getY());
-        entityID id = ActorFactory::get()->createMissile(getEntityManager(), direction, position, angle);
+        entityID id = ActorFactory::get()->createMissile(e->m_playerSource, getEntityManager(), direction, position, angle);
         m_gameWorldEntities.push_back(id);
     }
 
@@ -242,6 +243,7 @@ private:
         }
     }
 
+
     void onInputThrust(IEvent *eventData) {
         InputEvent *e = static_cast<InputEvent*>(eventData);
 
@@ -251,18 +253,23 @@ private:
             CTransform* transform = getEntityManager().getAs<CTransform>(playerID);
             CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
 
-            if (player->m_bAlive){
-                int x = player->m_forward.x;
-                int y = player->m_forward.y;
+            if (rigidBody == nullptr || 
+                transform == nullptr ||
+                player == nullptr){}
+            else{
+                if (player->m_bAlive){
+                    int x = player->m_forward.x;
+                    int y = player->m_forward.y;
 
-                glm::vec2 newVelocity = glm::vec2(player->m_forward);
+                    glm::vec2 newVelocity = glm::vec2(player->m_forward);
 
-                newVelocity.x = x * cos(transform->getRotation()) - y * sin(transform->getRotation());
-                newVelocity.y = y * cos(transform->getRotation()) + x * sin(transform->getRotation());
-                newVelocity *= 300.0f;
+                    newVelocity.x = x * cos(transform->getRotation()) - y * sin(transform->getRotation());
+                    newVelocity.y = y * cos(transform->getRotation()) + x * sin(transform->getRotation());
+                    newVelocity *= 300.0f;
 
-                rigidBody->m_velocity.x = newVelocity.x;
-                rigidBody->m_velocity.y = newVelocity.y;
+                    rigidBody->m_velocity.x = newVelocity.x;
+                    rigidBody->m_velocity.y = newVelocity.y;
+                }
             }
         }
     }
@@ -313,7 +320,7 @@ private:
 
     void onExplosion(IEvent *eventData) {
         PlayerDestroyedEvent *e = static_cast<PlayerDestroyedEvent*>(eventData);
-
+        
         if (e->m_player == m_playerOne) { m_bPlayerOneDead = true; }
         else if (e->m_player == m_playerTwo) { m_bPlayerTwoDead = true; }
         else if (e->m_player == m_playerThree) { m_bPlayerThreeDead = true; }
@@ -321,10 +328,20 @@ private:
 
         if (e->m_spaceIDTarget == getID()) {
             entityID id = ActorFactory::get()->createExplosion(getEntityManager(), e->m_location);
+            m_gameWorldEntities.push_back(id);
+
+            if (e->m_killer >= 0) {
+                CTransform *transform = getEntityManager().getAs<CTransform>(e->m_killer);
+                if (transform != nullptr) {
+                    id = ActorFactory::get()->createPlusOne(getEntityManager(), transform);
+                    m_gameWorldEntities.push_back(id);
+                }
+            }
+
             CRigidBody *rb = getEntityManager().getAs<CRigidBody>(e->m_player);
             rb->m_bApplyGravity = true;
 
-            m_gameWorldEntities.push_back(id);
+            
         }
     }
 };

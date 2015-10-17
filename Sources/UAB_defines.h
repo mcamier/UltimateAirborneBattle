@@ -18,6 +18,9 @@
 #include "C_transform.h"
 #include "C_particuleEmitter.h"
 #include "C_explosion.h"
+#include "C_missile.h"
+#include "C_plusOne.h"
+#include "collisions_utils.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
 #define BOMBS_LAYER             1
@@ -31,6 +34,7 @@
 #define DEAD_ZONE_STICK         5000
 #define STICK_MAX_VALUE         32767
 
+
 class ActorFactory : public Singleton<ActorFactory> {
     friend class Singleton <ActorFactory>;
 
@@ -42,6 +46,7 @@ private:
     AnimatedSprite      *m_playerTwoAnimation;
     AnimatedSprite      *m_explosion;
     Sprite              *m_smoke;
+    Sprite              *m_plusOne;
     Sprite              *m_missile;
     Sprite              *m_bomb;
     Sprite              *m_background;
@@ -79,6 +84,7 @@ public:
         m_smoke = new Sprite(m_pSpriteSheet, 30, 140, 30, 30);
         m_missile = new Sprite(m_pSpriteSheet, 30, 172, 26, 22);
         m_bomb = new Sprite(m_pSpriteSheet, 0, 140, 30, 60);
+        m_plusOne = new Sprite(m_pSpriteSheet, 60, 140, 39, 30);
     }
 
     entityID createBackground(EntityManager& em) {
@@ -123,11 +129,11 @@ public:
         em.addComponent(player, new CScreenPosition(x, y));
         em.addComponent(player, new CTransform(x, y));
         em.addComponent(player, new CRigidBody(false, 0.95f));
-        em.addComponent(player, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 40, new PlayerCollideFunctor()));
+        em.addComponent(player, new CCollider(new CircleCollider(40), true, new PlayerCollideFunctor()));
         return player;
     }
 
-    entityID createMissile(EntityManager& em, glm::vec2 direction, glm::vec2 location, int angle) {
+    entityID createMissile(entityID throwerID, EntityManager& em, glm::vec2 direction, glm::vec2 location, int angle) {
         entityID missile = em.createEntity();
 
         CRigidBody *rb = new CRigidBody(true, 0.99f);
@@ -139,7 +145,8 @@ public:
         em.addComponent(missile, new CTransform(location.x, location.y, angle));
         em.addComponent(missile, rb);
         em.addComponent(missile, new CParticuleEmitter(m_smoke, 700, glm::vec2(0.0f, -120.0f), 20, false));
-        em.addComponent(missile, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 12, new MissileCollideFunctor()));
+        em.addComponent(missile, new CCollider(new CircleCollider(12), true, nullptr));
+        em.addComponent(missile, new CMissile(throwerID));
 
         return missile;
     }
@@ -151,20 +158,28 @@ public:
         em.addComponent(bomb, new CTransform(x, -100.0f));
         em.addComponent(bomb, new CRigidBody(true, 0.99f));
         em.addComponent(bomb, new CParticuleEmitter(m_smoke, 700, glm::vec2(.0f, -120.0f), 10, false));
-        em.addComponent(bomb, new CCollider(BOMBS_LAYER, 25, new BombCollideFunctor()));
+        em.addComponent(bomb, new CCollider(new CircleCollider(25), true, nullptr));
 
         return bomb;
     }
 
     entityID createExplosion(EntityManager& em, glm::vec2 location) {
         entityID explosion = em.createEntity();
-        em.addComponent(explosion, new CAnimation(m_explosion, 80, true, false));
+        em.addComponent(explosion, new CAnimation(m_explosion, 90, true, true));
         em.addComponent(explosion, new CScreenPosition(location.x, location.y));
         em.addComponent(explosion, new CTransform(location.x, location.y, 0, glm::vec2(2.0f, 2.0f)));
-        //em.addComponent(explosion, new CCollider(ALL_EXCEPT_BOMBS_LAYER, 50, new ExplosionCollideFunctor()));
+        em.addComponent(explosion, new CCollider(new CircleCollider(50), true, nullptr));
         em.addComponent(explosion, new CExplosion());
 
         return explosion;
+    }
+
+    entityID createPlusOne(EntityManager& em, CTransform *offset) {
+        entityID id = em.createEntity();
+        em.addComponent(id, new CSprite(m_plusOne));
+        em.addComponent(id, new CTransform(offset, 0, 0, 0));
+        em.addComponent(id, new CPlusOne());
+        return id;
     }
 
 private:

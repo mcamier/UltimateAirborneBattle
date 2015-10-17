@@ -9,7 +9,6 @@
 #include "P_player.h"
 #include "P_rendereable2D.h"
 #include "P_particuleManager.h"
-#include "P_collider.h"
 #include "P_explosion.h"
 
 class UABScoreScene : public Scene {

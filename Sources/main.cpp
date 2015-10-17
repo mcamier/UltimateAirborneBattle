@@ -12,6 +12,7 @@ class UltimateAirborneBattle : public CompoteEngine {
 public:
     UABGameScene *gameScreen;
     Delegate<IEvent*>   d_gameWon;
+    //Delegate<IEvent*>   d_resetRequested;
 
     UltimateAirborneBattle() : CompoteEngine(1280, 720, 1280, 720) {}
     virtual ~UltimateAirborneBattle() {}
@@ -21,6 +22,9 @@ protected:
         d_gameWon = Delegate<IEvent*>::make<UltimateAirborneBattle, &UltimateAirborneBattle::onGameWon>(this);
         EventManager::get()->addListener(GameWonEvent::sk_EventType, d_gameWon);
 
+        /*d_resetRequested = Delegate<IEvent*>::make<UltimateAirborneBattle, &UltimateAirborneBattle::onResetGame>(this);
+        EventManager::get()->addListener(InputEvent::sk_EventType, d_resetRequested);*/
+
         UABGameScene *gameScreen = new UABGameScene();
         this->pushScene(*gameScreen);
     }
@@ -29,6 +33,18 @@ protected:
         //UABScoreScene *scoreScreen = new UABScoreScene();
         //this->pushScene(*scoreScreen);
     }
+    /*
+    void onResetGame(IEvent *eventData) {
+        InputEvent *e = static_cast<InputEvent*>(eventData);
+
+        if (e->m_eventID == INPUT_RESET_EVENT) {
+            printf("reset game\n");
+            // by pushing new scene the old one will be deleted
+            gameScreen = new UABGameScene();
+            this->pushScene(*gameScreen);
+        }
+    }
+    */
 };
 
 

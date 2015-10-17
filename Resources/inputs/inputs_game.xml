@@ -7,6 +7,12 @@
 		<controller type="XBOX_CONTROLLER" index="0" />
 	</action>
 	
+	<action eventID="98" name="INPUT_RESET_EVENT">
+		<actionType value="ACTION"/>
+		<inputCode value="5" />
+		<controller type="XBOX_CONTROLLER" index="0" />
+	</action>
+	
 	<action eventID="101" name="INPUT_THRUST_EVENT">
 		<actionType value="STATE"/>
 		<inputCode value="10" />

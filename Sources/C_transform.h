@@ -30,7 +30,7 @@ private:
 
 public:
 
-    CTransform() : 
+    CTransform() :
         m_scaleX(1), m_scaleY(1),
         m_x(0), m_y(0),
         m_rotation(.0f) {}
@@ -46,6 +46,31 @@ public:
         m_x(x), m_y(y) {}
 
     CTransform(int x, int y, float rotation, glm::vec2 scale) :
+        m_rotation(rotation),
+        m_scaleX(scale.x), m_scaleY(scale.y),
+        m_x(x), m_y(y) {}
+
+
+    CTransform(CTransform* pParent) :
+        m_pParent(pParent),
+        m_scaleX(1), m_scaleY(1),
+        m_x(0), m_y(0),
+        m_rotation(.0f) {}
+
+    CTransform(CTransform* pParent, int x, int y) :
+        m_pParent(pParent),
+        m_rotation(.0f),
+        m_scaleX(1), m_scaleY(1),
+        m_x(x), m_y(y) {}
+
+    CTransform(CTransform* pParent, int x, int y, float rotation) :
+        m_pParent(pParent),
+        m_rotation(rotation),
+        m_scaleX(1), m_scaleY(1),
+        m_x(x), m_y(y) {}
+
+    CTransform(CTransform* pParent, int x, int y, float rotation, glm::vec2 scale) :
+        m_pParent(pParent),
         m_rotation(rotation),
         m_scaleX(scale.x), m_scaleY(scale.y),
         m_x(x), m_y(y) {}
@@ -112,23 +137,26 @@ public:
 
 private:
     void refresh() {
-        if (m_dirt) {
-            if (m_pParent != nullptr) {
+        if (m_pParent != nullptr) {
+            if (m_pParent->m_dirt) {
                 _x = m_pParent->getX() + m_x;
-                _y = m_pParent->getX() + m_y;
+                _y = m_pParent->getY() + m_y;
                 _scaleX = m_pParent->getScaleX() + m_scaleX;
                 _scaleY = m_pParent->getScaleY() + m_scaleY;
                 _rotation = m_pParent->getRotation() + m_rotation;
+                
+                m_pParent->m_dirt = false;
                 m_dirt = false;
             }
-            else {
-                _x = m_x;
-                _y = m_y;
-                _scaleX = m_scaleX;
-                _scaleY = m_scaleY;
-                _rotation = m_rotation;
-                m_dirt = false;
-            }
+        }
+        
+        if (m_dirt) {
+            _x = m_x;
+            _y = m_y;
+            _scaleX = m_scaleX;
+            _scaleY = m_scaleY;
+            _rotation = m_rotation;
+            m_dirt = false;
         }
     }
 };

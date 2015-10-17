@@ -39,9 +39,6 @@
     <ClCompile Include="UAB_events.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="P_collider.cpp">
-      <Filter>Fichiers sources\processes</Filter>
-    </ClCompile>
     <ClCompile Include="P_particuleManager.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
@@ -55,6 +52,15 @@
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
     <ClCompile Include="P_animation.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="P_colliderManager.cpp">
+      <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="collisions_utils.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="P_plusOne.cpp">
       <Filter>Fichiers sources\processes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,9 +98,6 @@
     <ClInclude Include="C_collider.h">
       <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
-    <ClInclude Include="P_collider.h">
-      <Filter>Fichiers d%27en-tête\processes</Filter>
-    </ClInclude>
     <ClInclude Include="UAB_defines.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -117,6 +120,21 @@
       <Filter>Fichiers d%27en-tête\processes</Filter>
     </ClInclude>
     <ClInclude Include="P_animation.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="P_colliderManager.h">
+      <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="collisions_utils.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="C_missile.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="C_plusOne.h">
+      <Filter>Fichiers d%27en-tête\components</Filter>
+    </ClInclude>
+    <ClInclude Include="P_plusOne.h">
       <Filter>Fichiers d%27en-tête\processes</Filter>
     </ClInclude>
   </ItemGroup>
