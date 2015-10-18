@@ -26,41 +26,34 @@ public:
 public:
     //                          Particules creation values
     Sprite                     *m_sprite;
-    float                       m_lifetime;
-    bool                        m_bIsGravityApplied;
-    glm::vec2                   m_forceApplied;
-
-    //                          Emitter settings
     bool                        m_bActive;
     int                         m_particulePerSecond;
+
+    bool                        m_bIsGravityApplied;
+
+    float                       m_lifetime;
+    float                       m_lifetimeVariation;
+
     float                       m_angle;
     float                       m_angleVariation;
     
+    float                       m_speedVariation;
+    float                       m_speed;
+
 private:
     float                       m_rate;
     float                       m_elapsedRate;
 public:
     
-    CParticuleEmitter(Sprite *sprite, float lifetime, glm::vec2 forceApplied, int particulePerSecond, bool gravityApplied) :
+    CParticuleEmitter(Sprite *sprite, int particulePerSecond, float lifetime, float angle, float speed, bool gravityApplied) :
         m_sprite(sprite),
         m_lifetime(lifetime),
-        m_forceApplied(forceApplied),
+        m_angle(angle),
+        m_speed(speed),
         m_particulePerSecond(particulePerSecond),
         m_bActive(true),
         m_rate(1000.0f / particulePerSecond),
         m_elapsedRate(0), 
-        m_bIsGravityApplied(gravityApplied) {}
-
-    CParticuleEmitter(Sprite *sprite, float lifetime, glm::vec2 forceApplied, int particulePerSecond, bool gravityApplied, float angle, float angleVariation) :
-        m_sprite(sprite),
-        m_lifetime(lifetime),
-        m_forceApplied(forceApplied),
-        m_particulePerSecond(particulePerSecond),
-        m_bActive(true),
-        m_rate(1000.0f / particulePerSecond),
-        m_elapsedRate(0),
-        m_angle(angle),
-        m_angleVariation(angleVariation),
         m_bIsGravityApplied(gravityApplied) {}
 
     virtual ~CParticuleEmitter() {}

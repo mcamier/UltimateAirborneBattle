@@ -19,8 +19,6 @@
 #define INPUT_THRUST_EVENT      101
 #define INPUT_ORIENTATION_EVENT 102
 
-
-
 class MissileFiredEvent : public SceneAwareEvent {
 
 public:

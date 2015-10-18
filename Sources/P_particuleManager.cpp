@@ -3,7 +3,7 @@
 #include <math.h>
 #include <iostream>
 
-#include "UAB_math.h"
+#include "CPT_math.h"
 #include "C_particuleEmitter.h"
 #include "C_transform.h"
 
@@ -11,15 +11,14 @@
 ComponentType p[] = { CTransform::sk_componentType, CParticuleEmitter::sk_componentType };
 const std::vector<ComponentType> PParticuleManager::sk_requirements(p, p + 2);
 
-
 const unsigned int PParticuleManager::getID() const {
     return 10010; 
 }
 
 void PParticuleManager::v_before(const GameTime& gameTime) {
     for (std::list<particule_t>::iterator it = m_particulesEmitted.begin()
-        ; it != m_particulesEmitted.end()
-        ; ) {
+        ;it != m_particulesEmitted.end()
+        ;) {
 
         particule_t *p = &(*it);
         p->lifetime -= gameTime.getElapsedMillisecond();
@@ -36,11 +35,6 @@ void PParticuleManager::v_before(const GameTime& gameTime) {
                 p->vx += 0;
                 p->vy += 5.0f;
             }
-
-            // compute new particule's velocity according elapsed time and applied force
-            // TODO
-            //p->vx += (float)(e->m_forceApplied.getX() * gameTime.getElapsedSecond());
-            //p->vy += (float)(e->m_forceApplied.getY() * gameTime.getElapsedSecond());
             ++it;
         }
     }
@@ -54,26 +48,30 @@ void PParticuleManager::v_updateEntity(entityID id, const GameTime& gameTime) {
         e->m_elapsedRate += gameTime.getElapsedMillisecond();
         if (e->m_elapsedRate > e->m_rate)  {
             particule_t p;
-            //position
+            p.sprite = e->m_sprite;
             p.x = transform->getX();
             p.y = transform->getY();
-            p.vx = 0;
-            p.vy = 0;
-            // lifetime
-            p.lifetime = e->m_lifetime;
-            p.maxLifetime = e->m_lifetime;
             
-            p.sprite = e->m_sprite;
-            p.angle = MathUtils::randint(360);
+            float lv = (e->m_lifetimeVariation > 0) ? MathUtils::randint(e->m_lifetimeVariation * 2) - e->m_lifetimeVariation : 0;
+            float av = (e->m_angleVariation > 0) ? MathUtils::randint(e->m_angleVariation * 2) - e->m_angleVariation : 0;
+            float sv = (e->m_speedVariation > 0) ? MathUtils::randint(e->m_speedVariation * 2) - e->m_speedVariation : 0;
+            
+            p.lifetime = e->m_lifetime + lv;
+            p.maxLifetime = e->m_lifetime + lv;
+            glm::vec2 velocity = MathUtils::fromPolar(e->m_angle + av, e->m_speed + sv);
+            p.vx = velocity.x;
+            p.vy = velocity.y;
+            //printf("angle : [%f], speed : [%f] to %f;%f\n", e->m_angle, e->m_speed, velocity.x, velocity.y);
+
+            //p.angle = MathUtils::randint(360);            
             p.gravityApplied = e->m_bIsGravityApplied;
-
             m_particulesEmitted.push_back(p);
-
             e->m_elapsedRate = 0;
         }
     }
 }
 
+// After method is dedicated to particules rendering
 void PParticuleManager::v_after(const GameTime& gameTime) {
     for (auto& particule : m_particulesEmitted) {
         SDL_Rect dest;
@@ -82,13 +80,14 @@ void PParticuleManager::v_after(const GameTime& gameTime) {
         dest.w = particule.sprite->getWidth();
         dest.h = particule.sprite->getHeight();
 
-        /*RendererManager::get()->renderSprite(
-            particule.sprite,
+        RendererManager::get()->renderTexture(
+            2,
+            particule.sprite->getTexture(),
+            particule.sprite->getSourceRect(),
             &dest,
-            particule.angle,
-            particule.lifetime / particule.maxLifetime,
-            1);*/
-
+            0,
+            SDL_RendererFlip::SDL_FLIP_NONE,
+            particule.lifetime / particule.maxLifetime);
     }
 }
 

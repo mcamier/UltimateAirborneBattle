@@ -85,7 +85,7 @@ protected:
 
         m_camera = ActorFactory::get()->createCamera(getEntityManager());
         this->addRenderProcess(new PRendereable2D(m_camera));
-    
+
         d_missileFired = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onMissileFired>(this);
         EventManager::get()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);
         d_inputFire = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onInputFire>(this);
@@ -347,10 +347,11 @@ private:
 
         if (e->m_spaceIDTarget == getID()) {
             entityID id = ActorFactory::get()->createExplosion(getEntityManager(), e->m_location);
-
-            getEntityManager().addComponent(e->m_player, new CParticuleEmitter(ActorFactory::get()->m_smoke, 1000, 150, glm::vec2(0, 0), 20, false));
-
             m_gameWorldEntities.push_back(id);
+
+            CParticuleEmitter *pe = new CParticuleEmitter(ActorFactory::get()->m_darkSmoke, 25, 2000, -90, 40, false);
+            pe->m_angleVariation = 60;
+            getEntityManager().addComponent(e->m_player, pe);
 
             if (e->m_killer >= 0) {
                 CTransform *transform = getEntityManager().getAs<CTransform>(e->m_killer);

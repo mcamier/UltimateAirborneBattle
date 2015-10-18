@@ -50,6 +50,7 @@ public:
     Sprite              *m_missile;
     Sprite              *m_bomb;
     Sprite              *m_background;
+    Sprite              *m_darkSmoke;
 
 public:
     void initialize() override {
@@ -82,6 +83,7 @@ public:
         m_playerTwoAnimation = new AnimatedSprite(m_pSpriteSheet, frames, 4);
         m_playerOneAnimation = new AnimatedSprite(m_pSpriteSheet, frames2, 4);
         m_smoke = new Sprite(m_pSpriteSheet, 30, 140, 30, 30);
+        m_darkSmoke = new Sprite(m_pSpriteSheet, 60, 170, 30, 30);
         m_missile = new Sprite(m_pSpriteSheet, 30, 172, 26, 22);
         m_bomb = new Sprite(m_pSpriteSheet, 0, 140, 30, 60);
         m_plusOne = new Sprite(m_pSpriteSheet, 60, 140, 39, 30);
@@ -144,7 +146,9 @@ public:
         em.addComponent(missile, new CScreenPosition(location.x, location.y));
         em.addComponent(missile, new CTransform(location.x, location.y, angle));
         em.addComponent(missile, rb);
-        em.addComponent(missile, new CParticuleEmitter(m_smoke, 700, 100, glm::vec2(0.0f, -120.0f), 20, false));
+        CParticuleEmitter *pe = new CParticuleEmitter(m_smoke, 20, 1300, -90, 50, false);
+        pe->m_angleVariation = 45;
+        em.addComponent(missile, pe);
         em.addComponent(missile, new CCollider(new CircleCollider(12), true, nullptr));
         em.addComponent(missile, new CMissile(throwerID));
 
@@ -157,7 +161,9 @@ public:
         em.addComponent(bomb, new CScreenPosition(x, -100.0f));
         em.addComponent(bomb, new CTransform(x, -100.0f));
         em.addComponent(bomb, new CRigidBody(true, 0.99f));
-        em.addComponent(bomb, new CParticuleEmitter(m_smoke, 700, 100, glm::vec2(.0f, -120.0f), 10, false));
+        CParticuleEmitter *pe = new CParticuleEmitter(m_smoke, 20, 1300, -90, 50, false);
+        pe->m_angleVariation = 45;
+        em.addComponent(bomb, pe);
         em.addComponent(bomb, new CCollider(new CircleCollider(25), true, new DestructibeColliderFunctor()));
 
         return bomb;
@@ -165,11 +171,14 @@ public:
 
     entityID createExplosion(EntityManager& em, glm::vec2 location) {
         entityID explosion = em.createEntity();
-        em.addComponent(explosion, new CAnimation(m_explosion, 2, 90, true, true));
+        em.addComponent(explosion, new CAnimation(m_explosion, 2, 70, true, true));
         em.addComponent(explosion, new CScreenPosition(location.x, location.y));
         em.addComponent(explosion, new CTransform(location.x, location.y, 0, glm::vec2(2.0f, 2.0f)));
         em.addComponent(explosion, new CCollider(new CircleCollider(50), true, nullptr));
         em.addComponent(explosion, new CExplosion());
+        //CParticuleEmitter *pe = new CParticuleEmitter(m_smoke, 100, 700, 90, 200, false);
+        //pe->m_angleVariation = 45;
+        //em.addComponent(explosion, pe);
 
         return explosion;
     }
