@@ -38,7 +38,7 @@
 class ActorFactory : public Singleton<ActorFactory> {
     friend class Singleton <ActorFactory>;
 
-private:
+public:
     SDL_Texture         *m_pSpriteSheet;
     SDL_Texture         *m_pBackground;
 
@@ -91,35 +91,35 @@ public:
         entityID background = em.createEntity();
         em.addComponent(background, new CScreenPosition(640.0f, 360.0f));
         em.addComponent(background, new CTransform(640.0f, 360.0f));
-        em.addComponent(background, new CSprite(m_background));
+        em.addComponent(background, new CSprite(m_background, 0));
         
         return background;
     }
     
     entityID createPlayerOne(EntityManager& em, float x, float y) {
         entityID id = createPlayer(em, x, y);
-        em.addComponent(id, new CAnimation(m_playerOneAnimation, 110.0f, true, true));
+        em.addComponent(id, new CAnimation(m_playerOneAnimation, 3, 110.0f, true, true));
         em.addComponent(id, new CPlayer(glm::vec2(1.0f, .0f)));
         return id;
     }
 
     entityID createPlayerTwo(EntityManager& em, float x, float y) {
         entityID id = createPlayer(em, x, y);
-        em.addComponent(id, new CAnimation(m_playerTwoAnimation, 110.0f, true, true));
+        em.addComponent(id, new CAnimation(m_playerTwoAnimation, 3, 110.0f, true, true));
         em.addComponent(id, new CPlayer(glm::vec2(-1.0f, .0f)));
         return id;
     }
 
     entityID createPlayerThree(EntityManager& em, float x, float y) {
         entityID id = createPlayer(em, x, y);
-        em.addComponent(id, new CAnimation(m_playerOneAnimation, 110.0f, true, true));
+        em.addComponent(id, new CAnimation(m_playerOneAnimation, 3, 110.0f, true, true));
         em.addComponent(id, new CPlayer(glm::vec2(1.0f, .0f)));
         return id;
     }
 
     entityID createPlayerFour(EntityManager& em, float x, float y) {
         entityID id = createPlayer(em, x, y);
-        em.addComponent(id, new CAnimation(m_playerOneAnimation, 110.0f, true, true));
+        em.addComponent(id, new CAnimation(m_playerOneAnimation,3, 110.0f, true, true));
         em.addComponent(id, new CPlayer(glm::vec2(-1.0f, .0f)));
         return id;
     }
@@ -137,14 +137,14 @@ public:
         entityID missile = em.createEntity();
 
         CRigidBody *rb = new CRigidBody(true, 0.99f);
-        rb->m_velocity.x += direction.x * 400;
-        rb->m_velocity.y += direction.y * 400;
+        rb->m_velocity.x += direction.x * 450;
+        rb->m_velocity.y += direction.y * 450;
 
-        em.addComponent(missile, new CSprite(m_missile));
+        em.addComponent(missile, new CSprite(m_missile, 2));
         em.addComponent(missile, new CScreenPosition(location.x, location.y));
         em.addComponent(missile, new CTransform(location.x, location.y, angle));
         em.addComponent(missile, rb);
-        em.addComponent(missile, new CParticuleEmitter(m_smoke, 700, glm::vec2(0.0f, -120.0f), 20, false));
+        em.addComponent(missile, new CParticuleEmitter(m_smoke, 700, 100, glm::vec2(0.0f, -120.0f), 20, false));
         em.addComponent(missile, new CCollider(new CircleCollider(12), true, nullptr));
         em.addComponent(missile, new CMissile(throwerID));
 
@@ -153,19 +153,19 @@ public:
     
     entityID createBomb(EntityManager& em, float x) {
         entityID bomb = em.createEntity();
-        em.addComponent(bomb, new CSprite(m_bomb));
+        em.addComponent(bomb, new CSprite(m_bomb, 2));
         em.addComponent(bomb, new CScreenPosition(x, -100.0f));
         em.addComponent(bomb, new CTransform(x, -100.0f));
         em.addComponent(bomb, new CRigidBody(true, 0.99f));
-        em.addComponent(bomb, new CParticuleEmitter(m_smoke, 700, glm::vec2(.0f, -120.0f), 10, false));
-        em.addComponent(bomb, new CCollider(new CircleCollider(25), true, nullptr));
+        em.addComponent(bomb, new CParticuleEmitter(m_smoke, 700, 100, glm::vec2(.0f, -120.0f), 10, false));
+        em.addComponent(bomb, new CCollider(new CircleCollider(25), true, new DestructibeColliderFunctor()));
 
         return bomb;
     }
 
     entityID createExplosion(EntityManager& em, glm::vec2 location) {
         entityID explosion = em.createEntity();
-        em.addComponent(explosion, new CAnimation(m_explosion, 90, true, true));
+        em.addComponent(explosion, new CAnimation(m_explosion, 2, 90, true, true));
         em.addComponent(explosion, new CScreenPosition(location.x, location.y));
         em.addComponent(explosion, new CTransform(location.x, location.y, 0, glm::vec2(2.0f, 2.0f)));
         em.addComponent(explosion, new CCollider(new CircleCollider(50), true, nullptr));
@@ -176,10 +176,16 @@ public:
 
     entityID createPlusOne(EntityManager& em, CTransform *offset) {
         entityID id = em.createEntity();
-        em.addComponent(id, new CSprite(m_plusOne));
+        em.addComponent(id, new CSprite(m_plusOne, 1));
         em.addComponent(id, new CTransform(offset, 0, 0, 0));
         em.addComponent(id, new CPlusOne());
         return id;
+    }
+
+    entityID createCamera(EntityManager& em) {
+        entityID cam = em.createEntity();
+        em.addComponent(cam, new CTransform(0, 0));
+        return cam;
     }
 
 private:

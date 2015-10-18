@@ -141,8 +141,8 @@ private:
             if (m_pParent->m_dirt) {
                 _x = m_pParent->getX() + m_x;
                 _y = m_pParent->getY() + m_y;
-                _scaleX = m_pParent->getScaleX() + m_scaleX;
-                _scaleY = m_pParent->getScaleY() + m_scaleY;
+                _scaleX = m_pParent->getScaleX() * m_scaleX;
+                _scaleY = m_pParent->getScaleY() * m_scaleY;
                 _rotation = m_pParent->getRotation() + m_rotation;
                 
                 m_pParent->m_dirt = false;

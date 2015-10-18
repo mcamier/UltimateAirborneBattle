@@ -12,7 +12,12 @@ private:
     Sprite              *m_pSprite;
 
 public:
-                        CSprite(Sprite *sprite) : m_pSprite(sprite) {}
+                        CSprite(Sprite *sprite, int order) : 
+                            m_pSprite(sprite) {
+                            
+                            this->setOrder(order);
+                        }
+
     virtual             ~CSprite() {}
 
     SDL_Texture*        getTexture() const override { return m_pSprite->getTexture(); }

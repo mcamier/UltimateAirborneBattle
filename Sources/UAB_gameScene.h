@@ -12,6 +12,7 @@
 #include "P_animation.h"
 #include "P_explosion.h"
 #include "P_colliderManager.h"
+#include "C_particuleEmitter.h"
 #include "P_plusOne.h"
 #include "CPT_math.h"
 
@@ -56,6 +57,11 @@ private:
 
     float               m_bombTiming = 0;
 
+    entityID            m_camera;
+    bool                m_bCameraShaking = false;
+    float               m_cameraShakingDuration = 800.0f;
+    float               m_cameraShakingElapsed = 0.0f;
+
     Delegate<IEvent*>   d_missileFired;
     Delegate<IEvent*>   d_explosionOccurs;
     Delegate<IEvent*>   d_playerDestroyed;
@@ -70,7 +76,6 @@ protected:
         assert(ActorFactory::get() != NULL);
 
         this->addProcess(new PColliderManager());
-        //this->addProcess(new PCollider());
         this->addProcess(new PAnimation());
         this->addProcess(new PPlayer());
         this->addProcess(new PExplosion());
@@ -78,7 +83,8 @@ protected:
         this->addProcess(new PParticuleManager()); 
         this->addProcess(new PPlusOne());
 
-        this->addRenderProcess(new PRendereable2D());
+        m_camera = ActorFactory::get()->createCamera(getEntityManager());
+        this->addRenderProcess(new PRendereable2D(m_camera));
     
         d_missileFired = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onMissileFired>(this);
         EventManager::get()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);
@@ -98,6 +104,19 @@ protected:
 
     void  v_update(const GameTime& gameTime) {
         Scene::v_update(gameTime);
+        // camera shaking update
+        if (m_bCameraShaking) {
+            m_cameraShakingElapsed += gameTime.getElapsedMillisecond();
+
+            CTransform *camPos = getEntityManager().getAs<CTransform>(m_camera);
+            double temp = 4 * sin((double)(MathUtils::TWO_PI * 0.01 * m_cameraShakingElapsed + 0));
+            camPos->setY(camPos->getY() + temp);
+
+            if (m_cameraShakingElapsed >= m_cameraShakingDuration) {
+                m_bCameraShaking = false;
+                m_cameraShakingElapsed = 0.0f;
+            }
+        }
 
         if (!isMatchDone()) {
             // check if entities are out of world borders
@@ -328,6 +347,9 @@ private:
 
         if (e->m_spaceIDTarget == getID()) {
             entityID id = ActorFactory::get()->createExplosion(getEntityManager(), e->m_location);
+
+            getEntityManager().addComponent(e->m_player, new CParticuleEmitter(ActorFactory::get()->m_smoke, 1000, 150, glm::vec2(0, 0), 20, false));
+
             m_gameWorldEntities.push_back(id);
 
             if (e->m_killer >= 0) {
@@ -341,7 +363,9 @@ private:
             CRigidBody *rb = getEntityManager().getAs<CRigidBody>(e->m_player);
             rb->m_bApplyGravity = true;
 
-            
+            // camera shakîng
+            m_bCameraShaking = true;
+            m_cameraShakingElapsed = 0.0f;
         }
     }
 };

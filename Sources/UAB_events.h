@@ -130,6 +130,10 @@ public:
                     EventManager::get()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position, -1));
                 }
             }
+
+            if (missile != nullptr) {
+                scene->getEntityManager().removeEntity(collidesAgainst);
+            }
         }
     }
 };

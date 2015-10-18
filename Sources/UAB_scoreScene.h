@@ -32,7 +32,7 @@ protected:
 
         this->addProcess(new PExplosion());
 
-        this->addRenderProcess(new PRendereable2D());
+        this->addRenderProcess(new PRendereable2D(ActorFactory::get()->createCamera(this->getEntityManager())));
         
         std::cout << " UABScoreScene initialized " << std::endl;
     }

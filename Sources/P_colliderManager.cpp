@@ -27,11 +27,10 @@ void PColliderManager::v_before(const GameTime& gameTime) {
         iter2++;
         c1 = getEntityAs<CCollider>((*iter1));
         t1 = getEntityAs<CTransform>((*iter1));
-
-#ifdef _DEBUG
-        // draw bouding box for debugging purpose
+        
+/*#ifdef _DEBUG
         c1->m_collider->debugDraw(glm::vec2(t1->getX(), t1->getY()));  
-#endif
+#endif*/
 
         if (iter2 != m_cache.end()) {
             for (

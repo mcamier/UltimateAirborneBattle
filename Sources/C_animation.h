@@ -22,13 +22,16 @@ private:
     float                   m_frameDuration;
 
 public:
-    CAnimation(AnimatedSprite *animation, float frameDuration, bool activated, bool loop) :
+    CAnimation(AnimatedSprite *animation, int order, float frameDuration, bool activated, bool loop) :
         m_animation(animation), 
         m_frameDuration(frameDuration), 
         m_currentFrame(0), 
         m_elapsedTime(0), 
         m_bLoop(loop), 
-        m_bActivated(activated){}
+        m_bActivated(activated) {
+    
+        this->setOrder(order);
+    }
 
     virtual ~CAnimation() {}
 

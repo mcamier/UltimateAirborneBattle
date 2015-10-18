@@ -22,7 +22,7 @@ bool CircleCollider::isColliding(glm::vec3 &pos, ICollider *other, glm::vec3 &po
 
 #ifdef _DEBUG
 void CircleCollider::debugDraw(glm::vec2 &position) {
-    DebugRenderer::get()->addCircle(position, m_radius);
+    //DebugRenderer::get()->addCircle(position, m_radius);
 }
 #endif
 

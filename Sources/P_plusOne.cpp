@@ -13,8 +13,8 @@ void PPlusOne::v_updateEntity(entityID id, const GameTime& gameTime) {
     obj->m_elapsedTime += gameTime.getElapsedMillisecond();
     float interpolation = obj->m_elapsedTime / obj->m_lifeTimeDuration;
 
-    transform->setScaleX(interpolation);
-    transform->setScaleY(interpolation);
+    transform->setScaleX(interpolation + 0.5f);
+    transform->setScaleY(interpolation + 0.5f);
 
     if (obj->m_elapsedTime >= obj->m_lifeTimeDuration) {
         getScene().getEntityManager().removeEntity(id);
