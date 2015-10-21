@@ -349,7 +349,9 @@ private:
             entityID id = ActorFactory::get()->createExplosion(getEntityManager(), e->m_location);
             m_gameWorldEntities.push_back(id);
 
-            CParticuleEmitter *pe = new CParticuleEmitter(ActorFactory::get()->m_darkSmoke, 25, 2000, -90, 40, false);
+            SpriteParticule *particuleProto = new SpriteParticule(ActorFactory::get()->m_darkSmoke);
+            //SpriteParticule *particuleProto = new SpriteParticule(ActorFactory::get()->m_darkSmoke);
+            CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 25, 1800, -90, 40, false);
             pe->m_angleVariation = 60;
             getEntityManager().addComponent(e->m_player, pe);
 

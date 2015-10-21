@@ -185,6 +185,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IParticule.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="P_animation.cpp" />
     <ClCompile Include="P_explosion.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="C_screenPosition.h" />
     <ClInclude Include="C_sprite.h" />
     <ClInclude Include="C_transform.h" />
+    <ClInclude Include="IParticule.h" />
     <ClInclude Include="P_animation.h" />
     <ClInclude Include="P_colliderManager.h" />
     <ClInclude Include="P_explosion.h" />

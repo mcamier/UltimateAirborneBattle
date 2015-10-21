@@ -5,12 +5,13 @@
 #include "vec2.hpp"
 #include "CPT_component.h"
 #include "CPT_graphic.h"
+#include "IParticule.h"
 
 typedef struct particule_s {
     Sprite* sprite;
     float lifetime; // as milliseconds
     float maxLifetime; // as milliseconds
-    int angle;
+    //float angle;
     float x;
     float y;
     float vx;
@@ -18,35 +19,31 @@ typedef struct particule_s {
     bool gravityApplied;
 } particule_t;
 
+
 class CParticuleEmitter : public IComponent {
     friend class PParticuleManager;
 public:
     const static ComponentType sk_componentType = 0xcf69cb7d;
 
 public:
-    //                          Particules creation values
-    Sprite                     *m_sprite;
+    IParticule                  *m_particulePrototype;
     bool                        m_bActive;
     int                         m_particulePerSecond;
 
     bool                        m_bIsGravityApplied;
-
     float                       m_lifetime;
     float                       m_lifetimeVariation;
-
     float                       m_angle;
     float                       m_angleVariation;
-    
     float                       m_speedVariation;
     float                       m_speed;
-
 private:
     float                       m_rate;
     float                       m_elapsedRate;
 public:
     
-    CParticuleEmitter(Sprite *sprite, int particulePerSecond, float lifetime, float angle, float speed, bool gravityApplied) :
-        m_sprite(sprite),
+    CParticuleEmitter(IParticule *particulePrototype, int particulePerSecond, float lifetime, float angle, float speed, bool gravityApplied) :
+        m_particulePrototype(particulePrototype),
         m_lifetime(lifetime),
         m_angle(angle),
         m_speed(speed),

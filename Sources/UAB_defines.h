@@ -21,6 +21,7 @@
 #include "C_missile.h"
 #include "C_plusOne.h"
 #include "collisions_utils.h"
+#include "IParticule.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
 #define BOMBS_LAYER             1
@@ -82,8 +83,8 @@ public:
         m_explosion = new AnimatedSprite(m_pSpriteSheet, framesEx, 16);
         m_playerTwoAnimation = new AnimatedSprite(m_pSpriteSheet, frames, 4);
         m_playerOneAnimation = new AnimatedSprite(m_pSpriteSheet, frames2, 4);
-        m_smoke = new Sprite(m_pSpriteSheet, 30, 140, 30, 30);
-        m_darkSmoke = new Sprite(m_pSpriteSheet, 60, 170, 30, 30);
+        m_smoke = new Sprite(m_pSpriteSheet, 30, 140, 30, 32);
+        m_darkSmoke = new Sprite(m_pSpriteSheet, 60, 170, 30, 32);
         m_missile = new Sprite(m_pSpriteSheet, 30, 172, 26, 22);
         m_bomb = new Sprite(m_pSpriteSheet, 0, 140, 30, 60);
         m_plusOne = new Sprite(m_pSpriteSheet, 60, 140, 39, 30);
@@ -146,7 +147,9 @@ public:
         em.addComponent(missile, new CScreenPosition(location.x, location.y));
         em.addComponent(missile, new CTransform(location.x, location.y, angle));
         em.addComponent(missile, rb);
-        CParticuleEmitter *pe = new CParticuleEmitter(m_smoke, 20, 1300, -90, 50, false);
+
+        SpriteParticule *particuleProto = new SpriteParticule(m_smoke);
+        CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 20, 1300, -90, 50, false);
         pe->m_angleVariation = 45;
         em.addComponent(missile, pe);
         em.addComponent(missile, new CCollider(new CircleCollider(12), true, nullptr));
@@ -161,7 +164,9 @@ public:
         em.addComponent(bomb, new CScreenPosition(x, -100.0f));
         em.addComponent(bomb, new CTransform(x, -100.0f));
         em.addComponent(bomb, new CRigidBody(true, 0.99f));
-        CParticuleEmitter *pe = new CParticuleEmitter(m_smoke, 20, 1300, -90, 50, false);
+
+        SpriteParticule *particuleProto = new SpriteParticule(m_smoke);
+        CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 20, 1300, -90, 50, false);
         pe->m_angleVariation = 45;
         em.addComponent(bomb, pe);
         em.addComponent(bomb, new CCollider(new CircleCollider(25), true, new DestructibeColliderFunctor()));

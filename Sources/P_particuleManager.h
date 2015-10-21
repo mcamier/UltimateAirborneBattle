@@ -8,16 +8,16 @@
 #include "CPT_process.h"
 #include "CPT_component.h"
 #include "C_particuleEmitter.h"
+#include "IParticule.h"
 
 class PParticuleManager : public EntityUpdateProcess {
 private:
     static const std::vector<ComponentType>     sk_requirements;
-
-    std::list<particule_t>                      m_particulesEmitted;
+    std::list<IParticule*>                      m_particulesEmitted;
 
 public:
     PParticuleManager() :
-        m_particulesEmitted(std::list<particule_t>()) {}
+        m_particulesEmitted(std::list<IParticule*>()) {}
 
     virtual ~PParticuleManager() {}
 
@@ -26,10 +26,10 @@ public:
     }
 
 private:
-    const unsigned int getID() const;
-    void v_before(const GameTime& gameTime) override;
-    void v_after(const GameTime& gameTime) override;
-    void v_updateEntity(entityID id, const GameTime& gameTime) override;
-    void v_destroy() override;
+    const unsigned int          getID               () const;
+    void                        v_before            (const GameTime& gameTime) override;
+    void                        v_after             (const GameTime& gameTime) override;
+    void                        v_updateEntity      (entityID id, const GameTime& gameTime) override;
+    void                        v_destroy           () override;
 };
 #endif

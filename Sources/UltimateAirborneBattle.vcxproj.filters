@@ -25,6 +25,12 @@
     <Filter Include="Fichiers d%27en-tête\scenes">
       <UniqueIdentifier>{9e80a8ac-7a6c-41da-a7eb-6ee80fef9a49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\other">
+      <UniqueIdentifier>{ea511f63-46e9-4584-9458-de7e271b0e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\other">
+      <UniqueIdentifier>{0ae20ab6-828a-478b-b6b4-8a08e364f8d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -62,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="P_plusOne.cpp">
       <Filter>Fichiers sources\processes</Filter>
+    </ClCompile>
+    <ClCompile Include="IParticule.cpp">
+      <Filter>Fichiers sources\other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="P_plusOne.h">
       <Filter>Fichiers d%27en-tête\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="IParticule.h">
+      <Filter>Fichiers d%27en-tête\other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
