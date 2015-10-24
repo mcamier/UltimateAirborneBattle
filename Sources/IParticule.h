@@ -23,10 +23,12 @@ public:
 public:
     virtual ~IParticule() {}
     
-    bool                isDead      (void);
-    virtual void        update      (const GameTime& gameTime);
-    virtual void        draw        (const GameTime& gameTime) = 0;
-    virtual IParticule* clone       (void) = 0;
+    bool                isDead          (void);
+    virtual void        update          (const GameTime& gameTime);
+    virtual void        draw            (const GameTime& gameTime) = 0;
+
+    virtual IParticule* cloneIntoPool   (void) = 0;
+    virtual void        removeFromPool  () = 0;
 };
 
 
@@ -37,21 +39,33 @@ class AnimatedParticule : public IParticule {
 
 public:
     static const int    TYPE = 1;
+    float               m_animationElapsedTime;
+    float               m_frameDuration;
+    float               m_bLoop;
+    float               m_bActivated;
+    int                 m_currentFrame;
+
+
 
 private:
-    AnimatedSprite      *m_pAnimation;
-    static PoolAllocator       poolAllocator;
+    AnimatedSprite          *m_pAnimation;
+    static PoolAllocator    poolAllocator;
 
 public:
-    AnimatedParticule(AnimatedSprite *animation) : m_pAnimation(animation) {}
+    AnimatedParticule(AnimatedSprite *animation, float frameDuration) :
+        m_pAnimation(animation),
+        m_currentFrame(0), 
+        m_bLoop(true),
+        m_bActivated(true),
+        m_frameDuration(frameDuration),
+        m_animationElapsedTime(0.0f) {}
+
     virtual ~AnimatedParticule() {}
 
     void                update          (const GameTime& gameTime) override;
     void                draw            (const GameTime& gameTime) override;
-    AnimatedParticule*  clone           (void) override;
-
-    static void         *operator new   (size_t size);
-    static void         operator delete (void * pMem);
+    AnimatedParticule*  cloneIntoPool   (void) override;
+    void                removeFromPool  () override;
 };
 
 
@@ -64,8 +78,8 @@ public:
     static const int    TYPE = 2;
 
 private:
-    Sprite              *m_pSprite;
-    static PoolAllocator       poolAllocator;
+    Sprite                  *m_pSprite;
+    static PoolAllocator    poolAllocator;
 
 public:
     SpriteParticule(Sprite *sprite) : m_pSprite(sprite) {}
@@ -73,10 +87,8 @@ public:
 
     void                update          (const GameTime& gameTime) override;
     void                draw            (const GameTime& gameTime) override;
-    SpriteParticule*    clone           (void) override;
-
-    static void         *operator new   (size_t size);
-    static void         operator delete (void * pMem);
+    SpriteParticule*    cloneIntoPool   (void) override;
+    void                removeFromPool  () override;
 };
 
 #endif

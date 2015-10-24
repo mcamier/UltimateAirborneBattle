@@ -28,39 +28,71 @@ void IParticule::update(const GameTime& gameTime) {
 /**************************************/
 /*        Animated Particule          */
 /**************************************/
-PoolAllocator AnimatedParticule::poolAllocator = PoolAllocator(sizeof(AnimatedParticule), 10000);
+PoolAllocator AnimatedParticule::poolAllocator = PoolAllocator(sizeof(AnimatedParticule), 5000);
 
 void AnimatedParticule::update(const GameTime& gameTime) {
     IParticule::update(gameTime);
-    // update animation
+    if (m_bActivated) {
+        if (m_animationElapsedTime >= m_frameDuration) {
+            m_currentFrame++;
+            if (m_currentFrame >= m_pAnimation->getFrameCount()) {
+
+                if (m_bLoop == false) {
+                    m_bActivated = false;
+                }
+                else {
+                    m_currentFrame = 0;
+                }
+            }
+            m_animationElapsedTime = 0;
+        }
+        else {
+            m_animationElapsedTime += gameTime.getElapsedMillisecond();
+        }
+    }
 }
 
-void AnimatedParticule::draw(const GameTime& gameTime) { }
+void AnimatedParticule::draw(const GameTime& gameTime) {
+    SDL_Rect dest;
+    dest.x = m_x - m_pAnimation->getWidth(m_currentFrame) / 2;
+    dest.y = m_y - m_pAnimation->getHeight(m_currentFrame) / 2;
+    dest.w = m_pAnimation->getWidth(m_currentFrame);
+    dest.h = m_pAnimation->getHeight(m_currentFrame);
 
-AnimatedParticule* AnimatedParticule::clone(void) {
-    AnimatedParticule* ptr = new AnimatedParticule(m_pAnimation);
-    return ptr;
+    RendererManager::get()->renderTexture(
+        3,
+        m_pAnimation->getTexture(),
+        m_pAnimation->getFrame(m_currentFrame),
+        &dest,
+        0,
+        SDL_RendererFlip::SDL_FLIP_NONE,
+        1 - (m_elapsed / m_lifetime));
 }
 
-void * AnimatedParticule::operator new(size_t size){
+AnimatedParticule* AnimatedParticule::cloneIntoPool(void) {
     if (!AnimatedParticule::poolAllocator.isInitialized()) {
         AnimatedParticule::poolAllocator.initialize();
     }
-    return AnimatedParticule::poolAllocator.alloc();
+     
+    void* ptr = AnimatedParticule::poolAllocator.alloc();
+    if (ptr != nullptr) {
+        return new (ptr)AnimatedParticule(this->m_pAnimation, this->m_frameDuration);
+    }
+    return nullptr;
 }
 
-void AnimatedParticule::operator delete(void * pMem) {
+void AnimatedParticule::removeFromPool() {
     if (!AnimatedParticule::poolAllocator.isInitialized()) {
         AnimatedParticule::poolAllocator.initialize();
     }
-    return AnimatedParticule::poolAllocator.free(pMem);
+    return AnimatedParticule::poolAllocator.free(this);
 }
 
 
 /**************************************/
 /*          Sprite Particule          */
 /**************************************/
-PoolAllocator SpriteParticule::poolAllocator = PoolAllocator(sizeof(SpriteParticule), 10000);
+PoolAllocator SpriteParticule::poolAllocator = PoolAllocator(sizeof(SpriteParticule), 5000);
 
 void SpriteParticule::update(const GameTime& gameTime){
     IParticule::update(gameTime);
@@ -83,21 +115,21 @@ void SpriteParticule::draw(const GameTime&) {
         1 - (m_elapsed / m_lifetime));
 }
 
-SpriteParticule* SpriteParticule::clone(void) {
-    SpriteParticule* ptr = new SpriteParticule(m_pSprite);
-    return ptr;
-}
-
-void * SpriteParticule::operator new(size_t size){
+SpriteParticule* SpriteParticule::cloneIntoPool(void) {
     if (!SpriteParticule::poolAllocator.isInitialized()) {
         SpriteParticule::poolAllocator.initialize();
     }
-    return SpriteParticule::poolAllocator.alloc();
+
+    void* ptr = SpriteParticule::poolAllocator.alloc();
+    if (ptr != nullptr) {
+        return new (ptr)SpriteParticule(this->m_pSprite);
+    }
+    return nullptr;
 }
 
-void SpriteParticule::operator delete(void * pMem) {
+void SpriteParticule::removeFromPool() {
     if (!SpriteParticule::poolAllocator.isInitialized()) {
         SpriteParticule::poolAllocator.initialize();
     }
-    return SpriteParticule::poolAllocator.free(pMem);
+    return SpriteParticule::poolAllocator.free(this);
 }

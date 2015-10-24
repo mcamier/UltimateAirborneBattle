@@ -148,7 +148,8 @@ public:
         em.addComponent(missile, new CTransform(location.x, location.y, angle));
         em.addComponent(missile, rb);
 
-        SpriteParticule *particuleProto = new SpriteParticule(m_smoke);
+        AnimatedParticule *particuleProto = new AnimatedParticule(m_explosion, 80.0f);
+        //SpriteParticule *particuleProto = new SpriteParticule(m_smoke);
         CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 20, 1300, -90, 50, false);
         pe->m_angleVariation = 45;
         em.addComponent(missile, pe);

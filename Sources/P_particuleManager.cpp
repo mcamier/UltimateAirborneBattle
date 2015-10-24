@@ -24,7 +24,7 @@ void PParticuleManager::v_before(const GameTime& gameTime) {
 
         if (p->isDead()) {
             m_particulesEmitted.erase(it++);
-            delete p;
+            p->removeFromPool();
         }
         else{
             it++;
@@ -40,24 +40,27 @@ void PParticuleManager::v_updateEntity(entityID id, const GameTime& gameTime) {
         e->m_elapsedRate += gameTime.getElapsedMillisecond();
         if (e->m_elapsedRate > e->m_rate)  {
 
-            IParticule* p = e->m_particulePrototype->clone();
+            // due to custom memory allocation used by clone method, the pointer could 
+            // be null sometimes
+            IParticule* p = e->m_particulePrototype->cloneIntoPool();
+            if (p != nullptr) {
+                p->m_x = transform->getX();
+                p->m_y = transform->getY();
 
-            p->m_x = transform->getX();
-            p->m_y = transform->getY();
-            
-            float lv = (e->m_lifetimeVariation > 0) ? MathUtils::randint(e->m_lifetimeVariation * 2) - e->m_lifetimeVariation : 0;
-            float av = (e->m_angleVariation > 0) ? MathUtils::randint(e->m_angleVariation * 2) - e->m_angleVariation : 0;
-            float sv = (e->m_speedVariation > 0) ? MathUtils::randint(e->m_speedVariation * 2) - e->m_speedVariation : 0;
-            
-            p->m_elapsed = 0;
-            p->m_lifetime = e->m_lifetime + lv;
-            glm::vec2 velocity = MathUtils::fromPolar(e->m_angle + av, e->m_speed + sv);
-            p->m_vx = velocity.x;
-            p->m_vy = velocity.y;
-        
-            p->m_gravityApplied = e->m_bIsGravityApplied;
+                float lv = (e->m_lifetimeVariation > 0) ? MathUtils::randint(e->m_lifetimeVariation * 2) - e->m_lifetimeVariation : 0;
+                float av = (e->m_angleVariation > 0) ? MathUtils::randint(e->m_angleVariation * 2) - e->m_angleVariation : 0;
+                float sv = (e->m_speedVariation > 0) ? MathUtils::randint(e->m_speedVariation * 2) - e->m_speedVariation : 0;
 
-            m_particulesEmitted.push_back(p);
+                p->m_elapsed = 0;
+                p->m_lifetime = e->m_lifetime + lv;
+                glm::vec2 velocity = MathUtils::fromPolar(e->m_angle + av, e->m_speed + sv);
+                p->m_vx = velocity.x;
+                p->m_vy = velocity.y;
+
+                p->m_gravityApplied = e->m_bIsGravityApplied;
+
+                m_particulesEmitted.push_back(p);
+            }
             e->m_elapsedRate = 0;
         }
     }
