@@ -23,7 +23,7 @@ void PParticuleManager::v_before(const GameTime& gameTime) {
         p->update(gameTime);
 
         if (p->isDead()) {
-            m_particulesEmitted.erase(it++);
+            m_particulesEmitted.erase(it++); // TODO sometime create "un segment de mémoire à été endommagé"
             p->removeFromPool();
         }
         else{
@@ -44,13 +44,13 @@ void PParticuleManager::v_updateEntity(entityID id, const GameTime& gameTime) {
             // be null sometimes
             IParticule* p = e->m_particulePrototype->cloneIntoPool();
             if (p != nullptr) {
-                p->m_x = transform->getX();
-                p->m_y = transform->getY();
-
                 float lv = (e->m_lifetimeVariation > 0) ? MathUtils::randint(e->m_lifetimeVariation * 2) - e->m_lifetimeVariation : 0;
                 float av = (e->m_angleVariation > 0) ? MathUtils::randint(e->m_angleVariation * 2) - e->m_angleVariation : 0;
                 float sv = (e->m_speedVariation > 0) ? MathUtils::randint(e->m_speedVariation * 2) - e->m_speedVariation : 0;
-
+                float pv = (e->m_spawnPositionVariation > 0) ? MathUtils::randint(e->m_spawnPositionVariation * 2) - e->m_spawnPositionVariation : 0;
+                
+                p->m_x = transform->getX() + pv;
+                p->m_y = transform->getY() + pv;
                 p->m_elapsed = 0;
                 p->m_lifetime = e->m_lifetime + lv;
                 glm::vec2 velocity = MathUtils::fromPolar(e->m_angle + av, e->m_speed + sv);

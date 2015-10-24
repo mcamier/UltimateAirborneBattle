@@ -51,7 +51,7 @@ public:
     Sprite              *m_missile;
     Sprite              *m_bomb;
     Sprite              *m_background;
-    Sprite              *m_darkSmoke;
+    AnimatedSprite      *m_darkSmoke;
 
 public:
     void initialize() override {
@@ -61,11 +61,18 @@ public:
         SDL_Rect frame2; frame2.x = 132; frame2.y = 0; frame2.w = 132; frame2.h = 70; frames.push_back(frame2);
         SDL_Rect frame3; frame3.x = 264; frame3.y = 0; frame3.w = 132; frame3.h = 70; frames.push_back(frame3);
         SDL_Rect frame4; frame4.x = 396; frame4.y = 0; frame4.w = 132; frame4.h = 70; frames.push_back(frame4);
+        SDL_Rect frame5;
         std::vector<SDL_Rect> frames2 = std::vector<SDL_Rect>();
         frame1; frame1.x = 0; frame1.y = 70; frame1.w = 132; frame1.h = 70; frames2.push_back(frame1);
         frame2; frame2.x = 132; frame2.y = 70; frame2.w = 132; frame2.h = 70; frames2.push_back(frame2);
         frame3; frame3.x = 264; frame3.y = 70; frame3.w = 132; frame3.h = 70; frames2.push_back(frame3);
         frame4; frame4.x = 396; frame4.y = 70; frame4.w = 132; frame4.h = 70; frames2.push_back(frame4);
+        std::vector<SDL_Rect> frames3 = std::vector<SDL_Rect>();
+        frame1; frame1.x = 0; frame1.y = 384; frame1.w = 68; frame1.h = 62; frames3.push_back(frame1);
+        frame2; frame2.x = 68; frame2.y = 384; frame2.w = 68; frame2.h = 62; frames3.push_back(frame2);
+        frame3; frame3.x = 136; frame3.y = 384; frame3.w = 68; frame3.h = 62; frames3.push_back(frame3);
+        frame4; frame4.x = 204; frame4.y = 384; frame4.w = 68; frame4.h = 62; frames3.push_back(frame4);
+        frame5; frame5.x = 272; frame5.y = 384; frame5.w = 68; frame5.h = 62; frames3.push_back(frame5);
 
         SDL_Rect frame;
         std::vector<SDL_Rect> framesEx = std::vector<SDL_Rect>();
@@ -83,8 +90,8 @@ public:
         m_explosion = new AnimatedSprite(m_pSpriteSheet, framesEx, 16);
         m_playerTwoAnimation = new AnimatedSprite(m_pSpriteSheet, frames, 4);
         m_playerOneAnimation = new AnimatedSprite(m_pSpriteSheet, frames2, 4);
+        m_darkSmoke = new AnimatedSprite(m_pSpriteSheet, frames3, 5);
         m_smoke = new Sprite(m_pSpriteSheet, 30, 140, 30, 32);
-        m_darkSmoke = new Sprite(m_pSpriteSheet, 60, 170, 30, 32);
         m_missile = new Sprite(m_pSpriteSheet, 30, 172, 26, 22);
         m_bomb = new Sprite(m_pSpriteSheet, 0, 140, 30, 60);
         m_plusOne = new Sprite(m_pSpriteSheet, 60, 140, 39, 30);
@@ -148,8 +155,8 @@ public:
         em.addComponent(missile, new CTransform(location.x, location.y, angle));
         em.addComponent(missile, rb);
 
-        AnimatedParticule *particuleProto = new AnimatedParticule(m_explosion, 80.0f);
-        //SpriteParticule *particuleProto = new SpriteParticule(m_smoke);
+        //AnimatedParticule *particuleProto = new AnimatedParticule(m_explosion, 80.0f);
+        SpriteParticule *particuleProto = new SpriteParticule(m_smoke);
         CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 20, 1300, -90, 50, false);
         pe->m_angleVariation = 45;
         em.addComponent(missile, pe);
@@ -167,7 +174,7 @@ public:
         em.addComponent(bomb, new CRigidBody(true, 0.99f));
 
         SpriteParticule *particuleProto = new SpriteParticule(m_smoke);
-        CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 20, 1300, -90, 50, false);
+        CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 20, 1000, -90, 50, false);
         pe->m_angleVariation = 45;
         em.addComponent(bomb, pe);
         em.addComponent(bomb, new CCollider(new CircleCollider(25), true, new DestructibeColliderFunctor()));
@@ -177,7 +184,7 @@ public:
 
     entityID createExplosion(EntityManager& em, glm::vec2 location) {
         entityID explosion = em.createEntity();
-        em.addComponent(explosion, new CAnimation(m_explosion, 2, 70, true, true));
+        em.addComponent(explosion, new CAnimation(m_explosion, 2, 70, true, false));
         em.addComponent(explosion, new CScreenPosition(location.x, location.y));
         em.addComponent(explosion, new CTransform(location.x, location.y, 0, glm::vec2(2.0f, 2.0f)));
         em.addComponent(explosion, new CCollider(new CircleCollider(50), true, nullptr));

@@ -66,7 +66,7 @@ void AnimatedParticule::draw(const GameTime& gameTime) {
         &dest,
         0,
         SDL_RendererFlip::SDL_FLIP_NONE,
-        1 - (m_elapsed / m_lifetime));
+        1);
 }
 
 AnimatedParticule* AnimatedParticule::cloneIntoPool(void) {

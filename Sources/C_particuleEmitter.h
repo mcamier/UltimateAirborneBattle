@@ -37,6 +37,7 @@ public:
     float                       m_angleVariation;
     float                       m_speedVariation;
     float                       m_speed;
+    float                       m_spawnPositionVariation;
 private:
     float                       m_rate;
     float                       m_elapsedRate;
@@ -50,7 +51,8 @@ public:
         m_particulePerSecond(particulePerSecond),
         m_bActive(true),
         m_rate(1000.0f / particulePerSecond),
-        m_elapsedRate(0), 
+        m_elapsedRate(0),
+        m_spawnPositionVariation(0.0f),
         m_bIsGravityApplied(gravityApplied) {}
 
     virtual ~CParticuleEmitter() {}

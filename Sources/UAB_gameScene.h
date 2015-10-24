@@ -115,6 +115,7 @@ protected:
             if (m_cameraShakingElapsed >= m_cameraShakingDuration) {
                 m_bCameraShaking = false;
                 m_cameraShakingElapsed = 0.0f;
+                camPos->setY(0);
             }
         }
 
@@ -349,10 +350,10 @@ private:
             entityID id = ActorFactory::get()->createExplosion(getEntityManager(), e->m_location);
             m_gameWorldEntities.push_back(id);
 
-            SpriteParticule *particuleProto = new SpriteParticule(ActorFactory::get()->m_darkSmoke);
-            //SpriteParticule *particuleProto = new SpriteParticule(ActorFactory::get()->m_darkSmoke);
-            CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 25, 1800, -90, 40, false);
-            pe->m_angleVariation = 60;
+            AnimatedParticule *particuleProto = new AnimatedParticule(ActorFactory::get()->m_darkSmoke, 300.0f);
+            CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 55, 1500, -90, 40, false);
+            pe->m_angleVariation = 35;
+            pe->m_spawnPositionVariation = 12;
             getEntityManager().addComponent(e->m_player, pe);
 
             if (e->m_killer >= 0) {
