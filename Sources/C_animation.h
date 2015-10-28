@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "C_rendereable2D.h"
 #include "CPT_component.h"
 #include "CPT_graphic.h"

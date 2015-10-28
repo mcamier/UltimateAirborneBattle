@@ -4,9 +4,9 @@
 #include <assert.h>
 
 #include "CPT_entity.h"
-#include "SDL_rect.h"
+#include "SDL2/SDL_rect.h"
 #include "C_transform.h"
-#include "vec3.hpp"
+#include "glm/vec3.hpp"
 
 #define COLLIDER_TYPE_SPHERE_2D     1
 #define COLLIDER_TYPE_SPHERE_3D     2

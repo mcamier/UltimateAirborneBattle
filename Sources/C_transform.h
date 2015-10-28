@@ -3,30 +3,32 @@
 
 #include "CPT_component.h"
 
-#include "vec2.hpp"
+#include "glm/vec2.hpp"
 
 class CTransform : public IComponent {
 public:
-    const static ComponentType sk_componentType = 0x381cfbe0;
+    const static ComponentType sk_componentType;
 
 private:
     CTransform*     m_pParent = nullptr;
 
-    float           _x = 0;
-    float           _y = 0;
-    float           _scaleX = 0;
-    float           _scaleY = 0;
-    float           _rotation = 0;
+    float           m_x = 0.0f;
+    float           m_y = 0.0f;
+    float           m_offsetX = 0.0f;
+    float           m_offsetY = 0.0f;
 
-    float           m_x;
-    float           m_y;
-    
     float           m_rotation;
     
     float           m_scaleX;
     float           m_scaleY;
 
-    bool            m_dirt = true;
+    float           __x = 0.0f;
+    float           __y = 0.0f;
+    float           __scaleX = 0.0f;
+    float           __scaleY = 0.0f;
+    float           __rotation = 0.0f;
+
+    bool            m_bDirt = true;
 
 public:
 
@@ -77,54 +79,94 @@ public:
 
     virtual ~CTransform() {}
 
-    float getX() { 
+
+    /* get inner values (in world values) */
+    float getTransformX() {
         refresh();
-        return _x;
-    }
-    
-    float getY() { 
-        refresh();
-        return _y;
+        return __x;
     }
 
-    float getScaleX(){ 
-        refresh(); 
-        return _scaleX;
+    float getTransformY() {
+        refresh();
+        return __y;
+    }
+    float getTransformScaleX() {
+        refresh();
+        return __scaleX;
+    }
+    float getTransformScaleY() {
+        refresh();
+        return __scaleY;
+    }
+    float getTransformRotation() {
+        refresh();
+        return __rotation;
+    }
+
+
+
+    float getX() {
+        return m_x;
+    }
+
+    float getY() {
+        return m_y;
+    }
+
+    float getOffsetX() {
+        return m_offsetX;
+    }
+
+    float getOffsetY() {
+        return m_offsetY;
+    }
+
+    float getScaleX(){  
+        return m_scaleX;
     }
     
     float getScaleY(){ 
-        refresh(); 
-        return _scaleY;
+        return m_scaleY;
     }
     
-    float getRotation(){ 
-        refresh();
-        return _rotation; 
+    float getRotation() { 
+        return m_rotation; 
     }
 
-    void setX(float x) { 
+
+    void setX(float x) {
         m_x = x;
-        m_dirt = true;
+        m_bDirt = true;
     }
 
-    void setY(float y) { 
-        m_y = y; 
-        m_dirt = true;
+    void setY(float y) {
+        m_y = y;
+        m_bDirt = true;
+    }
+
+    void setOffsetX(float x) {
+        m_offsetX = x;
+        m_bDirt = true;
+    }
+
+    void setOffsetY(float y) {
+        m_offsetY = y;
+        m_bDirt = true;
     }
 
     void setScaleX(float scaleX) { 
         m_scaleX = scaleX; 
-        m_dirt = true;
+        m_bDirt = true;
     }
 
     void setScaleY(float scaleY) { 
         m_scaleY = scaleY;
-        m_dirt = true;
+        m_bDirt = true;
     }
 
     void setRotation(float rotation) { 
         m_rotation = rotation;
-        m_dirt = true;
+        m_bDirt = true;
     }
 
     inline const ComponentType getComponentType(void) const {
@@ -137,27 +179,25 @@ public:
 
 private:
     void refresh() {
-        if (m_pParent != nullptr) {
-            if (m_pParent->m_dirt) {
-                _x = m_pParent->getX() + m_x;
-                _y = m_pParent->getY() + m_y;
-                _scaleX = m_pParent->getScaleX() * m_scaleX;
-                _scaleY = m_pParent->getScaleY() * m_scaleY;
-                _rotation = m_pParent->getRotation() + m_rotation;
-                
-                m_pParent->m_dirt = false;
-                m_dirt = false;
+        if (m_pParent != nullptr) { 
+            if (m_pParent->m_bDirt){
+                __x = m_pParent->getTransformX() + m_x + m_offsetX;
+                __y = m_pParent->getTransformY() + m_y + m_offsetY;
+                __scaleX = m_pParent->getTransformScaleX() * m_scaleX;
+                __scaleY = m_pParent->getTransformScaleY() * m_scaleY;
+                __rotation = m_pParent->getTransformRotation() + m_rotation;
             }
         }
-        
-        if (m_dirt) {
-            _x = m_x;
-            _y = m_y;
-            _scaleX = m_scaleX;
-            _scaleY = m_scaleY;
-            _rotation = m_rotation;
-            m_dirt = false;
+        else{
+            if (m_bDirt) {
+                __x = m_x + m_offsetX;
+                __y = m_y + m_offsetY;
+                __scaleX = m_scaleX;
+                __scaleY = m_scaleY;
+                __rotation = m_rotation;
+            }
         }
+        m_bDirt = false;
     }
 };
 

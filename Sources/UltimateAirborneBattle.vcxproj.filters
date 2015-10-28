@@ -72,6 +72,9 @@
     <ClCompile Include="IParticule.cpp">
       <Filter>Fichiers sources\other</Filter>
     </ClCompile>
+    <ClCompile Include="Components.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UAB_events.h">
@@ -84,9 +87,6 @@
       <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
     <ClInclude Include="C_rigidbody.h">
-      <Filter>Fichiers d%27en-tête\components</Filter>
-    </ClInclude>
-    <ClInclude Include="C_screenPosition.h">
       <Filter>Fichiers d%27en-tête\components</Filter>
     </ClInclude>
     <ClInclude Include="C_sprite.h">

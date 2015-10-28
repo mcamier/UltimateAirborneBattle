@@ -1,8 +1,8 @@
 #ifndef _P_ANIMATION_PROCESS_H_
 #define _P_ANIMATION_PROCESS_H_
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include "CPT_process.h"
 #include "CPT_time.h"

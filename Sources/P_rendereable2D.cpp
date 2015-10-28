@@ -1,6 +1,8 @@
 #include "P_rendereable2D.h"
 
 #include "CPT_math.h"
+#include "CPT_rendererManager.h"
+
 
 #include "C_rendereable2D.h"
 #include "C_screenPosition.h"
@@ -8,7 +10,6 @@
 #include "C_animation.h"
 
 ComponentType jj[] = { CRendereable2D::sk_componentType, CTransform::sk_componentType };
-//ComponentType jj[] = { CRendereable2D::sk_componentType, CScreenPosition::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PRendereable2D::sk_requirements(jj, jj + 2);
 
 const unsigned int PRendereable2D::getID() const {
@@ -28,13 +29,12 @@ void PRendereable2D::v_before(const GameTime& gameTime) {
 void PRendereable2D::v_renderEntity(entityID id, const GameTime& gameTime) {
     CRendereable2D *rendereable = getEntityAs<CRendereable2D>(id);
     CTransform *transform = getEntityAs<CTransform>(id);
-    //CScreenPosition *position = getEntityAs<CScreenPosition>(id);
     
     SDL_Rect dest;
-    dest.x = (transform->getX() - (rendereable->getWidth() / 2) * transform->getScaleX() )- m_cameraPositionThisFrame.x;
-    dest.y = (transform->getY() - (rendereable->getHeight() / 2) * transform->getScaleY() )- m_cameraPositionThisFrame.y;
-    dest.w = rendereable->getWidth() * transform->getScaleX();
-    dest.h = rendereable->getHeight() * transform->getScaleY();
+    dest.x = (transform->getTransformX() - (rendereable->getWidth() / 2) * transform->getTransformScaleX()) - m_cameraPositionThisFrame.x;
+    dest.y = (transform->getTransformY() - (rendereable->getHeight() / 2) * transform->getTransformScaleY()) - m_cameraPositionThisFrame.y;
+    dest.w = rendereable->getWidth() * transform->getTransformScaleX();
+    dest.h = rendereable->getHeight() * transform->getTransformScaleY();
 
     RendererManager::get()->renderTexture(
         rendereable->getOrder(),

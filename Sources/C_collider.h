@@ -9,7 +9,7 @@ class Functor;
 class CCollider : public IComponent {
 
 public:
-    const static ComponentType sk_componentType = 0x6b47e35;
+    const static ComponentType sk_componentType;
     
     ICollider *m_collider;
     bool m_callbackOncePerContact;

@@ -9,7 +9,7 @@
 #include "C_transform.h"
 #include "C_missile.h"
 
-#include "vec2.hpp"
+#include "glm/vec2.hpp"
 
 
 #define INPUT_PAUSE_EVENT       99

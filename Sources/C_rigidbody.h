@@ -1,11 +1,12 @@
 #ifndef _C_PHYSICS2D_H_
 #define _C_PHYSICS2D_H_
 
+#include "glm/vec2.hpp"
 #include "CPT_component.h"
 
 class CRigidBody : public IComponent {
 public:
-    const static ComponentType sk_componentType = 0x497e133a;
+    const static ComponentType sk_componentType;
 
     glm::vec2   m_velocity;
     glm::vec2   m_acceleration;

@@ -1,7 +1,7 @@
 #ifndef _C_RENDERABLE_2D_H_
 #define _C_RENDERABLE_2D_H_
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "CPT_component.h"
 
 class CRendereable2D : public IComponent {
@@ -12,7 +12,7 @@ private:
     SDL_RendererFlip            m_flip = SDL_FLIP_NONE;
 
 public:
-    static const ComponentType  sk_componentType = 0x6a526657;
+    static const ComponentType  sk_componentType;
 
     virtual SDL_Texture*        getTexture() const = 0;
     virtual SDL_Rect            getSource() const = 0;

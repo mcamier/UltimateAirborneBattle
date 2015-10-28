@@ -5,7 +5,7 @@
 
 class CExplosion : public IComponent {
 public:
-    const static ComponentType sk_componentType = 0x6a27a6c9;
+    const static ComponentType sk_componentType;
 
 public:
     int const static m_endCollideAt = 720;

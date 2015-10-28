@@ -1,7 +1,7 @@
 #ifndef _C_SPRITE_H_
 #define _C_SPRITE_H_
 
-#include <SDL.h>
+#include "SDL2/SDL.h"
 #include "CPT_component.h"
 #include "C_rendereable2D.h"
 

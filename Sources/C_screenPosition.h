@@ -1,13 +1,13 @@
 #ifndef _C_SCREENPOSITION_H_
 #define _C_SCREENPOSITION_H_
 
-#include "vec2.hpp"
+#include "glm/vec2.hpp"
 
 #include "CPT_component.h"
 
 class CScreenPosition : public IComponent {
 public:
-    static const ComponentType sk_componentType = 0x26a4f2a0;
+    static const ComponentType sk_componentType;
 
     glm::vec2 *m_pData;
 

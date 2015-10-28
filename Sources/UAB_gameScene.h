@@ -42,7 +42,7 @@ public:
 
 
 private:
-    GameMode            m_gameMode = GameMode::TWO_VS_TWO;
+    GameMode            m_gameMode = GameMode::ONE_VS_ONE;
     bool                m_gameDone = false;
 
     bool                m_bPlayerOneDead = false;
@@ -138,6 +138,8 @@ protected:
                 } else { ++it; }
             }
 
+            // TODO check if players are out of screen
+
             // Bomb spawning
             if (m_bombTiming > GameConstant::BOMB_SPAWN_RATE) {
                 m_bombTiming = 0;
@@ -175,30 +177,30 @@ private:
     }
 
     void initOneVsOne() {
-        m_playerOne = ActorFactory::get()->createPlayerOne(getEntityManager(), 320, 360);
-        m_playerTwo = ActorFactory::get()->createPlayerTwo(getEntityManager(), 960, 360);
+        m_playerOne = ActorFactory::get()->createPlayerOne(getEntityManager(), 120, 360);
+        m_playerTwo = ActorFactory::get()->createPlayerTwo(getEntityManager(), 1160, 360);
         m_playerThree = -1;
         m_playerFour = -1;
     }
     void initTwoVsTwo() {
-        m_playerOne = ActorFactory::get()->createPlayerOne(getEntityManager(), 320, 180);
-        m_playerTwo = ActorFactory::get()->createPlayerTwo(getEntityManager(), 960, 180);
-        m_playerThree = ActorFactory::get()->createPlayerThree(getEntityManager(), 320, 540);
-        m_playerFour = ActorFactory::get()->createPlayerFour(getEntityManager(), 960, 540);
+        m_playerOne = ActorFactory::get()->createPlayerOne(getEntityManager(), 120, 180);
+        m_playerTwo = ActorFactory::get()->createPlayerTwo(getEntityManager(), 1160, 180);
+        m_playerThree = ActorFactory::get()->createPlayerThree(getEntityManager(), 120, 540);
+        m_playerFour = ActorFactory::get()->createPlayerFour(getEntityManager(), 1160, 540);
     }
 
     void initThreePlayersFFA() {
-        m_playerOne = ActorFactory::get()->createPlayerOne(getEntityManager(), 320, 180);
-        m_playerTwo = ActorFactory::get()->createPlayerTwo(getEntityManager(), 960, 180);
-        m_playerThree = ActorFactory::get()->createPlayerThree(getEntityManager(), 320, 540);
+        m_playerOne = ActorFactory::get()->createPlayerOne(getEntityManager(), 120, 180);
+        m_playerTwo = ActorFactory::get()->createPlayerTwo(getEntityManager(), 1160, 180);
+        m_playerThree = ActorFactory::get()->createPlayerThree(getEntityManager(), 120, 540);
         m_playerFour = -1;
     }
 
     void initFourPlayersFFA() {
-        m_playerOne = ActorFactory::get()->createPlayerOne(getEntityManager(), 320, 180);
-        m_playerTwo = ActorFactory::get()->createPlayerTwo(getEntityManager(), 960, 180);
-        m_playerThree = ActorFactory::get()->createPlayerThree(getEntityManager(), 320, 540);
-        m_playerFour = ActorFactory::get()->createPlayerFour(getEntityManager(), 960, 540);
+        m_playerOne = ActorFactory::get()->createPlayerOne(getEntityManager(), 120, 180);
+        m_playerTwo = ActorFactory::get()->createPlayerTwo(getEntityManager(), 1160, 180);
+        m_playerThree = ActorFactory::get()->createPlayerThree(getEntityManager(), 120, 540);
+        m_playerFour = ActorFactory::get()->createPlayerFour(getEntityManager(), 1160, 540);
     }
 
     bool isMatchDone() {
@@ -269,27 +271,9 @@ private:
 
         if (e->m_spaceIDTarget == getID() && e->m_eventID == INPUT_THRUST_EVENT) {
             entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
-            CRigidBody* rigidBody = getEntityManager().getAs<CRigidBody>(playerID);
-            CTransform* transform = getEntityManager().getAs<CTransform>(playerID);
             CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
-
-            if (rigidBody == nullptr || 
-                transform == nullptr ||
-                player == nullptr){}
-            else{
-                if (player->m_bAlive){
-                    int x = player->m_forward.x;
-                    int y = player->m_forward.y;
-
-                    glm::vec2 newVelocity = glm::vec2(player->m_forward);
-
-                    newVelocity.x = x * cos(transform->getRotation()) - y * sin(transform->getRotation());
-                    newVelocity.y = y * cos(transform->getRotation()) + x * sin(transform->getRotation());
-                    newVelocity *= 300.0f;
-
-                    rigidBody->m_velocity.x = newVelocity.x;
-                    rigidBody->m_velocity.y = newVelocity.y;
-                }
+            if(player->m_bAlive){
+                player->m_bSpeedUp = true;
             }
         }
     }
@@ -306,34 +290,28 @@ private:
             if (player->m_bAlive){
                 float floatX, floatY;
                 float rawX, rawY;
-                
+                // read x and y
                 rawX = e->m_inputPayload.m_range2D.x;
                 rawY = e->m_inputPayload.m_range2D.y;
+                floatX = (rawX != 0) ? rawX / (float)(STICK_MAX_VALUE) : 0;
+                floatY = (rawY != 0) ? rawY / (float)(STICK_MAX_VALUE) : 0;
+
+                float value = (floatX != 0 || floatY != 0) ? atan2(floatY, floatX) : 0;
+                value = (value < 0) ? value + MathUtils::TWO_PI : value;
                 
-                if (rawX >= DEAD_ZONE_STICK || rawX <= -DEAD_ZONE_STICK) {
-                    rawX = (rawX > 0) ? rawX - DEAD_ZONE_STICK : rawX + DEAD_ZONE_STICK;
+
+                float oldAngle = transform->getRotation();
+                float delta = value - oldAngle;
+
+                float newValue = transform->getRotation() + delta * 0.05f;
+                if (newValue < 0) {
+                    newValue = MathUtils::TWO_PI;
                 }
-                else { rawX = 0; }
-
-                if (rawY >= DEAD_ZONE_STICK || rawY <= -DEAD_ZONE_STICK) {
-                    rawY = (rawY > 0) ? rawY - DEAD_ZONE_STICK : rawY + DEAD_ZONE_STICK;
+                else if(newValue > MathUtils::TWO_PI) {
+                    newValue = 0;
                 }
-                else { rawY = 0; }
-
-                rawY = (player->m_forward.y > 0) ? -rawY : rawY;
-                rawX = (player->m_forward.x > 0) ? rawX : -rawX;
-
-                floatX = (rawX != 0) ? rawX / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
-                floatY = (rawY != 0) ? rawY / (float)(STICK_MAX_VALUE - DEAD_ZONE_STICK) : 0;
                 
-                float angle = 0;
-                if (floatX != 0 || floatY != 0) {
-                    angle = atan2(floatX, -floatY);
-                }
-                angle -= MathUtils::PI/2;
-
-                transform->setRotation(angle);
-
+                transform->setRotation(newValue);
             }
         }
     }

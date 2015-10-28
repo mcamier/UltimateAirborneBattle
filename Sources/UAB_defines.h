@@ -1,10 +1,10 @@
 #ifndef _UAB_DEFINES_H
 #define _UAB_DEFINES_H
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
-#include "vec2.hpp"
+#include "glm/vec2.hpp"
 
 #include "CPT_utils.h"
 #include "UAB_events.h"
@@ -13,7 +13,6 @@
 #include "C_player.h"
 #include "C_animation.h"
 #include "C_sprite.h"
-#include "C_screenPosition.h"
 #include "C_collider.h"
 #include "C_transform.h"
 #include "C_particuleEmitter.h"
@@ -22,6 +21,8 @@
 #include "C_plusOne.h"
 #include "collisions_utils.h"
 #include "IParticule.h"
+
+#include "CPT_rendererManager.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
 #define BOMBS_LAYER             1
@@ -99,7 +100,6 @@ public:
 
     entityID createBackground(EntityManager& em) {
         entityID background = em.createEntity();
-        em.addComponent(background, new CScreenPosition(640.0f, 360.0f));
         em.addComponent(background, new CTransform(640.0f, 360.0f));
         em.addComponent(background, new CSprite(m_background, 0));
         
@@ -136,7 +136,6 @@ public:
 
     entityID createPlayer(EntityManager& em, float x, float y) {
         entityID player = em.createEntity();
-        em.addComponent(player, new CScreenPosition(x, y));
         em.addComponent(player, new CTransform(x, y));
         em.addComponent(player, new CRigidBody(false, 0.95f));
         em.addComponent(player, new CCollider(new CircleCollider(40), true, new PlayerCollideFunctor()));
@@ -151,14 +150,14 @@ public:
         rb->m_velocity.y += direction.y * 450;
 
         em.addComponent(missile, new CSprite(m_missile, 2));
-        em.addComponent(missile, new CScreenPosition(location.x, location.y));
         em.addComponent(missile, new CTransform(location.x, location.y, angle));
         em.addComponent(missile, rb);
 
         //AnimatedParticule *particuleProto = new AnimatedParticule(m_explosion, 80.0f);
-        SpriteParticule *particuleProto = new SpriteParticule(m_smoke);
-        CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 20, 1300, -90, 50, false);
+        AnimatedParticule *particuleProto = new AnimatedParticule(m_darkSmoke, 90.0f);
+        CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 60, 400.0f, -90, 25, false);
         pe->m_angleVariation = 45;
+        pe->m_lifetimeVariation = 50;
         em.addComponent(missile, pe);
         em.addComponent(missile, new CCollider(new CircleCollider(12), true, nullptr));
         em.addComponent(missile, new CMissile(throwerID));
@@ -169,7 +168,6 @@ public:
     entityID createBomb(EntityManager& em, float x) {
         entityID bomb = em.createEntity();
         em.addComponent(bomb, new CSprite(m_bomb, 2));
-        em.addComponent(bomb, new CScreenPosition(x, -100.0f));
         em.addComponent(bomb, new CTransform(x, -100.0f));
         em.addComponent(bomb, new CRigidBody(true, 0.99f));
 
@@ -184,8 +182,7 @@ public:
 
     entityID createExplosion(EntityManager& em, glm::vec2 location) {
         entityID explosion = em.createEntity();
-        em.addComponent(explosion, new CAnimation(m_explosion, 2, 70, true, false));
-        em.addComponent(explosion, new CScreenPosition(location.x, location.y));
+        em.addComponent(explosion, new CAnimation(m_explosion, 3, 70, true, false));
         em.addComponent(explosion, new CTransform(location.x, location.y, 0, glm::vec2(2.0f, 2.0f)));
         em.addComponent(explosion, new CCollider(new CircleCollider(50), true, nullptr));
         em.addComponent(explosion, new CExplosion());

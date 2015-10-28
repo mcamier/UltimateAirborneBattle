@@ -2,7 +2,7 @@
 #define _C_PARTICULE_EMITTER_H_
 
 #include <vector>
-#include "vec2.hpp"
+#include "glm/vec2.hpp"
 #include "CPT_component.h"
 #include "CPT_graphic.h"
 #include "IParticule.h"
@@ -23,7 +23,7 @@ typedef struct particule_s {
 class CParticuleEmitter : public IComponent {
     friend class PParticuleManager;
 public:
-    const static ComponentType sk_componentType = 0xcf69cb7d;
+    const static ComponentType sk_componentType;
 
 public:
     IParticule                  *m_particulePrototype;

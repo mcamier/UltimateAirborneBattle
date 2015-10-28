@@ -60,7 +60,7 @@ void AnimatedParticule::draw(const GameTime& gameTime) {
     dest.h = m_pAnimation->getHeight(m_currentFrame);
 
     RendererManager::get()->renderTexture(
-        3,
+        2,
         m_pAnimation->getTexture(),
         m_pAnimation->getFrame(m_currentFrame),
         &dest,
@@ -106,7 +106,7 @@ void SpriteParticule::draw(const GameTime&) {
     dest.h = m_pSprite->getHeight();
 
     RendererManager::get()->renderTexture(
-        3,
+        2,
         m_pSprite->getTexture(),
         m_pSprite->getSourceRect(),
         &dest,

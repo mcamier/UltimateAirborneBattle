@@ -5,7 +5,7 @@
 #include "CPT_scene.h"
 
 #include "UAB_gameScene.h"
-#include "UAB_ScoreScene.h"
+#include "UAB_scoreScene.h"
 
 class UltimateAirborneBattle : public CompoteEngine {
 

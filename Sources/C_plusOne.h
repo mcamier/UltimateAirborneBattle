@@ -5,7 +5,7 @@
 
 class CPlusOne : public IComponent {
 public:
-    const static ComponentType sk_componentType = 0x5128c722;
+    const static ComponentType sk_componentType;
 
 public:
     float m_elapsedTime = 0;
