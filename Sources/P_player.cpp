@@ -1,7 +1,4 @@
 #include "P_player.h"
-
-#include "CPT_systemInputHandler.h"
-
 #include "SDL2/SDL.h"
 
 #include "C_player.h"

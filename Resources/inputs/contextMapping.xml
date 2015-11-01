@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<contexts>
+
+	<context name="IN_GAME">
+		<inputMatcher>
+			<rawInput type="ACTION" source="GAMEPAD" />
+			<gameSpecificInput>fire</gameSpecificInput>
+		</inputMatcher>
+		<inputMatcher>
+			<rawInput type="ACTION" source="GAMEPAD" />
+			<gameSpecificInput>boost</gameSpecificInput>
+		</inputMatcher>
+		<inputMatcher>
+			<rawInput type="ACTION" source="GAMEPAD" />
+			<gameSpecificInput>pause</gameSpecificInput>
+		</inputMatcher>
+		<inputMatcher>
+			<rawInput type="RANGE" source="GAMEPAD" />
+			<gameSpecificInput>changeOrientation</gameSpecificInput>
+		</inputMatcher>
+	</context>
+	
+	<context name="MENU">
+		<inputMatcher>
+			<rawInput type="ACTION" source="KEYBOARD" />
+			<gameSpecificInput>valid</gameSpecificInput>
+		</inputMatcher>
+		<inputMatcher>
+			<rawInput type="ACTION" source="KEYBOARD" />
+			<gameSpecificInput>cancel</gameSpecificInput>
+		</inputMatcher>
+		<inputMatcher>
+			<rawInput type="ACTION" source="KEYBOARD" />
+			<gameSpecificInput>nextItem</gameSpecificInput>
+		</inputMatcher>
+		<inputMatcher>
+			<rawInput type="ACTION" source="KEYBOARD" />
+			<gameSpecificInput>previousItem</gameSpecificInput>
+		</inputMatcher>
+	</context>
+	
+</contexts>

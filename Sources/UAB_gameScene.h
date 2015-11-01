@@ -88,12 +88,12 @@ protected:
 
         d_missileFired = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onMissileFired>(this);
         EventManager::get()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);
-        d_inputFire = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onInputFire>(this);
+        /*d_inputFire = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onInputFire>(this);
         EventManager::get()->addListener(InputEvent::sk_EventType, d_inputFire);
         d_inputThrust = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onInputThrust>(this);
         EventManager::get()->addListener(InputEvent::sk_EventType, d_inputThrust);
         d_inputOrientation = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onInputOrientation>(this);
-        EventManager::get()->addListener(InputEvent::sk_EventType, d_inputOrientation);
+        EventManager::get()->addListener(InputEvent::sk_EventType, d_inputOrientation);*/
         d_playerDestroyed = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onExplosion>(this);
         EventManager::get()->addListener(PlayerDestroyedEvent::sk_EventType, d_playerDestroyed);
         d_explosionOccurs = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onExplosion>(this);
@@ -241,7 +241,7 @@ private:
 
         float angle = 0;
         if (direction.x != 0 || direction.y != 0) {
-            angle = (float)atan2(direction.x, direction.y) * (180 / MathUtils::PI);
+            angle = (float)atan2(direction.y, direction.x) * (180 / MathUtils::PI);
         }
 
         glm::vec2 position = glm::vec2(transform->getX(), transform->getY());
@@ -250,7 +250,7 @@ private:
     }
 
 
-    void onInputFire(IEvent *eventData) {
+    /*void onInputFire(IEvent *eventData) {
         InputEvent *e = static_cast<InputEvent*>(eventData);
 
         if (e->m_spaceIDTarget == getID() && e->m_eventID == INPUT_FIRE_EVENT) {
@@ -314,7 +314,7 @@ private:
                 transform->setRotation(newValue);
             }
         }
-    }
+    }*/
 
     void onExplosion(IEvent *eventData) {
         PlayerDestroyedEvent *e = static_cast<PlayerDestroyedEvent*>(eventData);

@@ -3,7 +3,6 @@
 #include "CPT_math.h"
 #include "CPT_rendererManager.h"
 
-
 #include "C_rendereable2D.h"
 #include "C_screenPosition.h"
 #include "C_transform.h"

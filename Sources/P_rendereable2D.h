@@ -1,10 +1,11 @@
 #ifndef _P_RENDEREABLE_2D_PROCESS_H_
 #define _P_RENDEREABLE_2D_PROCESS_H_
 
-
 #include "CPT_process.h"
 #include "CPT_time.h"
 #include "CPT_entity.h"
+
+#include "glm\vec2.hpp"
 
 class PRendereable2D : public EntityRenderProcess {
 private:

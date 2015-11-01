@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inputs>
+	<!-- in game inputs -->
+	<input name="fire" />
+	<input name="boost" />
+	<input name="pause" />
+	<input name="changeOrientation" />
+	
+	<!-- menu inputs -->
+	<input name="valid" />
+	<input name="cancel" />
+	<input name="nextItem" />
+	<input name="previousItem" />
+</inputs>

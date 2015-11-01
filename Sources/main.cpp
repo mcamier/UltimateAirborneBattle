@@ -14,7 +14,7 @@ public:
     Delegate<IEvent*>   d_gameWon;
     //Delegate<IEvent*>   d_resetRequested;
 
-    UltimateAirborneBattle() : CompoteEngine(1280, 720, 1280, 720) {}
+    UltimateAirborneBattle() : CompoteEngine(1280, 720, 1280, 720, "../Resources/inputs/contextMapping.xml") {}
     virtual ~UltimateAirborneBattle() {}
 
 protected:
@@ -46,6 +46,7 @@ protected:
     }
     */
 };
+
 
 
 /* Entry point
