@@ -36,7 +36,6 @@
 #define DEAD_ZONE_STICK         5000
 #define STICK_MAX_VALUE         32767
 
-
 class ActorFactory : public Singleton<ActorFactory> {
     friend class Singleton <ActorFactory>;
 

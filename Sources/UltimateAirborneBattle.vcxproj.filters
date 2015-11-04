@@ -149,5 +149,8 @@
     <ClInclude Include="IParticule.h">
       <Filter>Fichiers d%27en-tête\other</Filter>
     </ClInclude>
+    <ClInclude Include="UAB_inputs.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

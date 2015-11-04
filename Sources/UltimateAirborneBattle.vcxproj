@@ -224,6 +224,7 @@
     <ClInclude Include="P_rendereable2D.h" />
     <ClInclude Include="UAB_defines.h" />
     <ClInclude Include="UAB_events.h" />
+    <ClInclude Include="UAB_inputs.h" />
     <ClInclude Include="UAB_scoreScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

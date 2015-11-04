@@ -7,6 +7,9 @@
 #include "UAB_gameScene.h"
 #include "UAB_scoreScene.h"
 
+#include "CPT_utils.h"
+#include <string>
+
 class UltimateAirborneBattle : public CompoteEngine {
 
 public:
@@ -46,8 +49,6 @@ protected:
     }
     */
 };
-
-
 
 /* Entry point
  */

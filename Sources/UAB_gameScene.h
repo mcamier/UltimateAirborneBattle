@@ -15,6 +15,10 @@
 #include "C_particuleEmitter.h"
 #include "P_plusOne.h"
 #include "CPT_math.h"
+#include "CPT_locator.h"
+#include "WIP_inputEngine.h"
+
+#include "UAB_inputs.h"
 
 using namespace std;
 
@@ -36,13 +40,13 @@ class UABGameScene : public Scene {
 
 public:
     UABGameScene() : 
-        Scene("GAME screen", false, true, "../Resources/inputs/inputs_game.xml") {}
+        Scene("GAME screen", false, true) {}
 
     const unsigned int  getID() const { return 10005; }
 
 
 private:
-    GameMode            m_gameMode = GameMode::ONE_VS_ONE;
+    GameMode            m_gameMode = GameMode::TWO_VS_TWO;
     bool                m_gameDone = false;
 
     bool                m_bPlayerOneDead = false;
@@ -74,6 +78,7 @@ private:
 protected:
     void initialize(void) {
         assert(ActorFactory::get() != NULL);
+        Locator::getInput()->setContext("IN_GAME");
 
         this->addProcess(new PColliderManager());
         this->addProcess(new PAnimation());
@@ -88,12 +93,6 @@ protected:
 
         d_missileFired = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onMissileFired>(this);
         EventManager::get()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);
-        /*d_inputFire = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onInputFire>(this);
-        EventManager::get()->addListener(InputEvent::sk_EventType, d_inputFire);
-        d_inputThrust = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onInputThrust>(this);
-        EventManager::get()->addListener(InputEvent::sk_EventType, d_inputThrust);
-        d_inputOrientation = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onInputOrientation>(this);
-        EventManager::get()->addListener(InputEvent::sk_EventType, d_inputOrientation);*/
         d_playerDestroyed = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onExplosion>(this);
         EventManager::get()->addListener(PlayerDestroyedEvent::sk_EventType, d_playerDestroyed);
         d_explosionOccurs = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onExplosion>(this);
@@ -104,6 +103,8 @@ protected:
 
     void  v_update(const GameTime& gameTime) {
         Scene::v_update(gameTime);
+        handleInput();
+
         // camera shaking update
         if (m_bCameraShaking) {
             m_cameraShakingElapsed += gameTime.getElapsedMillisecond();
@@ -158,6 +159,59 @@ protected:
     }
 
 private:
+    void handleInput() {
+        gameInput_t *gameInput;
+        while (nullptr != (gameInput = Locator::getInput()->pollInput())) {
+            if (gameInput->ID == GAME_INPUT::FIRE) {
+                entityID playerID = m_playerOne;
+                CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
+                if (player->m_bAlive){
+                    if (player->m_cooldown <= 0) {
+                        player->m_cooldown = player->m_defaultCooldown;
+                        EventManager::get()->queueEvent(new MissileFiredEvent(getID(), playerID));
+                    }
+                }
+            }
+
+            if (gameInput->ID == GAME_INPUT::MOVE) {
+                entityID playerID = m_playerOne;
+                CTransform* transform = getEntityManager().getAs<CTransform>(playerID);
+                CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
+                CRigidBody* rigidBody = getEntityManager().getAs<CRigidBody>(playerID);
+                
+                if (player->m_bAlive){
+                    float floatX, floatY;
+                    //printf("%f -> %f\n", gameInput->payload.range.x, gameInput->payload.range.y);
+                    floatX = (gameInput->payload.range.x != 0) ? gameInput->payload.range.x / (float)(STICK_MAX_VALUE) : 0;
+                    floatY = (gameInput->payload.range.y != 0) ? gameInput->payload.range.y / (float)(STICK_MAX_VALUE) : 0;
+
+                    float value = (floatX != 0 || floatY != 0) ? atan2(floatY, floatX) : 0;
+                    value = (value < 0) ? value + MathUtils::TWO_PI : value;
+
+                    float oldAngle = transform->getRotation();
+                    float delta = value - oldAngle;
+
+                    float newValue = transform->getRotation() + delta * 0.05f;
+                    if (newValue < 0) {
+                        newValue = MathUtils::TWO_PI;
+                    }
+                    else if (newValue > MathUtils::TWO_PI) {
+                        newValue = 0;
+                    }
+                    transform->setRotation(newValue);
+                }
+            }
+
+            if (gameInput->ID == GAME_INPUT::BOOST) {
+                entityID playerID = m_playerOne;
+                CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
+                if (player->m_bAlive){
+                    player->m_bSpeedUp = true;
+                }
+            }
+        }
+    }
+
     void initGame() {
         ActorFactory::get()->createBackground(getEntityManager());
         switch (m_gameMode) {
@@ -248,73 +302,6 @@ private:
         entityID id = ActorFactory::get()->createMissile(e->m_playerSource, getEntityManager(), direction, position, angle);
         m_gameWorldEntities.push_back(id);
     }
-
-
-    /*void onInputFire(IEvent *eventData) {
-        InputEvent *e = static_cast<InputEvent*>(eventData);
-
-        if (e->m_spaceIDTarget == getID() && e->m_eventID == INPUT_FIRE_EVENT) {
-            entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
-            CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
-            if (player->m_bAlive){
-                if (player->m_cooldown <= 0) {
-                    player->m_cooldown = player->m_defaultCooldown;
-                    EventManager::get()->queueEvent(new MissileFiredEvent(getID(), playerID));
-                }
-            }
-        }
-    }
-
-
-    void onInputThrust(IEvent *eventData) {
-        InputEvent *e = static_cast<InputEvent*>(eventData);
-
-        if (e->m_spaceIDTarget == getID() && e->m_eventID == INPUT_THRUST_EVENT) {
-            entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
-            CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
-            if(player->m_bAlive){
-                player->m_bSpeedUp = true;
-            }
-        }
-    }
-
-    void onInputOrientation(IEvent *eventData) {
-        InputEvent *e = static_cast<InputEvent*>(eventData);
-
-        if (e->m_spaceIDTarget == getID() && e->m_eventID == INPUT_ORIENTATION_EVENT) {
-            entityID playerID = (e->m_inputPayload.m_controllerIndex == 0) ? m_playerOne : m_playerTwo;
-            CTransform* transform = getEntityManager().getAs<CTransform>(playerID);
-            CPlayer* player = getEntityManager().getAs<CPlayer>(playerID);
-            CRigidBody* rigidBody = getEntityManager().getAs<CRigidBody>(playerID);
-
-            if (player->m_bAlive){
-                float floatX, floatY;
-                float rawX, rawY;
-                // read x and y
-                rawX = e->m_inputPayload.m_range2D.x;
-                rawY = e->m_inputPayload.m_range2D.y;
-                floatX = (rawX != 0) ? rawX / (float)(STICK_MAX_VALUE) : 0;
-                floatY = (rawY != 0) ? rawY / (float)(STICK_MAX_VALUE) : 0;
-
-                float value = (floatX != 0 || floatY != 0) ? atan2(floatY, floatX) : 0;
-                value = (value < 0) ? value + MathUtils::TWO_PI : value;
-                
-
-                float oldAngle = transform->getRotation();
-                float delta = value - oldAngle;
-
-                float newValue = transform->getRotation() + delta * 0.05f;
-                if (newValue < 0) {
-                    newValue = MathUtils::TWO_PI;
-                }
-                else if(newValue > MathUtils::TWO_PI) {
-                    newValue = 0;
-                }
-                
-                transform->setRotation(newValue);
-            }
-        }
-    }*/
 
     void onExplosion(IEvent *eventData) {
         PlayerDestroyedEvent *e = static_cast<PlayerDestroyedEvent*>(eventData);

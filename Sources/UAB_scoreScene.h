@@ -13,7 +13,7 @@
 
 class UABScoreScene : public Scene {
 public:
-    UABScoreScene() : Scene("GAME screen", false, false, "../Resources/inputs/inputs_game.xml") {}
+    UABScoreScene() : Scene("GAME screen", false, false) {}
 
     const unsigned int getID() const { return 10005; }
 
