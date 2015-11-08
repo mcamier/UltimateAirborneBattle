@@ -31,8 +31,8 @@ public:
         return CRendereable2D::sk_componentType;
     }
 
-    inline const char* getName(void) const {
-        return "CRenderable2D";
+    static const char* getName(void) {
+        return "CRendereable2D";
     }
 };
 

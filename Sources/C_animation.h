@@ -2,7 +2,6 @@
 #define _C_ANIMATION_H_
 
 #include <vector>
-
 #include <SDL2/SDL.h>
 #include "C_rendereable2D.h"
 #include "CPT_component.h"
@@ -40,8 +39,12 @@ public:
     int                     getWidth() const override { return m_animation->getWidth(m_currentFrame); }
     int                     getHeight() const override { return m_animation->getHeight(m_currentFrame); }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CAnimation";
+    }
+
+    IComponent* clone(void) const {
+        return nullptr;
     }
 };
 

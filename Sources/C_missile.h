@@ -3,6 +3,8 @@
 
 #include "CPT_entity.h"
 #include "CPT_component.h"
+#include "CPT_creator.h"
+#include "rapidxml\rapidxml.hpp"
 
 class CMissile : public IComponent {
 public:
@@ -11,8 +13,8 @@ public:
 
     const static ComponentType sk_componentType;
 
-    CMissile(entityID throwerID) :
-        m_throwerID(throwerID),
+    CMissile() :
+        m_throwerID(-1),
         m_bThrowerStillImmune(true) {}
 
     virtual ~CMissile() {}
@@ -21,9 +23,24 @@ public:
         return CMissile::sk_componentType;
     }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CMissile";
     }
+
+    IComponent* clone(void) const {
+        return nullptr;
+    }
+
+
 };
 
+
+class CMissileCreator :
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(rapidxml::xml_node<> *node) {
+        return new CMissile();
+    }
+};
 #endif

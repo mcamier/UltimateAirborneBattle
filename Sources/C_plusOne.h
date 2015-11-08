@@ -2,6 +2,8 @@
 #define _C_PLUS_ONE_H_
 
 #include "CPT_component.h"
+#include "CPT_creator.h"
+#include "rapidxml\rapidxml.hpp"
 
 class CPlusOne : public IComponent {
 public:
@@ -20,8 +22,22 @@ public:
         return CPlusOne::sk_componentType;
     }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CPlusOne";
+    }
+
+    IComponent* clone(void) const {
+        return nullptr;
+    }
+};
+
+
+class CPlusOneCreator :
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(rapidxml::xml_node<> *node) {
+        return new CPlusOne();
     }
 };
 

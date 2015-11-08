@@ -22,6 +22,7 @@
 #include "collisions_utils.h"
 #include "IParticule.h"
 
+#include "CPT_locator.h"
 #include "CPT_rendererManager.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
@@ -36,10 +37,12 @@
 #define DEAD_ZONE_STICK         5000
 #define STICK_MAX_VALUE         32767
 
-class ActorFactory : public Singleton<ActorFactory> {
-    friend class Singleton <ActorFactory>;
+class TempActorFactory : 
+    public GameService {
 
 public:
+    static TempActorFactory *m_pInstance;
+
     SDL_Texture         *m_pSpriteSheet;
     SDL_Texture         *m_pBackground;
 
@@ -54,22 +57,32 @@ public:
     AnimatedSprite      *m_darkSmoke;
 
 public:
-    void initialize() override {
+    static TempActorFactory *get(void) {
+        if (m_pInstance == nullptr) {
+            m_pInstance = new TempActorFactory();
+            m_pInstance->v_initialize();
+        }
+        return m_pInstance;
+    }
+
+    void v_destroy(void) {}
+
+    bool v_initialize(void) {
         loadResources();
-        std::vector<SDL_Rect> frames = std::vector<SDL_Rect>();
+        std::vector<SDL_Rect>   frames = std::vector<SDL_Rect>();
         SDL_Rect frame1; frame1.x = 0; frame1.y = 0; frame1.w = 132; frame1.h = 70; frames.push_back(frame1);
         SDL_Rect frame2; frame2.x = 132; frame2.y = 0; frame2.w = 132; frame2.h = 70; frames.push_back(frame2);
         SDL_Rect frame3; frame3.x = 264; frame3.y = 0; frame3.w = 132; frame3.h = 70; frames.push_back(frame3);
         SDL_Rect frame4; frame4.x = 396; frame4.y = 0; frame4.w = 132; frame4.h = 70; frames.push_back(frame4);
         SDL_Rect frame5;
-        std::vector<SDL_Rect> frames2 = std::vector<SDL_Rect>();
-        frame1; frame1.x = 0; frame1.y = 70; frame1.w = 132; frame1.h = 70; frames2.push_back(frame1);
+        std::vector<SDL_Rect>   frames2 = std::vector<SDL_Rect>();
+        frame1; frame1.x = 0;   frame1.y = 70; frame1.w = 132; frame1.h = 70; frames2.push_back(frame1);
         frame2; frame2.x = 132; frame2.y = 70; frame2.w = 132; frame2.h = 70; frames2.push_back(frame2);
         frame3; frame3.x = 264; frame3.y = 70; frame3.w = 132; frame3.h = 70; frames2.push_back(frame3);
         frame4; frame4.x = 396; frame4.y = 70; frame4.w = 132; frame4.h = 70; frames2.push_back(frame4);
-        std::vector<SDL_Rect> frames3 = std::vector<SDL_Rect>();
-        frame1; frame1.x = 0; frame1.y = 384; frame1.w = 68; frame1.h = 62; frames3.push_back(frame1);
-        frame2; frame2.x = 68; frame2.y = 384; frame2.w = 68; frame2.h = 62; frames3.push_back(frame2);
+        std::vector<SDL_Rect>   frames3 = std::vector<SDL_Rect>();
+        frame1; frame1.x = 0;   frame1.y = 384; frame1.w = 68; frame1.h = 62; frames3.push_back(frame1);
+        frame2; frame2.x = 68;  frame2.y = 384; frame2.w = 68; frame2.h = 62; frames3.push_back(frame2);
         frame3; frame3.x = 136; frame3.y = 384; frame3.w = 68; frame3.h = 62; frames3.push_back(frame3);
         frame4; frame4.x = 204; frame4.y = 384; frame4.w = 68; frame4.h = 62; frames3.push_back(frame4);
         frame5; frame5.x = 272; frame5.y = 384; frame5.w = 68; frame5.h = 62; frames3.push_back(frame5);
@@ -95,6 +108,8 @@ public:
         m_missile = new Sprite(m_pSpriteSheet, 30, 172, 26, 22);
         m_bomb = new Sprite(m_pSpriteSheet, 0, 140, 30, 60);
         m_plusOne = new Sprite(m_pSpriteSheet, 60, 140, 39, 30);
+
+        return 1;
     }
 
     entityID createBackground(EntityManager& em) {
@@ -142,26 +157,28 @@ public:
     }
 
     entityID createMissile(entityID throwerID, EntityManager& em, glm::vec2 direction, glm::vec2 location, int angle) {
-        entityID missile = em.createEntity();
+        entityID missileID = em.createEntity();
 
         CRigidBody *rb = new CRigidBody(true, 0.99f);
         rb->m_velocity.x += direction.x * 450;
         rb->m_velocity.y += direction.y * 450;
 
-        em.addComponent(missile, new CSprite(m_missile, 2));
-        em.addComponent(missile, new CTransform(location.x, location.y, angle));
-        em.addComponent(missile, rb);
+        em.addComponent(missileID, new CSprite(m_missile, 2));
+        em.addComponent(missileID, new CTransform(location.x, location.y, angle));
+        em.addComponent(missileID, rb);
 
         //AnimatedParticule *particuleProto = new AnimatedParticule(m_explosion, 80.0f);
         AnimatedParticule *particuleProto = new AnimatedParticule(m_darkSmoke, 90.0f);
         CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 60, 400.0f, -90, 25, false);
         pe->m_angleVariation = 45;
         pe->m_lifetimeVariation = 50;
-        em.addComponent(missile, pe);
-        em.addComponent(missile, new CCollider(new CircleCollider(12), true, nullptr));
-        em.addComponent(missile, new CMissile(throwerID));
+        em.addComponent(missileID, pe);
+        em.addComponent(missileID, new CCollider(new CircleCollider(12), true, nullptr));
+        CMissile *missile = new CMissile();
+        missile->m_throwerID = throwerID;
+        em.addComponent(missileID, missile);
 
-        return missile;
+        return missileID;
     }
     
     entityID createBomb(EntityManager& em, float x) {
@@ -213,15 +230,18 @@ private:
 
         SDL_Surface *surface = IMG_Load("../Resources/UAB_spritesheet.png");
         assert(surface != NULL);
-        this->m_pSpriteSheet = SDL_CreateTextureFromSurface(RendererManager::get()->getRenderer(), surface);
+        this->m_pSpriteSheet = SDL_CreateTextureFromSurface(Locator::getRenderer()->getRenderer(), surface);
 
         surface = IMG_Load("../Resources/background.png");
         assert(surface != NULL);
-        this->m_pBackground = SDL_CreateTextureFromSurface(RendererManager::get()->getRenderer(), surface);
+        this->m_pBackground = SDL_CreateTextureFromSurface(Locator::getRenderer()->getRenderer(), surface);
 
         SDL_FreeSurface(surface);
         assert(this->m_pSpriteSheet != NULL);
     }
+
+    TempActorFactory() {}
+    virtual ~TempActorFactory() {}
 };
 
 #endif

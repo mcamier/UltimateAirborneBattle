@@ -8,6 +8,8 @@
 #include "C_explosion.h"
 #include "C_particuleEmitter.h"
 
+#include <string>
+
 const ComponentType CMissile::sk_componentType(0xbd69c944);
 const ComponentType CTransform::sk_componentType(0x381cfbe0);
 const ComponentType CRigidBody::sk_componentType(0x497e133a);

@@ -61,8 +61,12 @@ public:
         return CParticuleEmitter::sk_componentType;
     }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CParticuleEmitter";
+    }
+
+    IComponent* clone(void) const {
+        return nullptr;
     }
 };
 

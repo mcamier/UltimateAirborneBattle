@@ -4,9 +4,9 @@
 #include "CPT_rendererManager.h"
 
 #include "C_rendereable2D.h"
-#include "C_screenPosition.h"
 #include "C_transform.h"
 #include "C_animation.h"
+#include "CPT_locator.h"
 
 ComponentType jj[] = { CRendereable2D::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PRendereable2D::sk_requirements(jj, jj + 2);
@@ -35,7 +35,7 @@ void PRendereable2D::v_renderEntity(entityID id, const GameTime& gameTime) {
     dest.w = rendereable->getWidth() * transform->getTransformScaleX();
     dest.h = rendereable->getHeight() * transform->getTransformScaleY();
 
-    RendererManager::get()->renderTexture(
+    Locator::getRenderer()->renderTexture(
         rendereable->getOrder(),
         rendereable->getTexture(),
         rendereable->getSource(),

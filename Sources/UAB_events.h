@@ -1,6 +1,7 @@
 #ifndef _UAB_EVENTS_H
 #define _UAB_EVENTS_H
 
+#include "CPT_locator.h"
 #include "CPT_event.h"
 #include "CPT_scene.h"
 #include "CPT_entityManager.h"
@@ -122,10 +123,10 @@ public:
                 glm::vec2 position = glm::vec2(t1->getX(), t1->getY());
                 
                 if (missile != nullptr) {
-                    EventManager::get()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position, missile->m_throwerID));
+                    Locator::getEventManager()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position, missile->m_throwerID));
                 }
                 else {
-                    EventManager::get()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position, -1));
+                    Locator::getEventManager()->queueEvent(new PlayerDestroyedEvent(scene->getID(), thisEntity, position, -1));
                 }
             }
 

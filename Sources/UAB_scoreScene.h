@@ -15,24 +15,24 @@ class UABScoreScene : public Scene {
 public:
     UABScoreScene() : Scene("GAME screen", false, false) {}
 
-    const unsigned int getID() const { return 10005; }
+    int getID() const { return 10005; }
 
 protected:
     void initialize(void) {
-        assert(ActorFactory::get() != NULL);
+        assert(TempActorFactory::get() != NULL);
 
-        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(200, 244));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(544, 700));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(35, 244));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(580, 125));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(402, 370));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(222, 244));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(358, 666));
-        ActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(1000, 54));
+        TempActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(200, 244));
+        TempActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(544, 700));
+        TempActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(35, 244));
+        TempActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(580, 125));
+        TempActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(402, 370));
+        TempActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(222, 244));
+        TempActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(358, 666));
+        TempActorFactory::get()->createExplosion(this->getEntityManager(), glm::vec2(1000, 54));
 
         this->addProcess(new PExplosion());
 
-        this->addRenderProcess(new PRendereable2D(ActorFactory::get()->createCamera(this->getEntityManager())));
+        this->addRenderProcess(new PRendereable2D(TempActorFactory::get()->createCamera(this->getEntityManager())));
         
         std::cout << " UABScoreScene initialized " << std::endl;
     }

@@ -3,11 +3,11 @@
 
 #include "C_player.h"
 #include "C_transform.h"
-#include "C_screenPosition.h"
 #include "UAB_events.h"
 
-#include "UAB_math.h"
+#include "CPT_math.h"
 #include "UAB_defines.h"
+#include "CPT_locator.h"
 
 
 ComponentType h[] = { CPlayer::sk_componentType, CTransform::sk_componentType, CRigidBody::sk_componentType };
@@ -47,8 +47,8 @@ void PPlayer::v_updateEntity(entityID id, const GameTime& gameTime) {
         if (player->m_cooldown > 0) {
             player->m_cooldown -= gameTime.getElapsedMillisecond();
             // Design issue : Draw with UpdateProcess
-            RendererManager::get()->renderRectangle(true, transform->getX() - 25, transform->getY() + 55, 75, 5, 0xFF, 0xFF, 0xFF);
-            RendererManager::get()->renderRectangle(true, transform->getX() - 25, transform->getY() + 55, (1 - (player->m_cooldown / player->m_defaultCooldown)) * 75, 5, 0x66, 0x99, 0x99);
+            Locator::getRenderer()->renderRectangle(true, transform->getX() - 25, transform->getY() + 55, 75, 5, 0xFF, 0xFF, 0xFF);
+            Locator::getRenderer()->renderRectangle(true, transform->getX() - 25, transform->getY() + 55, (1 - (player->m_cooldown / player->m_defaultCooldown)) * 75, 5, 0x66, 0x99, 0x99);
         }
     }
 }

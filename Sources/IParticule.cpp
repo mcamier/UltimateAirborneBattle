@@ -2,7 +2,7 @@
 
 #include "CPT_graphic.h"
 #include "CPT_rendererManager.h"
-
+#include "CPT_locator.h"
 
 /**************************************/
 /*            Base Particule          */
@@ -59,7 +59,7 @@ void AnimatedParticule::draw(const GameTime& gameTime) {
     dest.w = m_pAnimation->getWidth(m_currentFrame);
     dest.h = m_pAnimation->getHeight(m_currentFrame);
 
-    RendererManager::get()->renderTexture(
+    Locator::getRenderer()->renderTexture(
         2,
         m_pAnimation->getTexture(),
         m_pAnimation->getFrame(m_currentFrame),
@@ -71,7 +71,7 @@ void AnimatedParticule::draw(const GameTime& gameTime) {
 
 AnimatedParticule* AnimatedParticule::cloneIntoPool(void) {
     if (!AnimatedParticule::poolAllocator.isInitialized()) {
-        AnimatedParticule::poolAllocator.initialize();
+        AnimatedParticule::poolAllocator.v_initialize();
     }
      
     void* ptr = AnimatedParticule::poolAllocator.alloc();
@@ -83,7 +83,7 @@ AnimatedParticule* AnimatedParticule::cloneIntoPool(void) {
 
 void AnimatedParticule::removeFromPool() {
     if (!AnimatedParticule::poolAllocator.isInitialized()) {
-        AnimatedParticule::poolAllocator.initialize();
+        AnimatedParticule::poolAllocator.v_initialize();
     }
     return AnimatedParticule::poolAllocator.free(this);
 }
@@ -105,7 +105,7 @@ void SpriteParticule::draw(const GameTime&) {
     dest.w = m_pSprite->getWidth();
     dest.h = m_pSprite->getHeight();
 
-    RendererManager::get()->renderTexture(
+    Locator::getRenderer()->renderTexture(
         2,
         m_pSprite->getTexture(),
         m_pSprite->getSourceRect(),
@@ -117,7 +117,7 @@ void SpriteParticule::draw(const GameTime&) {
 
 SpriteParticule* SpriteParticule::cloneIntoPool(void) {
     if (!SpriteParticule::poolAllocator.isInitialized()) {
-        SpriteParticule::poolAllocator.initialize();
+        SpriteParticule::poolAllocator.v_initialize();
     }
 
     void* ptr = SpriteParticule::poolAllocator.alloc();
@@ -129,7 +129,7 @@ SpriteParticule* SpriteParticule::cloneIntoPool(void) {
 
 void SpriteParticule::removeFromPool() {
     if (!SpriteParticule::poolAllocator.isInitialized()) {
-        SpriteParticule::poolAllocator.initialize();
+        SpriteParticule::poolAllocator.v_initialize();
     }
     return SpriteParticule::poolAllocator.free(this);
 }

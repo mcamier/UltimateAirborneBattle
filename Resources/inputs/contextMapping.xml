@@ -18,6 +18,7 @@
 			<rawInput type="RANGE" source="XBOX_CONTROLLER" code="XBOX_AXIS_LEFT" which="0"/>
 			<gameSpecificInput>3</gameSpecificInput>
 		</inputMatcher>
+		
 	</context>
 	
 	<context name="MENU">

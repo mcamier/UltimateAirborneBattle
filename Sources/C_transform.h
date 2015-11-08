@@ -4,6 +4,8 @@
 #include "CPT_component.h"
 
 #include "glm/vec2.hpp"
+#include "CPT_creator.h"
+#include "rapidxml\rapidxml.hpp"
 
 class CTransform : public IComponent {
 public:
@@ -169,11 +171,15 @@ public:
         m_bDirt = true;
     }
 
+    IComponent* clone(void) const {
+        return nullptr;
+    }
+
     inline const ComponentType getComponentType(void) const {
         return CTransform::sk_componentType;
     }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CTransform";
     }
 
@@ -198,6 +204,59 @@ private:
             }
         }
         m_bDirt = false;
+    }
+};
+
+
+class CTransformCreator : 
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(rapidxml::xml_node<> *node) {
+        CTransform *component = new CTransform();
+
+        component->setX(0.0f);
+        component->setY(0.0f);
+        component->setScaleX(0.0f);
+        component->setScaleY(0.0f);
+        component->setOffsetX(0.0f);
+        component->setOffsetY(0.0f);
+
+        if (0 == strcmp("CTransform", node->first_attribute("type")->value())) {
+            rapidxml::xml_node<> *value;
+            
+            for (value = node->first_node("value")
+                ; value
+                ; value = value->next_sibling()) {
+            
+                if (0 == strcmp("x", value->first_attribute("name")->value())) {
+                    component->setX(atof(value->value()));
+                }
+                else if (0 == strcmp("y", value->first_attribute("name")->value())) {
+                    component->setY(atof(value->value()));
+                }
+                else if (0 == strcmp("scaleX", value->first_attribute("name")->value())) {
+                    component->setScaleX(atof(value->value()));
+                }
+                else if (0 == strcmp("scaleY", value->first_attribute("name")->value())) {
+                    component->setScaleY(atof(value->value()));
+                }
+                else if (0 == strcmp("offsetX", value->first_attribute("name")->value())) {
+                    component->setOffsetX(atof(value->value()));
+                }
+                else if (0 == strcmp("offsetY", value->first_attribute("name")->value())) {
+                    component->setOffsetY(atof(value->value()));
+                }
+                else if (0 == strcmp("rotation", value->first_attribute("name")->value())) {
+                    component->setRotation(atof(value->value()));
+                }
+                else {
+                    // add log
+                }
+            } 
+        }
+
+        return component;
     }
 };
 

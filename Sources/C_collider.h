@@ -28,8 +28,12 @@ public:
         return CCollider::sk_componentType;
     }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CCollider";
+    }
+
+    IComponent* clone(void) const {
+        return nullptr;
     }
 };
 

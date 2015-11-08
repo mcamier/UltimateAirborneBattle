@@ -32,7 +32,7 @@ public:
         return sk_requirements;
     }
 
-    void                    v_initialize                (void);
+    bool                    v_initialize                (void);
     void                    v_destroy                   (void);
 
 private:

@@ -3,6 +3,8 @@
 
 #include "glm/vec2.hpp"
 #include "CPT_component.h"
+#include "CPT_creator.h"
+#include "rapidxml\rapidxml.hpp"
 
 class CRigidBody : public IComponent {
 public:
@@ -36,7 +38,7 @@ public:
         return CRigidBody::sk_componentType;
     }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CRigidBody";
     }
 
@@ -48,7 +50,51 @@ public:
         m_forceAccum.x = 0.0f;
         m_forceAccum.y = 0.0f;
     }
+
+    IComponent* clone(void) const {
+        return nullptr;
+    }
 };
 
+
+
+class CRigidBodyCreator :
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(rapidxml::xml_node<> *node) {
+        CRigidBody *component = new CRigidBody(false);
+
+        component->m_damping = 0.99f;
+
+        if (0 == strcmp("CRigidBody", node->first_attribute("type")->value())) {
+            rapidxml::xml_node<> *value;
+
+            for (value = node->first_node("value")
+                ; value
+                ; value = value->next_sibling()) {
+
+                if (0 == strcmp("applyingGravity", value->first_attribute("name")->value())) {
+                    if (0 == strcmp("true", value->value())) {
+                        component->m_bApplyGravity = true;
+                    } else if (0 == strcmp("false", value->value())) {
+                        component->m_bApplyGravity = false;
+                    }
+                    else {
+                        assert(false);
+                    }
+                }
+                if (0 == strcmp("damping", value->first_attribute("name")->value())) {
+                    component->m_damping = atof(value->value());
+                }
+                else {
+                    // add log
+                }
+            }
+        }
+
+        return component;
+    }
+};
 
 #endif

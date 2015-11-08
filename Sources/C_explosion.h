@@ -2,6 +2,8 @@
 #define _C_EXPLOSION_H_
 
 #include "CPT_component.h"
+#include "CPT_creator.h"
+#include "rapidxml\rapidxml.hpp"
 
 class CExplosion : public IComponent {
 public:
@@ -23,9 +25,22 @@ public:
         return CExplosion::sk_componentType;
     }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CExplosion";
+    }
+
+    IComponent* clone(void) const {
+        return nullptr;
     }
 };
 
+
+class CExplosionCreator :
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(rapidxml::xml_node<> *node) {
+        return new CExplosion();
+    }
+};
 #endif

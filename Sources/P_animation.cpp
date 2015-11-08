@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include "CPT_math.h"
-#include "C_screenPosition.h"
 
 ComponentType c[] = { CAnimation::sk_componentType };
 const std::vector<ComponentType> PAnimation::sk_requirements(c, c + 1);

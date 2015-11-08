@@ -197,6 +197,7 @@
     <ClCompile Include="P_rendereable2D.cpp" />
     <ClCompile Include="P_colliderManager.cpp" />
     <ClCompile Include="collisions_utils.cpp" />
+    <ClCompile Include="UAB_defines.cpp" />
     <ClCompile Include="UAB_events.cpp" />
     <ClCompile Include="UAB_gameScene.h" />
   </ItemGroup>

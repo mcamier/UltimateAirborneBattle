@@ -6,11 +6,12 @@
 ComponentType w[] = { CCollider::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PColliderManager::sk_requirements(w, w + 2);
 
-void PColliderManager::v_initialize(void) {
+bool PColliderManager::v_initialize(void) {
     UpdateProcess::v_initialize();
-    this->m_pDetectedCollisions->initialize();
+    this->m_pDetectedCollisions->v_initialize();
     this->m_pHeadCurrentCollisions = nullptr;
     this->m_pHeadOldCollisions = nullptr;
+    return 1;
 }
 
 
@@ -109,5 +110,5 @@ bool PColliderManager::collisionOccuredLastFrame(entityID id1, entityID id2) {
 
 
 void PColliderManager::v_destroy() {
-    m_pDetectedCollisions->destroy();
+    m_pDetectedCollisions->v_destroy();
 }

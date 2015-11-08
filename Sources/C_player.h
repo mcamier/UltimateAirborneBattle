@@ -3,6 +3,8 @@
 
 #include "glm/vec2.hpp"
 #include "CPT_component.h"
+#include "CPT_creator.h"
+#include "rapidxml\rapidxml.hpp"
 
 class CPlayer : public IComponent {
 public:
@@ -41,8 +43,46 @@ public:
         return CPlayer::sk_componentType;
     }
 
-    inline const char* getName(void) const {
+    static const char* getName(void) {
         return "CPlayer";
+    }
+
+    IComponent* clone(void) const {
+        return nullptr;
+    }
+};
+
+
+class CPlayerCreator :
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(rapidxml::xml_node<> *node) {
+        CPlayer *component = new CPlayer();
+
+        component->m_forward.x = 1.0f;
+        component->m_forward.y = 1.0f;
+
+        if (0 == strcmp("CPlayer", node->first_attribute("type")->value())) {
+            rapidxml::xml_node<> *value;
+
+            for (value = node->first_node("value")
+                ; value
+                ; value = value->next_sibling()) {
+
+                if (0 == strcmp("forward", value->first_attribute("name")->value())) {
+                    rapidxml::xml_node<> *x = value->first_node();
+                    
+                    component->m_forward.x = atof(x->value());
+                    component->m_forward.y = atof(x->next_sibling()->value());
+                }
+                else {
+                    // add log
+                }
+            }
+        }
+
+        return component;
     }
 };
 
