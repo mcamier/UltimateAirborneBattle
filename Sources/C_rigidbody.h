@@ -67,7 +67,7 @@ public:
 
         component->m_damping = 0.99f;
 
-        if (0 == strcmp("CRigidBody", node->first_attribute("type")->value())) {
+        if (0 == strcmp("CRigidBody", node->first_attribute("class")->value())) {
             rapidxml::xml_node<> *value;
 
             for (value = node->first_node("value")

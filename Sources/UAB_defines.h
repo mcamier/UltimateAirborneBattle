@@ -24,6 +24,7 @@
 
 #include "CPT_locator.h"
 #include "CPT_rendererManager.h"
+#include "CPT_resourceManager.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
 #define BOMBS_LAYER             1
@@ -36,6 +37,19 @@
 
 #define DEAD_ZONE_STICK         5000
 #define STICK_MAX_VALUE         32767
+
+#define RES_BACKGROUND              1
+#define RES_SPRITESHEET             2
+#define RES_FONT                    3
+#define RES_BACKGROUND_SPRITE       4
+#define RES_SMOKE_SPRITE            5
+#define RES_MISSILE_SPRITE          6
+#define RES_BOMB_SPRITE             7
+#define RES_PLUS_ONE_SPRITE         8
+#define RES_EXPLOSION_ANIMATION     9
+#define RES_DARK_SMOKE_ANIMATION    10
+#define RES_PLAYER_ONE_ANIMATION    11
+#define RES_PLAYER_TWO_ANIMATION    12
 
 class TempActorFactory : 
     public GameService {
@@ -228,7 +242,12 @@ private:
         int imgFlags = IMG_INIT_PNG;
         assert(IMG_Init(imgFlags) & imgFlags);
 
-        SDL_Surface *surface = IMG_Load("../Resources/UAB_spritesheet.png");
+        Locator::getResourceManager()->load(RES_BACKGROUND);
+        Locator::getResourceManager()->load(RES_SPRITESHEET);
+        this->m_pBackground = Locator::getResourceManager()->get<SDL_Texture>(RES_BACKGROUND);
+        this->m_pSpriteSheet = Locator::getResourceManager()->get<SDL_Texture>(RES_SPRITESHEET);
+
+        /*SDL_Surface *surface = IMG_Load("../Resources/UAB_spritesheet.png");
         assert(surface != NULL);
         this->m_pSpriteSheet = SDL_CreateTextureFromSurface(Locator::getRenderer()->getRenderer(), surface);
 
@@ -236,7 +255,8 @@ private:
         assert(surface != NULL);
         this->m_pBackground = SDL_CreateTextureFromSurface(Locator::getRenderer()->getRenderer(), surface);
 
-        SDL_FreeSurface(surface);
+        SDL_FreeSurface(surface);*/
+        assert(this->m_pBackground != NULL);
         assert(this->m_pSpriteSheet != NULL);
     }
 

@@ -6,7 +6,7 @@
 
 class CRendereable2D : public IComponent {
 
-private:
+protected:
     float                       m_alpha = 1;
     int                         m_order = 0;
     SDL_RendererFlip            m_flip = SDL_FLIP_NONE;

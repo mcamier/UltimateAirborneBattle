@@ -172,7 +172,17 @@ public:
     }
 
     IComponent* clone(void) const {
-        return nullptr;
+        CTransform *clone = new CTransform();
+        clone->m_bDirt = true;
+        clone->m_x = this->m_x;
+        clone->m_y = this->m_y;
+        clone->m_offsetX = this->m_offsetX;
+        clone->m_offsetY = this->m_offsetY;
+        clone->m_scaleX = this->m_scaleX;
+        clone->m_scaleY = this->m_scaleY;
+        clone->m_rotation = this->m_rotation;
+        clone->m_pParent = this->m_pParent;
+        return clone;
     }
 
     inline const ComponentType getComponentType(void) const {
@@ -222,7 +232,7 @@ public:
         component->setOffsetX(0.0f);
         component->setOffsetY(0.0f);
 
-        if (0 == strcmp("CTransform", node->first_attribute("type")->value())) {
+        if (0 == strcmp("CTransform", node->first_attribute("class")->value())) {
             rapidxml::xml_node<> *value;
             
             for (value = node->first_node("value")

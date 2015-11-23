@@ -33,7 +33,7 @@ public:
         CompoteEngine(1280, 720, 1280, 720, 
         "../Resources/inputs/contextMapping.xml", 
         "../Resources/actors.xml", 
-        "../Resources/resources.xml") {}
+        "../Resources/resources.json") {}
 
     virtual ~UltimateAirborneBattle() {}
 

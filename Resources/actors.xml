@@ -2,24 +2,24 @@
 <actors>
 
 	<actor id="1" name="background">
-		<component type="CTransform">
+		<component class="CTransform">
 			<value name="x">640</value>
 			<value name="y">360</value>
 		</component>
 		
-		<component type="CSprite">
+		<component class="CSprite">
 			<value name="sprite">1000</value>
 			<value name="order">0</value>
 		</component>
 	</actor>
 	
 	<actor id="2" name="playerOne">
-		<component type="CTransform">
+		<component class="CTransform">
 			<value name="x">0</value>
 			<value name="y">0</value>
 		</component>
 		
-		<component type="CAnimation">
+		<component class="CAnimation">
 			<value name="animation">1007</value>
 			<value name="order">3</value>
 			<value name="frameDuration">110</value>
@@ -27,19 +27,19 @@
 			<value name="loop">true</value>
 		</component>
 		
-		<component type="CPlayer">
+		<component class="CPlayer">
 			<value name="forward">
 				<x>1.0</x>
 				<y>0.0</y>
 			</value>
 		</component>
 		
-		<component type="CRigidBody">
+		<component class="CRigidBody">
 			<value name="applyingGravity">true</value>
 			<value name="damping">0.95</value>
 		</component>
 		
-		<component type="CCollider">
+		<component class="CCollider">
 			<value name="collider">CircleCollider</value>
 			<value name="callbackOncePerContact">true</value>
 			<value name="callback">PlayerCollideFunctor</value>
@@ -47,12 +47,12 @@
 	</actor>
 	
 	<actor id="3" name="playerTwo">
-		<component type="CTransform">
+		<component class="CTransform">
 			<value name="x">0</value>
 			<value name="y">0</value>
 		</component>
 		
-		<component type="CAnimation">
+		<component class="CAnimation">
 			<value name="animation">1008</value>
 			<value name="order">3</value>
 			<value name="frameDuration">110</value>
@@ -60,19 +60,19 @@
 			<value name="loop">true</value>
 		</component>
 		
-		<component type="CPlayer">
+		<component class="CPlayer">
 			<value name="forward">
 				<x>-1.0</x>
 				<y>0.0</y>
 			</value>
 		</component>
 		
-		<component type="CRigidBody">
+		<component class="CRigidBody">
 			<value name="applyingGravity">true</value>
 			<value name="damping">0.95</value>
 		</component>
 		
-		<component type="CCollider">
+		<component class="CCollider">
 			<value name="collider">CircleCollider</value>
 			<value name="callbackOncePerContact">true</value>
 			<value name="callback">PlayerCollideFunctor</value>
@@ -80,12 +80,12 @@
 	</actor>
 	
 	<actor id="4" name="playerThree">
-		<component type="CTransform">
+		<component class="CTransform">
 			<value name="x">0</value>
 			<value name="y">0</value>
 		</component>
 		
-		<component type="CAnimation">
+		<component class="CAnimation">
 			<value name="animation">1007</value>
 			<value name="order">3</value>
 			<value name="frameDuration">110</value>
@@ -93,19 +93,19 @@
 			<value name="loop">true</value>
 		</component>
 		
-		<component type="CPlayer">
+		<component class="CPlayer">
 			<value name="forward">
 				<x>1.0</x>
 				<y>0.0</y>
 			</value>
 		</component>
 		
-		<component type="CRigidBody">
+		<component class="CRigidBody">
 			<value name="applyingGravity">true</value>
 			<value name="damping">0.95</value>
 		</component>
 		
-		<component type="CCollider">
+		<component class="CCollider">
 			<value name="collider">CircleCollider</value>
 			<value name="callbackOncePerContact">true</value>
 			<value name="callback">PlayerCollideFunctor</value>
@@ -113,12 +113,12 @@
 	</actor>
 	
 	<actor id="5" name="playerFour">
-		<component type="CTransform">
+		<component class="CTransform">
 			<value name="x">0</value>
 			<value name="y">0</value>
 		</component>
 		
-		<component type="CAnimation">
+		<component class="CAnimation">
 			<value name="animation">1008</value>
 			<value name="order">3</value>
 			<value name="frameDuration">110</value>
@@ -126,19 +126,19 @@
 			<value name="loop">true</value>
 		</component>
 		
-		<component type="CPlayer">
+		<component class="CPlayer">
 			<value name="forward">
 				<x>-1.0</x>
 				<y>0.0</y>
 			</value>
 		</component>
 		
-		<component type="CRigidBody">
+		<component class="CRigidBody">
 			<value name="applyingGravity">true</value>
 			<value name="damping">0.95</value>
 		</component>
 		
-		<component type="CCollider">
+		<component class="CCollider">
 			<value name="collider">CircleCollider</value>
 			<value name="callbackOncePerContact">true</value>
 			<value name="callback">PlayerCollideFunctor</value>
@@ -155,21 +155,21 @@
 	</actor>
 	
 	<actor id="9" name="plusOne">
-		<component type="CTransform">
+		<component class="CTransform">
 			<value name="x">0</value>
 			<value name="y">0</value>
 		</component>
 		
-		<component type="CSprite">
+		<component class="CSprite">
 			<value name="sprite">plusOneRef</value>
 			<value name="order">1</value>
 		</component>
 		
-		<component type="CPlusOne" />
+		<component class="CPlusOne" />
 	</actor>
 	
 	<actor id="10" name="camera">
-		<component type="CTransform">
+		<component class="CTransform">
 			<value name="x">0</value>
 			<value name="y">0</value>
 		</component>

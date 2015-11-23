@@ -4,6 +4,8 @@
 #include "SDL2/SDL.h"
 #include "CPT_component.h"
 #include "C_rendereable2D.h"
+#include "CPT_locator.h"
+#include "CPT_graphic.h"
 
 class CSprite : public CRendereable2D {
     friend class PSpriteRenderer;
@@ -32,7 +34,10 @@ public:
     }
 
     IComponent* clone(void) const {
-        return nullptr;
+        CSprite *clone = new CSprite(this->m_pSprite, this->m_order);
+        clone->m_flip = this->m_flip;
+        clone->m_alpha = this->m_alpha;
+        return clone;
     }
 };
 
@@ -44,7 +49,7 @@ public:
     IComponent* create(rapidxml::xml_node<> *node) {
         CSprite *component = new CSprite(nullptr, 0);
 
-        if (0 == strcmp("CSprite", node->first_attribute("type")->value())) {
+        if (0 == strcmp("CSprite", node->first_attribute("class")->value())) {
             rapidxml::xml_node<> *value;
 
             for (value = node->first_node("value")
@@ -57,9 +62,11 @@ public:
                 else if (0 == strcmp("alpha", value->first_attribute("name")->value())) {
                     component->setAlpha(atof(value->value()));
                 }
-                else if (0 == strcmp("sprite", value->first_attribute("name")->value())) {
+                else if (0 == strcmp("texture", value->first_attribute("name")->value())) {
                     int spriteId= atoi(value->value());
-                    //component->setSprite(Locator::getFactory<Sprite>(spriteId));
+                    //component->setSprite();
+                    //Locator::getFactory()->get<Sprite>(spriteId);
+
                 }
                 else {
                     // add log

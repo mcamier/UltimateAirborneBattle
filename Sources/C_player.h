@@ -63,7 +63,7 @@ public:
         component->m_forward.x = 1.0f;
         component->m_forward.y = 1.0f;
 
-        if (0 == strcmp("CPlayer", node->first_attribute("type")->value())) {
+        if (0 == strcmp("CPlayer", node->first_attribute("class")->value())) {
             rapidxml::xml_node<> *value;
 
             for (value = node->first_node("value")

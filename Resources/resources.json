@@ -1,0 +1,63 @@
+[
+	{
+		"id" : 1,
+		"name" : "background",
+		"path" : "../Resources/background.png",
+		"pipeline" : "PNG"
+	}, {
+		"id" : 2,
+		"name" : "spritesheet",
+		"path" : "../Resources/UAB_spritesheet.png",
+		"pipeline" : "PNG"
+	}, {
+		"id" : 3,
+		"name" : "font",
+		"path" : "../Resources/font.ttf",
+		"pipeline" : "TTF"
+	}, {
+		"id" : 4,
+        "name": "background sprite",
+		"path" : "../Resources/sprites/background-sprite.json",
+		"pipeline" : "SPRITE"
+	}, {
+		"id" : 5,
+		"name" : "smoke sprite",
+		"path" : "../Resources/sprites/smoke-sprite.json",
+		"pipeline" : "SPRITE"
+	}, {
+		"id" : 6,
+		"name" : "missile sprite",
+		"path" : "../Resources/sprites/missile-sprite.json",
+		"pipeline" : "SPRITE"
+	}, {
+		"id" : 7,
+		"name" : "bomb sprite",
+		"path" : "../Resources/sprites/bomb-sprite.json",
+		"pipeline" : "SPRITE"
+	}, {
+		"id" : 8,
+		"name" : "plus one sprite",
+		"path" : "../Resources/sprites/plusOne-sprite.json",
+		"pipeline" : "SPRITE"
+	}, {
+		"id" : 9,
+		"name" : "explosion animation",
+		"path" : "../Resources/animations/explosion-animation.json",
+		"pipeline" : "ANIMATED_SPRITE"
+	}, {
+		"id" : 10,
+		"name" : "dark smoke animation",
+		"path" : "../Resources/animations/darkSmoke-animation.json",
+		"pipeline" : "ANIMATED_SPRITE"
+	}, {
+		"id" : 11,
+		"name" : "player one animation",
+		"path" : "../Resources/animations/playerOne-animation.json",
+		"pipeline" : "ANIMATED_SPRITE"
+	}, {
+		"id" : 12,
+		"name" : "player two animation",
+		"path" : "../Resources/animations/playerTwo-animation.json",
+		"pipeline" : "ANIMATED_SPRITE"
+	}
+]
