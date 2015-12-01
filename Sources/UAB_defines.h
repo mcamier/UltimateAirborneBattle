@@ -82,47 +82,44 @@ public:
     void v_destroy(void) {}
 
     bool v_initialize(void) {
-        loadResources();
-        std::vector<SDL_Rect>   frames = std::vector<SDL_Rect>();
-        SDL_Rect frame1; frame1.x = 0; frame1.y = 0; frame1.w = 132; frame1.h = 70; frames.push_back(frame1);
-        SDL_Rect frame2; frame2.x = 132; frame2.y = 0; frame2.w = 132; frame2.h = 70; frames.push_back(frame2);
-        SDL_Rect frame3; frame3.x = 264; frame3.y = 0; frame3.w = 132; frame3.h = 70; frames.push_back(frame3);
-        SDL_Rect frame4; frame4.x = 396; frame4.y = 0; frame4.w = 132; frame4.h = 70; frames.push_back(frame4);
-        SDL_Rect frame5;
-        std::vector<SDL_Rect>   frames2 = std::vector<SDL_Rect>();
-        frame1; frame1.x = 0;   frame1.y = 70; frame1.w = 132; frame1.h = 70; frames2.push_back(frame1);
-        frame2; frame2.x = 132; frame2.y = 70; frame2.w = 132; frame2.h = 70; frames2.push_back(frame2);
-        frame3; frame3.x = 264; frame3.y = 70; frame3.w = 132; frame3.h = 70; frames2.push_back(frame3);
-        frame4; frame4.x = 396; frame4.y = 70; frame4.w = 132; frame4.h = 70; frames2.push_back(frame4);
-        std::vector<SDL_Rect>   frames3 = std::vector<SDL_Rect>();
-        frame1; frame1.x = 0;   frame1.y = 384; frame1.w = 68; frame1.h = 62; frames3.push_back(frame1);
-        frame2; frame2.x = 68;  frame2.y = 384; frame2.w = 68; frame2.h = 62; frames3.push_back(frame2);
-        frame3; frame3.x = 136; frame3.y = 384; frame3.w = 68; frame3.h = 62; frames3.push_back(frame3);
-        frame4; frame4.x = 204; frame4.y = 384; frame4.w = 68; frame4.h = 62; frames3.push_back(frame4);
-        frame5; frame5.x = 272; frame5.y = 384; frame5.w = 68; frame5.h = 62; frames3.push_back(frame5);
+        int imgFlags = IMG_INIT_PNG;
+        assert(IMG_Init(imgFlags) & imgFlags);
 
-        SDL_Rect frame;
-        std::vector<SDL_Rect> framesEx = std::vector<SDL_Rect>();
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 8; j++) {
-                frame.x = j * 96;
-                frame.y = i * 96 + 200;
-                frame.w = 96;
-                frame.h = 96;
-                framesEx.push_back(frame);
-            }
-        }
+        Locator::getResourceManager()->load(RES_BACKGROUND);
+        Locator::getResourceManager()->load(RES_SPRITESHEET);
+        Locator::getResourceManager()->load(RES_BACKGROUND_SPRITE);
+        Locator::getResourceManager()->load(RES_EXPLOSION_ANIMATION);
+        Locator::getResourceManager()->load(RES_PLAYER_ONE_ANIMATION);
+        Locator::getResourceManager()->load(RES_PLAYER_TWO_ANIMATION);
+        Locator::getResourceManager()->load(RES_DARK_SMOKE_ANIMATION);
+        Locator::getResourceManager()->load(RES_SMOKE_SPRITE);
+        Locator::getResourceManager()->load(RES_MISSILE_SPRITE);
+        Locator::getResourceManager()->load(RES_BOMB_SPRITE);
+        Locator::getResourceManager()->load(RES_PLUS_ONE_SPRITE);
 
-        m_background = new Sprite(m_pBackground, 0, 0, 1280, 720);
-        m_explosion = new AnimatedSprite(m_pSpriteSheet, framesEx, 16);
-        m_playerTwoAnimation = new AnimatedSprite(m_pSpriteSheet, frames, 4);
-        m_playerOneAnimation = new AnimatedSprite(m_pSpriteSheet, frames2, 4);
-        m_darkSmoke = new AnimatedSprite(m_pSpriteSheet, frames3, 5);
-        m_smoke = new Sprite(m_pSpriteSheet, 30, 140, 30, 32);
-        m_missile = new Sprite(m_pSpriteSheet, 30, 172, 26, 22);
-        m_bomb = new Sprite(m_pSpriteSheet, 0, 140, 30, 60);
-        m_plusOne = new Sprite(m_pSpriteSheet, 60, 140, 39, 30);
+        m_pBackground = Locator::getResourceManager()->get<SDL_Texture>(RES_BACKGROUND);
+        m_pSpriteSheet = Locator::getResourceManager()->get<SDL_Texture>(RES_SPRITESHEET);
+        m_background = Locator::getResourceManager()->get<Sprite>(RES_BACKGROUND_SPRITE);
+        m_explosion = Locator::getResourceManager()->get<AnimatedSprite>(RES_EXPLOSION_ANIMATION);
+        m_playerTwoAnimation = Locator::getResourceManager()->get<AnimatedSprite>(RES_PLAYER_TWO_ANIMATION);
+        m_playerOneAnimation = Locator::getResourceManager()->get<AnimatedSprite>(RES_PLAYER_ONE_ANIMATION);
+        m_darkSmoke = Locator::getResourceManager()->get<AnimatedSprite>(RES_DARK_SMOKE_ANIMATION);
+        m_smoke = Locator::getResourceManager()->get<Sprite>(RES_SMOKE_SPRITE);
+        m_missile = Locator::getResourceManager()->get<Sprite>(RES_MISSILE_SPRITE);
+        m_bomb = Locator::getResourceManager()->get<Sprite>(RES_BOMB_SPRITE);
+        m_plusOne = Locator::getResourceManager()->get<Sprite>(RES_PLUS_ONE_SPRITE);
 
+        assert(m_pBackground != NULL);
+        assert(m_pSpriteSheet != NULL);
+        assert(m_background != NULL);
+        assert(m_explosion != NULL);
+        assert(m_playerTwoAnimation != NULL);
+        assert(m_playerOneAnimation != NULL);
+        assert(m_darkSmoke != NULL);
+        assert(m_smoke != NULL);
+        assert(m_missile != NULL);
+        assert(m_bomb != NULL);
+        assert(m_plusOne != NULL);
         return 1;
     }
 
@@ -238,28 +235,6 @@ public:
     }
 
 private:
-    void loadResources() {
-        int imgFlags = IMG_INIT_PNG;
-        assert(IMG_Init(imgFlags) & imgFlags);
-
-        Locator::getResourceManager()->load(RES_BACKGROUND);
-        Locator::getResourceManager()->load(RES_SPRITESHEET);
-        this->m_pBackground = Locator::getResourceManager()->get<SDL_Texture>(RES_BACKGROUND);
-        this->m_pSpriteSheet = Locator::getResourceManager()->get<SDL_Texture>(RES_SPRITESHEET);
-
-        /*SDL_Surface *surface = IMG_Load("../Resources/UAB_spritesheet.png");
-        assert(surface != NULL);
-        this->m_pSpriteSheet = SDL_CreateTextureFromSurface(Locator::getRenderer()->getRenderer(), surface);
-
-        surface = IMG_Load("../Resources/background.png");
-        assert(surface != NULL);
-        this->m_pBackground = SDL_CreateTextureFromSurface(Locator::getRenderer()->getRenderer(), surface);
-
-        SDL_FreeSurface(surface);*/
-        assert(this->m_pBackground != NULL);
-        assert(this->m_pSpriteSheet != NULL);
-    }
-
     TempActorFactory() {}
     virtual ~TempActorFactory() {}
 };

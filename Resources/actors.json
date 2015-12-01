@@ -1,0 +1,154 @@
+[
+    {
+        "actor": 0,
+        "name": "background",
+        "components": {
+            "CTransform": {
+                "x": 640,
+                "y": 360
+            },
+            "CSprite": {
+                "order": 0,
+                "resourceSpriteID": 1
+            }
+        }
+    },
+
+    {
+        "actor": 1,
+        "name": "player one",
+        "components": {
+            "CTransform": {
+                "x": 0,
+                "y": 0
+            },
+            "CAnimation": {
+                "order": 3,
+                "frameDuration": 110,
+                "activated": true,
+                "loop": true,
+                "resourceAnimatedSpriteID": 11
+            },
+            "CPlayer": {
+                "forwardX": 1.0,
+                "forwardY": 0.0
+            },
+            "CRigidBody": {
+                "applyingGravity": true,
+                "damping": 0.95
+            },
+            "CCollider": { }
+        }
+    },
+
+    {
+        "actor": 2,
+        "name": "player two",
+        "components": {
+            "CTransform": {
+                "x": 0,
+                "y": 0
+            },
+            "CAnimation": {
+                "order": 3,
+                "frameDuration": 110,
+                "activated": true,
+                "loop": true,
+                "resourceAnimatedSpriteID": 11
+            },
+            "CPlayer": {
+                "forwardX": 1.0,
+                "forwardY": 0.0
+            },
+            "CRigidBody": {
+                "applyingGravity": true,
+                "damping": 0.95
+            },
+            "CCollider": { }
+        }
+    },
+
+    {
+        "actor": 3,
+        "name": "player three",
+        "components": {
+            "CTransform": {
+                "x": 0,
+                "y": 0
+            },
+            "CAnimation": {
+                "order": 3,
+                "frameDuration": 110,
+                "activated": true,
+                "loop": true,
+                "resourceAnimatedSpriteID": 11
+            },
+            "CPlayer": {
+                "forwardX": 1.0,
+                "forwardY": 0.0
+            },
+            "CRigidBody": {
+                "applyingGravity": true,
+                "damping": 0.95
+            },
+            "CCollider": { }
+        }
+    },
+
+    {
+        "actor": 4,
+        "name": "player for",
+        "components": {
+            "CTransform": {
+                "x": 0,
+                "y": 0
+            },
+            "CAnimation": {
+                "order": 3,
+                "frameDuration": 110,
+                "activated": true,
+                "loop": true,
+                "resourceAnimatedSpriteID": 11
+            },
+            "CPlayer": {
+                "forwardX": 1.0,
+                "forwardY": 0.0
+            },
+            "CRigidBody": {
+                "applyingGravity": true,
+                "damping": 0.95
+            },
+            "CCollider": { }
+        }
+    },
+
+    {
+        "actor": 5,
+        "name": "explosion",
+        "components": {}
+    },
+
+    {
+        "actor": 6,
+        "name": "bomb",
+        "components": {}
+    },
+
+    {
+        "actor": 7,
+        "name": "missile",
+        "components": { }
+    },
+
+    {
+        "actor": 8,
+        "name": "plus one",
+        "components": {}
+    },
+
+    {
+        "actor": 9,
+        "name": "camera",
+        "components": {}
+    }
+]
