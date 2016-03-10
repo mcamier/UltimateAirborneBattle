@@ -8,7 +8,7 @@ const int CircleCollider::getType(void) {
     return COLLIDER_TYPE_SPHERE_2D;
 }
 
-bool CircleCollider::isColliding(glm::vec3 &pos, ICollider *other, glm::vec3 &posOther) {
+bool CircleCollider::isColliding(glm::vec3 pos, ICollider *other, glm::vec3 posOther) {
     switch (other->getType()) {
 
     case COLLIDER_TYPE_SPHERE_2D:

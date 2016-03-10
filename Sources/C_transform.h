@@ -5,7 +5,8 @@
 
 #include "glm/vec2.hpp"
 #include "CPT_creator.h"
-#include "rapidxml\rapidxml.hpp"
+#include "rapidjson/rapidjson.h"
+#include "rapidjson/document.h"
 
 class CTransform : public IComponent {
 public:
@@ -222,7 +223,7 @@ class CTransformCreator :
     public BaseCreator<IComponent> {
 
 public:
-    IComponent* create(rapidxml::xml_node<> *node) {
+    IComponent* create(const rapidjson::Value& node) {
         CTransform *component = new CTransform();
 
         component->setX(0.0f);
@@ -232,38 +233,26 @@ public:
         component->setOffsetX(0.0f);
         component->setOffsetY(0.0f);
 
-        if (0 == strcmp("CTransform", node->first_attribute("class")->value())) {
-            rapidxml::xml_node<> *value;
-            
-            for (value = node->first_node("value")
-                ; value
-                ; value = value->next_sibling()) {
-            
-                if (0 == strcmp("x", value->first_attribute("name")->value())) {
-                    component->setX(atof(value->value()));
-                }
-                else if (0 == strcmp("y", value->first_attribute("name")->value())) {
-                    component->setY(atof(value->value()));
-                }
-                else if (0 == strcmp("scaleX", value->first_attribute("name")->value())) {
-                    component->setScaleX(atof(value->value()));
-                }
-                else if (0 == strcmp("scaleY", value->first_attribute("name")->value())) {
-                    component->setScaleY(atof(value->value()));
-                }
-                else if (0 == strcmp("offsetX", value->first_attribute("name")->value())) {
-                    component->setOffsetX(atof(value->value()));
-                }
-                else if (0 == strcmp("offsetY", value->first_attribute("name")->value())) {
-                    component->setOffsetY(atof(value->value()));
-                }
-                else if (0 == strcmp("rotation", value->first_attribute("name")->value())) {
-                    component->setRotation(atof(value->value()));
-                }
-                else {
-                    // add log
-                }
-            } 
+        if (node.HasMember("x")) {
+            component->setX(node["x"].GetInt());
+        }
+        if (node.HasMember("x")) {
+            component->setX(node["x"].GetInt());
+        }
+        if (node.HasMember("scaleX")) {
+            component->setX(node["scaleX"].GetInt());
+        }
+        if (node.HasMember("scaleY")) {
+            component->setX(node["scaleY"].GetInt());
+        }
+        if (node.HasMember("offsetX")) {
+            component->setX(node["offsetX"].GetInt());
+        }
+        if (node.HasMember("offsetY")) {
+            component->setX(node["offsetY"].GetInt());
+        }
+        if (node.HasMember("rotation")) {
+            component->setX(node["rotation"].GetInt());
         }
 
         return component;

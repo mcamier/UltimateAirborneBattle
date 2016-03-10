@@ -43,6 +43,8 @@ private:
     float                       m_elapsedRate;
 public:
     
+    CParticuleEmitter() {}
+
     CParticuleEmitter(IParticule *particulePrototype, int particulePerSecond, float lifetime, float angle, float speed, bool gravityApplied) :
         m_particulePrototype(particulePrototype),
         m_lifetime(lifetime),
@@ -71,4 +73,12 @@ public:
 };
 
 
+class CParticuleEmitterCreator :
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(const rapidjson::Value& node) {
+        return new CParticuleEmitter();
+    }
+};
 #endif

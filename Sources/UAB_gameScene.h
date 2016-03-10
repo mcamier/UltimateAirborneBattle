@@ -18,7 +18,7 @@
 #include "CPT_locator.h"
 #include "CPT_event.h"
 #include "WIP_inputEngine.h"
-
+#include "CPT_actorFactory.h"
 #include "UAB_inputs.h"
 
 using namespace std;
@@ -90,6 +90,8 @@ public:
         this->addProcess(new PPhysics2D());
         this->addProcess(new PParticuleManager()); 
         this->addProcess(new PPlusOne());
+
+        //Locator::getActorFactory()->createActor(1, getEntityManager());
 
         m_camera = TempActorFactory::get()->createCamera(getEntityManager());
         this->addRenderProcess(new PRendereable2D(m_camera));
@@ -216,7 +218,8 @@ private:
     }
 
     void initGame() {
-        TempActorFactory::get()->createBackground(getEntityManager());
+        Locator::getActorFactory()->createActor(0, getEntityManager());
+        //TempActorFactory::get()->createBackground(getEntityManager());
         switch (m_gameMode) {
         case ONE_VS_ONE:
             initOneVsOne();

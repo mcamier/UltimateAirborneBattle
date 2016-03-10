@@ -8,8 +8,9 @@
 		</component>
 		
 		<component class="CSprite">
-			<value name="sprite">1000</value>
+			<value name="sprite">0</value>
 			<value name="order">0</value>
+			<value name="alpha">1</value>
 		</component>
 	</actor>
 	

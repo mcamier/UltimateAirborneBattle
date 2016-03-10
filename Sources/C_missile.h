@@ -4,7 +4,8 @@
 #include "CPT_entity.h"
 #include "CPT_component.h"
 #include "CPT_creator.h"
-#include "rapidxml\rapidxml.hpp"
+#include "rapidjson/document.h"
+#include "rapidjson/rapidjson.h"
 
 class CMissile : public IComponent {
 public:
@@ -39,7 +40,7 @@ class CMissileCreator :
     public BaseCreator<IComponent> {
 
 public:
-    IComponent* create(rapidxml::xml_node<> *node) {
+    IComponent* create(const rapidjson::Value& node) {
         return new CMissile();
     }
 };

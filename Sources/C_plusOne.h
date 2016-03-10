@@ -3,7 +3,7 @@
 
 #include "CPT_component.h"
 #include "CPT_creator.h"
-#include "rapidxml\rapidxml.hpp"
+#include "rapidxml.hpp"
 
 class CPlusOne : public IComponent {
 public:
@@ -36,7 +36,7 @@ class CPlusOneCreator :
     public BaseCreator<IComponent> {
 
 public:
-    IComponent* create(rapidxml::xml_node<> *node) {
+    IComponent* create(const rapidjson::Value& node) {
         return new CPlusOne();
     }
 };

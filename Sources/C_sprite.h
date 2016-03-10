@@ -5,7 +5,12 @@
 #include "CPT_component.h"
 #include "C_rendereable2D.h"
 #include "CPT_locator.h"
+#include "CPT_resourceManager.h"
 #include "CPT_graphic.h"
+#include "rapidjson\rapidjson.h"
+#include "rapidjson\document.h"
+
+using namespace rapidjson;
 
 class CSprite : public CRendereable2D {
     friend class PSpriteRenderer;
@@ -46,34 +51,20 @@ class CSpriteCreator :
     public BaseCreator<IComponent> {
 
 public:
-    IComponent* create(rapidxml::xml_node<> *node) {
+    IComponent* create(const rapidjson::Value& node) {
+        
         CSprite *component = new CSprite(nullptr, 0);
 
-        if (0 == strcmp("CSprite", node->first_attribute("class")->value())) {
-            rapidxml::xml_node<> *value;
-
-            for (value = node->first_node("value")
-                ; value
-                ; value = value->next_sibling()) {
-
-                if (0 == strcmp("order", value->first_attribute("name")->value())) {
-                    component->setOrder(atof(value->value()));
-                }
-                else if (0 == strcmp("alpha", value->first_attribute("name")->value())) {
-                    component->setAlpha(atof(value->value()));
-                }
-                else if (0 == strcmp("texture", value->first_attribute("name")->value())) {
-                    int spriteId= atoi(value->value());
-                    //component->setSprite();
-                    //Locator::getFactory()->get<Sprite>(spriteId);
-
-                }
-                else {
-                    // add log
-                }
-            }
+        if (node.HasMember("resourceSpriteID")) {
+            Locator::getResourceManager()->get<Sprite>(node["resourceSpriteID"].GetInt());
         }
-
+        if (node.HasMember("order")) {
+            component->setOrder(node["order"].GetInt());
+        }
+        if (node.HasMember("alpha")) {
+            component->setAlpha(node["alpha"].GetInt());
+        }
+    
         return component;
     }
 };

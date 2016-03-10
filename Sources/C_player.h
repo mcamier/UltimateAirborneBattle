@@ -4,7 +4,8 @@
 #include "glm/vec2.hpp"
 #include "CPT_component.h"
 #include "CPT_creator.h"
-#include "rapidxml\rapidxml.hpp"
+#include "rapidjson/rapidjson.h"
+#include "rapidjson/document.h"
 
 class CPlayer : public IComponent {
 public:
@@ -57,13 +58,13 @@ class CPlayerCreator :
     public BaseCreator<IComponent> {
 
 public:
-    IComponent* create(rapidxml::xml_node<> *node) {
+    IComponent* create(const rapidjson::Value& node) {
         CPlayer *component = new CPlayer();
 
         component->m_forward.x = 1.0f;
         component->m_forward.y = 1.0f;
 
-        if (0 == strcmp("CPlayer", node->first_attribute("class")->value())) {
+        /*if (0 == strcmp("CPlayer", node->first_attribute("class")->value())) {
             rapidxml::xml_node<> *value;
 
             for (value = node->first_node("value")
@@ -80,7 +81,7 @@ public:
                     // add log
                 }
             }
-        }
+        }*/
 
         return component;
     }

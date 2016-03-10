@@ -21,6 +21,8 @@ private:
     float                   m_frameDuration;
 
 public:
+    CAnimation() {}
+
     CAnimation(AnimatedSprite *animation, int order, float frameDuration, bool activated, bool loop) :
         m_animation(animation), 
         m_frameDuration(frameDuration), 
@@ -45,6 +47,16 @@ public:
 
     IComponent* clone(void) const {
         return nullptr;
+    }
+};
+
+
+class CAnimationCreator :
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(const rapidjson::Value& node) {
+        return new CAnimation();
     }
 };
 

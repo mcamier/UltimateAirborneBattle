@@ -4,7 +4,8 @@
 #include "glm/vec2.hpp"
 #include "CPT_component.h"
 #include "CPT_creator.h"
-#include "rapidxml\rapidxml.hpp"
+#include "rapidjson/rapidjson.h"
+#include "rapidjson/document.h"
 
 class CRigidBody : public IComponent {
 public:
@@ -62,11 +63,11 @@ class CRigidBodyCreator :
     public BaseCreator<IComponent> {
 
 public:
-    IComponent* create(rapidxml::xml_node<> *node) {
+    IComponent* create(const rapidjson::Value& node) {
         CRigidBody *component = new CRigidBody(false);
 
         component->m_damping = 0.99f;
-
+        /*
         if (0 == strcmp("CRigidBody", node->first_attribute("class")->value())) {
             rapidxml::xml_node<> *value;
 
@@ -91,7 +92,7 @@ public:
                     // add log
                 }
             }
-        }
+        }*/
 
         return component;
     }

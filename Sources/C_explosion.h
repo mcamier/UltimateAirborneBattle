@@ -3,7 +3,8 @@
 
 #include "CPT_component.h"
 #include "CPT_creator.h"
-#include "rapidxml\rapidxml.hpp"
+#include "rapidjson\rapidjson.h"
+#include "rapidjson\document.h"
 
 class CExplosion : public IComponent {
 public:
@@ -39,7 +40,7 @@ class CExplosionCreator :
     public BaseCreator<IComponent> {
 
 public:
-    IComponent* create(rapidxml::xml_node<> *node) {
+    IComponent* create(const rapidjson::Value& node) {
         return new CExplosion();
     }
 };

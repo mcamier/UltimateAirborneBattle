@@ -16,6 +16,8 @@ public:
     bool m_bActivated;
     Functor *f_onCollisionCallback;
 
+    CCollider() {}
+
     CCollider(ICollider *collider, bool callbackOncePerContact, Functor *onCollisionFunctor) :
         m_collider(collider),
         m_callbackOncePerContact(callbackOncePerContact),
@@ -37,4 +39,13 @@ public:
     }
 };
 
+
+class CColliderCreator :
+    public BaseCreator<IComponent> {
+
+public:
+    IComponent* create(const rapidjson::Value& node) {
+        return new CCollider();
+    }
+};
 #endif  

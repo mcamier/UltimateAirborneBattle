@@ -18,7 +18,7 @@
 class ICollider {
 public:
     virtual const int       getType         (void) = 0;
-    virtual bool            isColliding     (glm::vec3 &pos, ICollider *other, glm::vec3 &posOther) = 0;
+    virtual bool            isColliding     (glm::vec3 pos, ICollider *other, glm::vec3 posOther) = 0;
 #ifdef _DEBUG
     virtual void            debugDraw       (glm::vec2 &position) = 0;
 #endif
@@ -33,7 +33,7 @@ public:
                     CircleCollider      (float radius) : m_radius(radius) {}
 
     const int       getType             (void);
-    bool            isColliding         (glm::vec3 &pos, ICollider *other, glm::vec3 &posOther);
+    bool            isColliding         (glm::vec3 pos, ICollider *other, glm::vec3 posOther);
 #ifdef _DEBUG
     void            debugDraw           (glm::vec2 &position);
 #endif

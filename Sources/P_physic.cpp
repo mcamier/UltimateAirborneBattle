@@ -1,3 +1,4 @@
+#include <math.h>
 #include "P_physic.h"
 
 #include "C_transform.h"
