@@ -5,10 +5,10 @@
 #include "CPT_component.h"
 #include "C_rendereable2D.h"
 #include "CPT_locator.h"
-#include "CPT_resourceManager.h"
+#include "resource/CPT_resourceManager.h"
 #include "CPT_graphic.h"
-#include "rapidjson\rapidjson.h"
-#include "rapidjson\document.h"
+#include "rapidjson/rapidjson.h"
+#include "rapidjson/document.h"
 
 using namespace rapidjson;
 

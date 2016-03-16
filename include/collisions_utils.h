@@ -5,7 +5,7 @@
 
 #include "CPT_entity.h"
 #include "SDL2/SDL_rect.h"
-#include "C_transform.h"
+#include "components/C_transform.h"
 #include "glm/vec3.hpp"
 
 #define COLLIDER_TYPE_SPHERE_2D     1

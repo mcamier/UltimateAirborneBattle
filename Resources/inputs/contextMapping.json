@@ -1,0 +1,14 @@
+{
+  "IN_GAME": [
+    {
+      "gameSpecificInput": 0,
+      "type": "ACTION_PRESS",
+      "source": "XBOX_CONTROLLER",
+      "code": "",
+      "which": ""
+    },
+    {
+
+    }
+  ]
+}

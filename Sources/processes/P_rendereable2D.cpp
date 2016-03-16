@@ -1,11 +1,11 @@
-#include "P_rendereable2D.h"
+#include "processes/P_rendereable2D.h"
 
 #include "CPT_math.h"
 #include "CPT_rendererManager.h"
 
-#include "C_rendereable2D.h"
-#include "C_transform.h"
-#include "C_animation.h"
+#include "components/C_rendereable2D.h"
+#include "components/C_transform.h"
+#include "components/C_animation.h"
 #include "CPT_locator.h"
 
 ComponentType jj[] = { CRendereable2D::sk_componentType, CTransform::sk_componentType };

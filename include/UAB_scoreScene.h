@@ -5,11 +5,11 @@
 #include "CPT_scene.h"
 
 #include "UAB_defines.h"
-#include "P_physic.h"
-#include "P_player.h"
-#include "P_rendereable2D.h"
-#include "P_particuleManager.h"
-#include "P_explosion.h"
+#include "processes/P_physic.h"
+#include "processes/P_player.h"
+#include "processes/P_rendereable2D.h"
+#include "processes/P_particuleManager.h"
+#include "processes/P_explosion.h"
 
 class UABScoreScene : public Scene {
 public:
@@ -17,7 +17,7 @@ public:
 
     int getID() const { return 10005; }
 
-protected:
+public:
     void initialize(void) {
         assert(TempActorFactory::get() != NULL);
 
@@ -35,6 +35,10 @@ protected:
         this->addRenderProcess(new PRendereable2D(TempActorFactory::get()->createCamera(this->getEntityManager())));
         
         std::cout << " UABScoreScene initialized " << std::endl;
+    }
+
+    void v_update(const GameTime& gameTime) {
+        Scene::v_update(gameTime);
     }
 };
 

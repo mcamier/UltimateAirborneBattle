@@ -8,7 +8,7 @@
 #include "CPT_process.h"
 #include "CPT_component.h"
 #include "CPT_memory.h"
-#include "C_particuleEmitter.h"
+#include "components/C_particuleEmitter.h"
 
 #include "collisions_utils.h"
 

@@ -5,10 +5,10 @@
 #include "CPT_event.h"
 #include "CPT_scene.h"
 #include "CPT_entityManager.h"
-#include "C_collider.h"
-#include "C_player.h"
-#include "C_transform.h"
-#include "C_missile.h"
+#include "components/C_collider.h"
+#include "components/C_player.h"
+#include "components/C_transform.h"
+#include "components/C_missile.h"
 
 #include "glm/vec2.hpp"
 

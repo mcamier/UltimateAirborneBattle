@@ -9,22 +9,22 @@
 #include "CPT_utils.h"
 #include "UAB_events.h"
 
-#include "C_rigidbody.h"
-#include "C_player.h"
-#include "C_animation.h"
-#include "C_sprite.h"
-#include "C_collider.h"
-#include "C_transform.h"
-#include "C_particuleEmitter.h"
-#include "C_explosion.h"
-#include "C_missile.h"
-#include "C_plusOne.h"
+#include "components/C_rigidbody.h"
+#include "components/C_player.h"
+#include "components/C_animation.h"
+#include "components/C_sprite.h"
+#include "components/C_collider.h"
+#include "components/C_transform.h"
+#include "components/C_particuleEmitter.h"
+#include "components/C_explosion.h"
+#include "components/C_missile.h"
+#include "components/C_plusOne.h"
 #include "collisions_utils.h"
 #include "IParticule.h"
 
 #include "CPT_locator.h"
 #include "CPT_rendererManager.h"
-#include "CPT_resourceManager.h"
+#include "resource/CPT_resourceManager.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
 #define BOMBS_LAYER             1

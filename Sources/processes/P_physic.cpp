@@ -1,8 +1,8 @@
 #include <math.h>
-#include "P_physic.h"
+#include "processes/P_physic.h"
 
-#include "C_transform.h"
-#include "C_rigidbody.h"
+#include "components/C_transform.h"
+#include "components/C_rigidbody.h"
 
 ComponentType f[] = { CRigidBody::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PPhysics2D::sk_requirements(f, f + 2);

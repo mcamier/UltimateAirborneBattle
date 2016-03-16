@@ -5,19 +5,19 @@
 #include "CPT_scene.h"
 
 #include "UAB_defines.h"
-#include "P_physic.h"
-#include "P_player.h"
-#include "P_rendereable2D.h"
-#include "P_particuleManager.h"
-#include "P_animation.h"
-#include "P_explosion.h"
-#include "P_colliderManager.h"
-#include "C_particuleEmitter.h"
-#include "P_plusOne.h"
+#include "processes/P_physic.h"
+#include "processes/P_player.h"
+#include "processes/P_rendereable2D.h"
+#include "processes/P_particuleManager.h"
+#include "processes/P_animation.h"
+#include "processes/P_explosion.h"
+#include "processes/P_colliderManager.h"
+#include "components/C_particuleEmitter.h"
+#include "processes/P_plusOne.h"
 #include "CPT_math.h"
 #include "CPT_locator.h"
 #include "CPT_event.h"
-#include "WIP_inputEngine.h"
+#include "input/CPT_inputEngine.h"
 #include "CPT_actorFactory.h"
 #include "UAB_inputs.h"
 
@@ -338,7 +338,7 @@ private:
             CRigidBody *rb = getEntityManager().getAs<CRigidBody>(e->m_player);
             rb->m_bApplyGravity = true;
 
-            // camera shakîng
+            // camera shakï¿½ng
             m_bCameraShaking = true;
             m_cameraShakingElapsed = 0.0f;
         }

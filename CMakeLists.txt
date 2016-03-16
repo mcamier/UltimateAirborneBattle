@@ -1,16 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
 project(UAB)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CompotePlusPlus_SOURCE_DIR}/cmake")
-
-    set(GLM_ROOT_DIR "c:/VS_DEV_LIB/glm-0.9.7.3")
-    set(SDL2_PATH "c:/VS_DEV_LIB/SDL2-2.0.4/i686-w64-mingw32")
-    set(RapidXML_ROOT "c:/VS_DEV_LIB/rapidxml-1.13")
-    set(RAPIDJSON_INCLUDEDIR "c:/VS_DEV_LIB/rapidjson")
-endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -static-libstdc++ -static-libgcc -pthread -I/usr/include/SDL2 -Dmain=SDL_main -L/usr/lib -lSDL2main -lSDL2 -mwindows")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
@@ -21,14 +12,9 @@ find_package(SDL2_image REQUIRED)
 find_package(RAPIDXML REQUIRED)
 find_package(RAPIDJSON REQUIRED)
 
-
 include_directories ("${PROJECT_SOURCE_DIR}/../CompoteLib/include")
 
-
-set(${SDL2_INCLUDE_DIR} "c:/VS_DEV_LIB/SDL2-2.0.4/i686-w64-mingw32/include")
-
-include_directories("c:/VS_DEV_LIB/SDL2-2.0.4/i686-w64-mingw32/include")
-#include_directories(${SDL2_INCLUDE_DIR})
+include_directories(${SDL2_INCLUDE_DIR})
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 include_directories(${SDL2_TTF_INCLUDE_DIR})
 
@@ -43,9 +29,9 @@ file(
 )
 
 set(EXENAME UAB)
-set(LIBS ${LIBS} CompoteLib ${SDL2_LIBRARY} ${SDL2_TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY})
+set(LIBS kernel32 user32 gdi32 comdlg32 advapi32 shell32 ole32 oleaut32 odbc32 winspool uuid odbccp32 ${SDL2MAIN_LIBRARY} ${SDL2_LIBRARY} ${SDL2_TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} CompoteLib)
 
-add_executable(${EXENAME} ${SOURCES})
+add_executable(${EXENAME} WIN32 ${SOURCES})
 target_link_libraries(${EXENAME} ${LIBS})
 
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build")

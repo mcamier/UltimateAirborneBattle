@@ -1,5 +1,5 @@
-#include "P_colliderManager.h"
-#include "C_collider.h"
+#include "processes/P_colliderManager.h"
+#include "components/C_collider.h"
 #include "UAB_events.h"
 #include "CPT_debugRenderer.h"
 

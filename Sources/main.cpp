@@ -13,16 +13,20 @@
 
 #include "CPT_creator.h"
 
-#include "C_transform.h"
+#include "components/C_transform.h"
 #include "CPT_actorFactory.h"
 #include "CPT_locator.h"
-#include "C_collider.h"
-#include "C_player.h"
-#include "C_plusOne.h"
-#include "C_rigidbody.h"
-#include "C_missile.h"
-#include "C_sprite.h"
-#include "C_animation.h"
+#include "components/C_collider.h"
+#include "components/C_player.h"
+#include "components/C_plusOne.h"
+#include "components/C_rigidbody.h"
+#include "components/C_missile.h"
+#include "components/C_sprite.h"
+#include "components/C_animation.h"
+
+#ifdef main
+# undef main
+#endif /* main */
 
 class UltimateAirborneBattle : public CompoteEngine {
 
@@ -50,15 +54,18 @@ protected:
         //Locator::getActorFactory()->addCreator<CParticulEmitter>(new CParticulEmitterCreator());
         //Locator::getActorFactory()->addCreator<CCollider>(new CColliderCreator());
 
+
+        UABScoreScene *scoreScene = new UABScoreScene();
         UABGameScene *gameScreen = new UABGameScene();
         this->pushScene(*gameScreen);
+        this->pushScene(*scoreScene);
     }
 };
 
 
 /* Entry point
  */
-int main(int, char**) {
+int main(int argc, char** argv) {
     UltimateAirborneBattle engine;
     return engine.run();
 }

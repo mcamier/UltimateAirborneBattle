@@ -1,12 +1,12 @@
-#include "C_missile.h"
-#include "C_rendereable2D.h"
-#include "C_rigidbody.h"
-#include "C_collider.h"
-#include "C_transform.h"
-#include "C_plusOne.h"
-#include "C_player.h"
-#include "C_explosion.h"
-#include "C_particuleEmitter.h"
+#include "components/C_missile.h"
+#include "components/C_rendereable2D.h"
+#include "components/C_rigidbody.h"
+#include "components/C_collider.h"
+#include "components/C_transform.h"
+#include "components/C_plusOne.h"
+#include "components/C_player.h"
+#include "components/C_explosion.h"
+#include "components/C_particuleEmitter.h"
 
 #include <string>
 

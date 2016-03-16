@@ -1,7 +1,7 @@
-#include "P_plusOne.h"
+#include "processes/P_plusOne.h"
 
-#include "C_plusOne.h"
-#include "C_transform.h"
+#include "components/C_plusOne.h"
+#include "components/C_transform.h"
 
 ComponentType bb[] = { CPlusOne::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PPlusOne::sk_requirements(bb, bb + 2);

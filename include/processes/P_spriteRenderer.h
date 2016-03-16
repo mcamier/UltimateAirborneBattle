@@ -10,8 +10,8 @@
 #include "CPT_event.h"
 #include "CPT_graphic.h"
 
-#include "C_transform.h"
-#include "C_sprite.h"
+#include "components/C_transform.h"
+#include "components/C_sprite.h"
 
 
 class PSpriteRenderer : public EntityRenderProcess {

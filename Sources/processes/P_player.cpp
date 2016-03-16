@@ -1,8 +1,8 @@
-#include "P_player.h"
+#include "processes/P_player.h"
 #include "SDL2/SDL.h"
 
-#include "C_player.h"
-#include "C_transform.h"
+#include "components/C_player.h"
+#include "components/C_transform.h"
 #include "UAB_events.h"
 
 #include "CPT_math.h"

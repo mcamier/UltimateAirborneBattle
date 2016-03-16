@@ -3,7 +3,7 @@
 
 #include "CPT_process.h"
 
-#include "C_rigidbody.h"
+#include "components/C_rigidbody.h"
 
 class PPhysics2D : public EntityUpdateProcess {
 private:

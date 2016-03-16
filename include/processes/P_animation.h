@@ -10,8 +10,8 @@
 #include "CPT_rendererManager.h"
 #include "CPT_graphic.h"
 
-#include "C_transform.h"
-#include "C_animation.h"
+#include "components/C_transform.h"
+#include "components/C_animation.h"
 
 class PAnimation : public EntityUpdateProcess {
 private:
