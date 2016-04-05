@@ -3,16 +3,16 @@
 
 #include <vector>
 
-#include "CPT_time.h"
-#include "CPT_entity.h"
+#include "core/CPT_time.h"
+#include "entity/CPT_entity.h"
 #include "CPT_process.h"
-#include "CPT_component.h"
+#include "entity/CPT_component.h"
 #include "CPT_memory.h"
 #include "components/C_particuleEmitter.h"
 
 #include "collisions_utils.h"
 
-class PColliderManager : public EntityUpdateProcess {
+class PColliderManager : public UpdateProcess {
 
 private:
     static const std::vector<ComponentType> sk_requirements;
@@ -25,8 +25,6 @@ public:
     PColliderManager() : 
         m_pDetectedCollisions(new DoubleBufferedStackAllocator(sizeof(collision_s) * 100)) {}
     ~PColliderManager() {}
-
-    const unsigned int      getID                       () const { return 10012; }
 
     const std::vector<ComponentType> getRequirements    () const {
         return sk_requirements;

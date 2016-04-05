@@ -2,7 +2,7 @@
 #define _C_RENDERABLE_2D_H_
 
 #include <SDL2/SDL.h>
-#include "CPT_component.h"
+#include "entity/CPT_component.h"
 
 class CRendereable2D : public IComponent {
 

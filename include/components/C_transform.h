@@ -1,10 +1,10 @@
 #ifndef _C_TRANSFORM_H
 #define _C_TRANSFORM_H
 
-#include "CPT_component.h"
+#include "entity/CPT_component.h"
 
 #include "glm/vec2.hpp"
-#include "CPT_creator.h"
+#include "entity/CPT_creator.h"
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 

@@ -3,18 +3,16 @@
 
 #include <vector>
 
-#include "CPT_component.h"
+#include "entity/CPT_component.h"
 #include "CPT_process.h"
 
-class PPlayer : public EntityUpdateProcess {
+class PPlayer : public UpdateProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
 public:
     PPlayer() {}
     ~PPlayer() {}
-
-    inline const unsigned int getID() const { return 10003; }
 
     const std::vector<ComponentType> getRequirements() const {
         return sk_requirements;

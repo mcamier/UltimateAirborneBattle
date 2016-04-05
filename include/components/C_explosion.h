@@ -1,10 +1,10 @@
 #ifndef _C_EXPLOSION_H_
 #define _C_EXPLOSION_H_
 
-#include "CPT_component.h"
-#include "CPT_creator.h"
-#include "rapidjson\rapidjson.h"
-#include "rapidjson\document.h"
+#include "entity/CPT_component.h"
+#include "entity/CPT_creator.h"
+#include "rapidjson/rapidjson.h"
+#include "rapidjson/document.h"
 
 class CExplosion : public IComponent {
 public:

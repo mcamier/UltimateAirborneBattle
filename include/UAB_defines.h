@@ -22,8 +22,8 @@
 #include "collisions_utils.h"
 #include "IParticule.h"
 
-#include "CPT_locator.h"
-#include "CPT_rendererManager.h"
+#include "core/CPT_locator.h"
+#include "graphic/CPT_rendererManager.h"
 #include "resource/CPT_resourceManager.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
@@ -57,18 +57,18 @@ class TempActorFactory :
 public:
     static TempActorFactory *m_pInstance;
 
-    SDL_Texture         *m_pSpriteSheet;
-    SDL_Texture         *m_pBackground;
+    ResHandler<SDL_Texture>         *m_pSpriteSheet;
+    ResHandler<SDL_Texture>         *m_pBackground;
 
-    AnimatedSprite      *m_playerOneAnimation;
-    AnimatedSprite      *m_playerTwoAnimation;
-    AnimatedSprite      *m_explosion;
-    Sprite              *m_smoke;
-    Sprite              *m_plusOne;
-    Sprite              *m_missile;
-    Sprite              *m_bomb;
-    Sprite              *m_background;
-    AnimatedSprite      *m_darkSmoke;
+    ResHandler<AnimatedSprite>      *m_playerTwoAnimation;
+    ResHandler<AnimatedSprite>      *m_playerOneAnimation;
+    ResHandler<AnimatedSprite>      *m_explosion;
+    ResHandler<Sprite>              *m_smoke;
+    ResHandler<Sprite>              *m_plusOne;
+    ResHandler<Sprite>              *m_missile;
+    ResHandler<Sprite>              *m_bomb;
+    ResHandler<Sprite>              *m_background;
+    ResHandler<AnimatedSprite>      *m_darkSmoke;
 
 public:
     static TempActorFactory *get(void) {
@@ -85,18 +85,6 @@ public:
         int imgFlags = IMG_INIT_PNG;
         assert(IMG_Init(imgFlags) & imgFlags);
 
-        Locator::getResourceManager()->load(RES_BACKGROUND);
-        Locator::getResourceManager()->load(RES_SPRITESHEET);
-        Locator::getResourceManager()->load(RES_BACKGROUND_SPRITE);
-        Locator::getResourceManager()->load(RES_EXPLOSION_ANIMATION);
-        Locator::getResourceManager()->load(RES_PLAYER_ONE_ANIMATION);
-        Locator::getResourceManager()->load(RES_PLAYER_TWO_ANIMATION);
-        Locator::getResourceManager()->load(RES_DARK_SMOKE_ANIMATION);
-        Locator::getResourceManager()->load(RES_SMOKE_SPRITE);
-        Locator::getResourceManager()->load(RES_MISSILE_SPRITE);
-        Locator::getResourceManager()->load(RES_BOMB_SPRITE);
-        Locator::getResourceManager()->load(RES_PLUS_ONE_SPRITE);
-
         m_pBackground = Locator::getResourceManager()->get<SDL_Texture>(RES_BACKGROUND);
         m_pSpriteSheet = Locator::getResourceManager()->get<SDL_Texture>(RES_SPRITESHEET);
         m_background = Locator::getResourceManager()->get<Sprite>(RES_BACKGROUND_SPRITE);
@@ -109,17 +97,6 @@ public:
         m_bomb = Locator::getResourceManager()->get<Sprite>(RES_BOMB_SPRITE);
         m_plusOne = Locator::getResourceManager()->get<Sprite>(RES_PLUS_ONE_SPRITE);
 
-        assert(m_pBackground != NULL);
-        assert(m_pSpriteSheet != NULL);
-        assert(m_background != NULL);
-        assert(m_explosion != NULL);
-        assert(m_playerTwoAnimation != NULL);
-        assert(m_playerOneAnimation != NULL);
-        assert(m_darkSmoke != NULL);
-        assert(m_smoke != NULL);
-        assert(m_missile != NULL);
-        assert(m_bomb != NULL);
-        assert(m_plusOne != NULL);
         return 1;
     }
 

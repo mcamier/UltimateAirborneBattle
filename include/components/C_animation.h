@@ -4,8 +4,9 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "C_rendereable2D.h"
-#include "CPT_component.h"
-#include "CPT_graphic.h"
+#include "entity/CPT_component.h"
+#include "resource/CPT_resourceManager.h"
+#include "graphic/CPT_graphic.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ class CAnimation : public CRendereable2D {
     friend class PAnimation;
 
 private:
-    AnimatedSprite          *m_animation;
+    ResHandler<AnimatedSprite> *m_animation;
     bool                    m_bActivated;
     bool                    m_bLoop;
     int                     m_currentFrame;
@@ -23,7 +24,7 @@ private:
 public:
     CAnimation() {}
 
-    CAnimation(AnimatedSprite *animation, int order, float frameDuration, bool activated, bool loop) :
+    CAnimation(ResHandler<AnimatedSprite> *animation, int order, float frameDuration, bool activated, bool loop) :
         m_animation(animation), 
         m_frameDuration(frameDuration), 
         m_currentFrame(0), 
@@ -36,15 +37,16 @@ public:
 
     virtual ~CAnimation() {}
 
-    SDL_Texture*            getTexture() const override { return m_animation->getTexture(); }
-    SDL_Rect                getSource() const override { return m_animation->getFrame(m_currentFrame); }
-    int                     getWidth() const override { return m_animation->getWidth(m_currentFrame); }
-    int                     getHeight() const override { return m_animation->getHeight(m_currentFrame); }
+    SDL_Texture*            getTexture() const override { return m_animation->get()->getTexture(); }
+    SDL_Rect                getSource() const override { return m_animation->get()->getFrame(m_currentFrame); }
+    int                     getWidth() const override { return m_animation->get()->getWidth(m_currentFrame); }
+    int                     getHeight() const override { return m_animation->get()->getHeight(m_currentFrame); }
 
     static const char* getName(void) {
         return "CAnimation";
     }
 
+    // TODO implement clone method
     IComponent* clone(void) const {
         return nullptr;
     }

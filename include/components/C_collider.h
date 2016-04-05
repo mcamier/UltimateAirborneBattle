@@ -1,7 +1,7 @@
 #ifndef _C_COLLIDER_H_
 #define _C_COLLIDER_H_
 
-#include "CPT_component.h"
+#include "entity/CPT_component.h"
 #include "collisions_utils.h"
 
 class Functor;

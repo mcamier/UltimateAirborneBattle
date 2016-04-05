@@ -2,73 +2,73 @@
     {
         "id": 1,
         "name": "background",
-        "path": "../Resources/images/background.png",
+        "path": "../resources/images/background.png",
         "pipeline": "PNG"
     },
     {
         "id": 2,
         "name": "spritesheet",
-        "path": "../Resources/images/UAB_spritesheet.png",
+        "path": "../resources/images/UAB_spritesheet.png",
         "pipeline": "PNG"
     },
     {
         "id": 3,
         "name": "font",
-        "path": "../Resources/fonts/font.ttf",
+        "path": "../resources/fonts/font.ttf",
         "pipeline": "TTF"
     },
     {
         "id": 4,
         "name": "background sprite",
-        "path": "../Resources/sprites/background-sprite.json",
+        "path": "../resources/sprites/background-sprite.json",
         "pipeline": "SPRITE",
         "links": [1]
     }, {
 		"id" : 5,
 		"name" : "smoke sprite",
-		"path" : "../Resources/sprites/smoke-sprite.json",
+		"path" : "../resources/sprites/smoke-sprite.json",
 		"pipeline" : "SPRITE",
         "links": [2]
 	}, {
 		"id" : 6,
 		"name" : "missile sprite",
-		"path" : "../Resources/sprites/missile-sprite.json",
+		"path" : "../resources/sprites/missile-sprite.json",
 		"pipeline" : "SPRITE",
         "links": [2]
 	}, {
 		"id" : 7,
 		"name" : "bomb sprite",
-		"path" : "../Resources/sprites/bomb-sprite.json",
+		"path" : "../resources/sprites/bomb-sprite.json",
 		"pipeline" : "SPRITE",
         "links": [2]
 	}, {
 		"id" : 8,
 		"name" : "plus one sprite",
-		"path" : "../Resources/sprites/plusOne-sprite.json",
+		"path" : "../resources/sprites/plusOne-sprite.json",
 		"pipeline" : "SPRITE",
         "links": [2]
 	}, {
 		"id" : 9,
 		"name" : "explosion animation",
-		"path" : "../Resources/animations/explosion-animation.json",
+		"path" : "../resources/animations/explosion-animation.json",
 		"pipeline" : "ANIMATED_SPRITE",
         "links": [2]
 	}, {
 		"id" : 10,
 		"name" : "dark smoke animation",
-		"path" : "../Resources/animations/darkSmoke-animation.json",
+		"path" : "../resources/animations/darkSmoke-animation.json",
 		"pipeline" : "ANIMATED_SPRITE",
         "links": [2]
 	}, {
 		"id" : 11,
 		"name" : "player one animation",
-		"path" : "../Resources/animations/playerOne-animation.json",
+		"path" : "../resources/animations/playerOne-animation.json",
 		"pipeline" : "ANIMATED_SPRITE",
         "links": [2]
 	}, {
 		"id" : 12,
 		"name" : "player two animation",
-		"path" : "../Resources/animations/playerTwo-animation.json",
+		"path" : "../resources/animations/playerTwo-animation.json",
 		"pipeline" : "ANIMATED_SPRITE",
         "links": [2]
 	}

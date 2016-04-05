@@ -3,14 +3,14 @@
 
 #include <vector>
 
-#include "CPT_time.h"
-#include "CPT_entity.h"
+#include "core/CPT_time.h"
+#include "entity/CPT_entity.h"
 #include "CPT_process.h"
-#include "CPT_component.h"
+#include "entity/CPT_component.h"
 #include "components/C_particuleEmitter.h"
 #include "IParticule.h"
 
-class PParticuleManager : public EntityUpdateProcess {
+class PParticuleManager : public UpdateProcess {
 private:
     static const std::vector<ComponentType>     sk_requirements;
     std::list<IParticule*>                      m_particulesEmitted;
@@ -26,7 +26,6 @@ public:
     }
 
 private:
-    const unsigned int          getID               () const;
     void                        v_before            (const GameTime& gameTime) override;
     void                        v_after             (const GameTime& gameTime) override;
     void                        v_updateEntity      (entityID id, const GameTime& gameTime) override;

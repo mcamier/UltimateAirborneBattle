@@ -1,9 +1,9 @@
 #ifndef C_INFORMATION_H_
 #define C_INFORMATION_H_
 
-#include "CPT_entity.h"
-#include "CPT_component.h"
-#include "CPT_creator.h"
+#include "entity/CPT_entity.h"
+#include "entity/CPT_component.h"
+#include "entity/CPT_creator.h"
 #include "rapidjson/document.h"
 #include "rapidjson/rapidjson.h"
 

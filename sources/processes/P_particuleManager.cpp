@@ -8,10 +8,6 @@
 ComponentType p[] = { CTransform::sk_componentType, CParticuleEmitter::sk_componentType };
 const std::vector<ComponentType> PParticuleManager::sk_requirements(p, p + 2);
 
-const unsigned int PParticuleManager::getID() const {
-    return 10010; 
-}
-
 void PParticuleManager::v_before(const GameTime& gameTime) {
     for (std::list<IParticule*>::iterator it = m_particulesEmitted.begin()
         ;it != m_particulesEmitted.end()

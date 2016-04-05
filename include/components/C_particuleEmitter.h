@@ -3,8 +3,8 @@
 
 #include <vector>
 #include "glm/vec2.hpp"
-#include "CPT_component.h"
-#include "CPT_graphic.h"
+#include "entity/CPT_component.h"
+#include "graphic/CPT_graphic.h"
 #include "IParticule.h"
 
 typedef struct particule_s {

@@ -1,10 +1,10 @@
 #ifndef _UAB_EVENTS_H
 #define _UAB_EVENTS_H
 
-#include "CPT_locator.h"
+#include "core/CPT_locator.h"
 #include "CPT_event.h"
 #include "CPT_scene.h"
-#include "CPT_entityManager.h"
+#include "entity/CPT_entityManager.h"
 #include "components/C_collider.h"
 #include "components/C_player.h"
 #include "components/C_transform.h"
@@ -95,13 +95,13 @@ public:
 
 class Functor {
 public:
-    virtual void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* withinScene) const = 0;
+    virtual void operator()(entityID thisEntity, entityID collidesAgainst, const AbstractScene* withinScene) const = 0;
 };
 
 
 class PlayerCollideFunctor : public Functor {
 public:
-    void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
+    void operator()(entityID thisEntity, entityID collidesAgainst, const AbstractScene* scene) const {
         printf("player collision reaction once\n");
         CMissile* missile = scene->getEntityManager().getAs<CMissile>(collidesAgainst);
 
@@ -139,7 +139,7 @@ public:
 
 
 class DestructibeColliderFunctor : public Functor {
-    void operator()(entityID thisEntity, entityID collidesAgainst, const Scene* scene) const {
+    void operator()(entityID thisEntity, entityID collidesAgainst, const AbstractScene* scene) const {
         scene->getEntityManager().removeEntity(thisEntity);
     }
 };

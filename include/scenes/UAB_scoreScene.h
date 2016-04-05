@@ -11,11 +11,9 @@
 #include "processes/P_particuleManager.h"
 #include "processes/P_explosion.h"
 
-class UABScoreScene : public Scene {
+class UABScoreScene : public AbstractScene {
 public:
-    UABScoreScene() : Scene("GAME screen", false, false) {}
-
-    int getID() const { return 10005; }
+    UABScoreScene() : AbstractScene("GAME screen", false, false) {}
 
 public:
     void initialize(void) {
@@ -38,7 +36,7 @@ public:
     }
 
     void v_update(const GameTime& gameTime) {
-        Scene::v_update(gameTime);
+        IScene::v_update(gameTime);
     }
 };
 

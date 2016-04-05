@@ -1,8 +1,8 @@
 #include "IParticule.h"
 
-#include "CPT_graphic.h"
-#include "CPT_rendererManager.h"
-#include "CPT_locator.h"
+#include "graphic/CPT_graphic.h"
+#include "graphic/CPT_rendererManager.h"
+#include "core/CPT_locator.h"
 
 /**************************************/
 /*            Base Particule          */
@@ -35,7 +35,7 @@ void AnimatedParticule::update(const GameTime& gameTime) {
     if (m_bActivated) {
         if (m_animationElapsedTime >= m_frameDuration) {
             m_currentFrame++;
-            if (m_currentFrame >= m_pAnimation->getFrameCount()) {
+            if (m_currentFrame >= m_pAnimation->get()->getFrameCount()) {
 
                 if (m_bLoop == false) {
                     m_bActivated = false;
@@ -54,15 +54,15 @@ void AnimatedParticule::update(const GameTime& gameTime) {
 
 void AnimatedParticule::draw(const GameTime& gameTime) {
     SDL_Rect dest;
-    dest.x = m_x - m_pAnimation->getWidth(m_currentFrame) / 2;
-    dest.y = m_y - m_pAnimation->getHeight(m_currentFrame) / 2;
-    dest.w = m_pAnimation->getWidth(m_currentFrame);
-    dest.h = m_pAnimation->getHeight(m_currentFrame);
+    dest.x = m_x - m_pAnimation->get()->getWidth(m_currentFrame) / 2;
+    dest.y = m_y - m_pAnimation->get()->getHeight(m_currentFrame) / 2;
+    dest.w = m_pAnimation->get()->getWidth(m_currentFrame);
+    dest.h = m_pAnimation->get()->getHeight(m_currentFrame);
 
     Locator::getRenderer()->renderTexture(
         2,
-        m_pAnimation->getTexture(),
-        m_pAnimation->getFrame(m_currentFrame),
+        m_pAnimation->get()->getTexture(),
+        m_pAnimation->get()->getFrame(m_currentFrame),
         &dest,
         0,
         SDL_RendererFlip::SDL_FLIP_NONE,
@@ -100,15 +100,15 @@ void SpriteParticule::update(const GameTime& gameTime){
 
 void SpriteParticule::draw(const GameTime&) {
     SDL_Rect dest;
-    dest.x = m_x - m_pSprite->getWidth() / 2;
-    dest.y = m_y - m_pSprite->getHeight() / 2;
-    dest.w = m_pSprite->getWidth();
-    dest.h = m_pSprite->getHeight();
+    dest.x = m_x - m_pSprite->get()->getWidth() / 2;
+    dest.y = m_y - m_pSprite->get()->getHeight() / 2;
+    dest.w = m_pSprite->get()->getWidth();
+    dest.h = m_pSprite->get()->getHeight();
 
     Locator::getRenderer()->renderTexture(
         2,
-        m_pSprite->getTexture(),
-        m_pSprite->getSourceRect(),
+        m_pSprite->get()->getTexture(),
+        m_pSprite->get()->getSourceRect(),
         &dest,
         0,
         SDL_RendererFlip::SDL_FLIP_NONE,

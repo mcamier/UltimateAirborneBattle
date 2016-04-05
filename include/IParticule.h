@@ -1,9 +1,10 @@
 #ifndef _UAB_IPARTICULE_H_
 #define _UAB_IPARTICULE_H_
 
-#include "CPT_graphic.h"
-#include "CPT_time.h"
+#include "graphic/CPT_graphic.h"
+#include "core/CPT_time.h"
 #include "CPT_memory.h"
+#include "resource/CPT_resourceManager.h"
 
 
 /**************************************/
@@ -48,11 +49,11 @@ public:
 
 
 private:
-    AnimatedSprite          *m_pAnimation;
-    static PoolAllocator    poolAllocator;
+    ResHandler<AnimatedSprite> *m_pAnimation;
+    static PoolAllocator        poolAllocator;
 
 public:
-    AnimatedParticule(AnimatedSprite *animation, float frameDuration) :
+    AnimatedParticule(ResHandler<AnimatedSprite> *animation, float frameDuration) :
         m_pAnimation(animation),
         m_currentFrame(0), 
         m_bLoop(true),
@@ -78,11 +79,11 @@ public:
     static const int    TYPE = 2;
 
 private:
-    Sprite                  *m_pSprite;
+    ResHandler<Sprite>      *m_pSprite;
     static PoolAllocator    poolAllocator;
 
 public:
-    SpriteParticule(Sprite *sprite) : m_pSprite(sprite) {}
+    SpriteParticule(ResHandler<Sprite> *sprite) : m_pSprite(sprite) {}
     virtual ~SpriteParticule() {}
 
     void                update          (const GameTime& gameTime) override;

@@ -1,7 +1,7 @@
 #include "processes/P_colliderManager.h"
 #include "components/C_collider.h"
 #include "UAB_events.h"
-#include "CPT_debugRenderer.h"
+#include "graphic/CPT_debugRenderer.h"
 
 ComponentType w[] = { CCollider::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PColliderManager::sk_requirements(w, w + 2);
@@ -29,7 +29,7 @@ void PColliderManager::v_before(const GameTime& gameTime) {
         c1 = getEntityAs<CCollider>((*iter1));
         t1 = getEntityAs<CTransform>((*iter1));
         
-/*#ifdef _DEBUG
+/*#ifdef _DEBUGGING
         c1->m_collider->debugDraw(glm::vec2(t1->getX(), t1->getY()));  
 #endif*/
 

@@ -4,17 +4,17 @@
 
 
 #include "CPT_process.h"
-#include "CPT_time.h"
-#include "CPT_entity.h"
-#include "CPT_rendererManager.h"
+#include "core/CPT_time.h"
+#include "entity/CPT_entity.h"
+#include "graphic/CPT_rendererManager.h"
 #include "CPT_event.h"
-#include "CPT_graphic.h"
+#include "graphic/CPT_graphic.h"
 
 #include "components/C_transform.h"
 #include "components/C_sprite.h"
 
 
-class PSpriteRenderer : public EntityRenderProcess {
+class PSpriteRenderer : public RenderProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
@@ -27,7 +27,6 @@ public:
     }
 
 private:
-    const unsigned int getID() const;
     void v_processRender(entityID id, const GameTime& gameTime);
     void v_destroy();
 };

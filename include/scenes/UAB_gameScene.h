@@ -15,10 +15,10 @@
 #include "components/C_particuleEmitter.h"
 #include "processes/P_plusOne.h"
 #include "CPT_math.h"
-#include "CPT_locator.h"
+#include "core/CPT_locator.h"
 #include "CPT_event.h"
 #include "input/CPT_inputEngine.h"
-#include "CPT_actorFactory.h"
+#include "entity/CPT_actorFactory.h"
 #include "UAB_inputs.h"
 
 using namespace std;
@@ -39,14 +39,11 @@ enum GameMode {
 };
 
 
-class UABGameScene : public Scene {
+class UABGameScene : public AbstractScene {
 
 public:
-    UABGameScene() : 
-        Scene("GAME screen", false, true) {}
-
-    int  getID() const { return 10005; }
-
+    UABGameScene() :
+            AbstractScene("GAME screen", false, true) {}
 
 private:
     GameMode            m_gameMode = GameMode::TWO_VS_TWO;
@@ -79,7 +76,9 @@ private:
     list<entityID>      m_gameWorldEntities;
 
 public:
-    void initialize(void) {
+    bool v_initialize(void) {
+        AbstractScene::v_initialize();
+
         assert(TempActorFactory::get() != NULL);
         Locator::getInput()->setContext("IN_GAME");
 
@@ -104,10 +103,11 @@ public:
         Locator::getEventManager()->addListener(ExplosionEvent::sk_EventType, d_explosionOccurs);
 
         initGame();
+        return true;
     }
 
     void v_update(const GameTime& gameTime) {
-        Scene::v_update(gameTime);
+        AbstractScene::v_update(gameTime);
         handleInput();
 
         // camera shaking update
@@ -137,7 +137,7 @@ public:
                         pos->getY() > GameConstant::Y_LIMIT ||
                         pos->getY() < -GameConstant::Y_LIMIT) {
 
-                        printf("entity [%d] out of bounds then remove it\n", (*it));
+                        _DEBUG("entity ["<<(*it)<<"] out of bounds then remove it");
                         getEntityManager().removeEntity((*it));
                         m_gameWorldEntities.erase(it++);
                     } else { ++it; }
@@ -157,7 +157,7 @@ public:
             }
         }
         else if (isMatchDone() && !m_gameDone) {
-            printf("The game is done\n");
+            _DEBUG("The game is done");
             m_gameDone = true;
             Locator::getEventManager()->queueEvent(new GameWonEvent());
         }

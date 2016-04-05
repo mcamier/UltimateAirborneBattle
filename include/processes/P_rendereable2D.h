@@ -2,12 +2,15 @@
 #define _P_RENDEREABLE_2D_PROCESS_H_
 
 #include "CPT_process.h"
-#include "CPT_time.h"
-#include "CPT_entity.h"
+#include "core/CPT_time.h"
+#include "entity/CPT_entity.h"
+
+#include "core/CPT_locator.h"
+#include "graphic/CPT_rendererManager.h"
 
 #include "glm/vec2.hpp"
 
-class PRendereable2D : public EntityRenderProcess {
+class PRendereable2D : public RenderProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
@@ -26,7 +29,6 @@ public:
     }
 
 private:
-    const unsigned int  getID() const;
     void                v_before(const GameTime& gameTime);
     void                v_renderEntity(entityID id, const GameTime& gameTime);
 

@@ -5,14 +5,12 @@
 
 #include "components/C_rigidbody.h"
 
-class PPhysics2D : public EntityUpdateProcess {
+class PPhysics2D : public UpdateProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
 public:
     PPhysics2D() {};
-
-    const unsigned int getID() const { return 10002; }
 
     const std::vector<ComponentType> getRequirements() const {
         return sk_requirements;

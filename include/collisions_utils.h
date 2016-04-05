@@ -3,7 +3,7 @@
 
 #include <assert.h>
 
-#include "CPT_entity.h"
+#include "entity/CPT_entity.h"
 #include "SDL2/SDL_rect.h"
 #include "components/C_transform.h"
 #include "glm/vec3.hpp"
@@ -19,7 +19,7 @@ class ICollider {
 public:
     virtual const int       getType         (void) = 0;
     virtual bool            isColliding     (glm::vec3 pos, ICollider *other, glm::vec3 posOther) = 0;
-#ifdef _DEBUG
+#ifdef _DEBUGGING
     virtual void            debugDraw       (glm::vec2 &position) = 0;
 #endif
 };
@@ -34,7 +34,7 @@ public:
 
     const int       getType             (void);
     bool            isColliding         (glm::vec3 pos, ICollider *other, glm::vec3 posOther);
-#ifdef _DEBUG
+#ifdef _DEBUGGING
     void            debugDraw           (glm::vec2 &position);
 #endif
 
@@ -48,7 +48,7 @@ public:
 
     const int       getType(void);
     bool            isColliding(glm::vec3 &pos, ICollider *other, glm::vec3 &posOther);
-#ifdef _DEBUG
+#ifdef _DEBUGGING
     void            debugDraw(glm::vec2 &position);
 #endif
 

@@ -7,7 +7,7 @@
 
 #include "CPT_math.h"
 #include "UAB_defines.h"
-#include "CPT_locator.h"
+#include "core/CPT_locator.h"
 
 
 ComponentType h[] = { CPlayer::sk_componentType, CTransform::sk_componentType, CRigidBody::sk_componentType };

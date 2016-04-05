@@ -2,20 +2,20 @@
 #include <assert.h>
 #include <string>
 
-#include "CPT_engine.h"
+#include "core/CPT_engine.h"
 #include "CPT_scene.h"
 #include "CPT_utils.h"
 #include "CPT_event.h"
-#include "CPT_locator.h"
+#include "core/CPT_locator.h"
 
-#include "UAB_gameScene.h"
-#include "UAB_scoreScene.h"
+#include "scenes/UAB_gameScene.h"
+#include "scenes/UAB_scoreScene.h"
 
-#include "CPT_creator.h"
+#include "entity/CPT_creator.h"
 
 #include "components/C_transform.h"
-#include "CPT_actorFactory.h"
-#include "CPT_locator.h"
+#include "entity/CPT_actorFactory.h"
+#include "core/CPT_locator.h"
 #include "components/C_collider.h"
 #include "components/C_player.h"
 #include "components/C_plusOne.h"
@@ -23,6 +23,12 @@
 #include "components/C_missile.h"
 #include "components/C_sprite.h"
 #include "components/C_animation.h"
+
+extern "C" {
+#include "lua5.3/lua.h"
+#include "lua5.3/lualib.h"
+#include "lua5.3/lauxlib.h"
+}
 
 #ifdef main
 # undef main
@@ -35,9 +41,9 @@ public:
 
     UltimateAirborneBattle() : 
         CompoteEngine(1280, 720, 1280, 720, 
-        "../Resources/inputs/contextMapping.xml", 
-        "../Resources/actors.json", 
-        "../Resources/resources.json") {}
+        "../resources/inputs/contextMapping.xml",
+        "../resources/actors.json",
+        "../resources/resources.json") {}
 
     virtual ~UltimateAirborneBattle() {}
 
@@ -55,13 +61,12 @@ protected:
         //Locator::getActorFactory()->addCreator<CCollider>(new CColliderCreator());
 
 
-        UABScoreScene *scoreScene = new UABScoreScene();
+        //UABScoreScene *scoreScene = new UABScoreScene();
         UABGameScene *gameScreen = new UABGameScene();
         this->pushScene(*gameScreen);
-        this->pushScene(*scoreScene);
+        //this->pushScene(*scoreScene);
     }
 };
-
 
 /* Entry point
  */

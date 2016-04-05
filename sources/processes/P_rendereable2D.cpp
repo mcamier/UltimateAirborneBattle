@@ -1,19 +1,15 @@
 #include "processes/P_rendereable2D.h"
 
 #include "CPT_math.h"
-#include "CPT_rendererManager.h"
+#include "graphic/CPT_rendererManager.h"
 
 #include "components/C_rendereable2D.h"
 #include "components/C_transform.h"
 #include "components/C_animation.h"
-#include "CPT_locator.h"
+#include "core/CPT_locator.h"
 
 ComponentType jj[] = { CRendereable2D::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PRendereable2D::sk_requirements(jj, jj + 2);
-
-const unsigned int PRendereable2D::getID() const {
-    return 10017;
-}
 
 void PRendereable2D::v_before(const GameTime& gameTime) {
     m_cameraPositionThisFrame.x = 0;

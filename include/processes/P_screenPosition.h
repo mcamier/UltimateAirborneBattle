@@ -3,18 +3,16 @@
 
 #include <vector>
 
-#include "CPT_component.h"
+#include "entity/CPT_component.h"
 #include "CPT_process.h"
 
-class PScreenPosition : public EntityUpdateProcess {
+class PScreenPosition : public UpdateProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
 public:
     PScreenPosition() {}
     ~PScreenPosition() {}
-
-    inline const unsigned int getID() const { return 10011; }
 
     const std::vector<ComponentType> getRequirements() const {
         return sk_requirements;

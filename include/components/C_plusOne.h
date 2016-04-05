@@ -1,8 +1,8 @@
 #ifndef _C_PLUS_ONE_H_
 #define _C_PLUS_ONE_H_
 
-#include "CPT_component.h"
-#include "CPT_creator.h"
+#include "entity/CPT_component.h"
+#include "entity/CPT_creator.h"
 #include "rapidxml.hpp"
 
 class CPlusOne : public IComponent {

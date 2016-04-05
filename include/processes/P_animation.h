@@ -5,15 +5,15 @@
 #include <SDL2/SDL_image.h>
 
 #include "CPT_process.h"
-#include "CPT_time.h"
-#include "CPT_entity.h"
-#include "CPT_rendererManager.h"
-#include "CPT_graphic.h"
+#include "core/CPT_time.h"
+#include "entity/CPT_entity.h"
+#include "graphic/CPT_rendererManager.h"
+#include "graphic/CPT_graphic.h"
 
 #include "components/C_transform.h"
 #include "components/C_animation.h"
 
-class PAnimation : public EntityUpdateProcess {
+class PAnimation : public UpdateProcess {
 private:
     static const std::vector<ComponentType> sk_requirements;
 
@@ -25,7 +25,6 @@ public:
     }
 
 private:
-    const unsigned int getID() const;
     void v_updateEntity(entityID id, const GameTime& gameTime);
     void v_destroy();
 };

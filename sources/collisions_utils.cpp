@@ -1,8 +1,8 @@
 #include "collisions_utils.h"
 
 #include <stdio.h>
-#include "CPT_debugRenderer.h"
-#include "CPT_entityManager.h"
+#include "graphic/CPT_debugRenderer.h"
+#include "entity/CPT_entityManager.h"
 
 const int CircleCollider::getType(void) {
     return COLLIDER_TYPE_SPHERE_2D;
@@ -20,7 +20,7 @@ bool CircleCollider::isColliding(glm::vec3 pos, ICollider *other, glm::vec3 posO
     return false;
 }
 
-#ifdef _DEBUG
+#ifdef _DEBUGGING
 void CircleCollider::debugDraw(glm::vec2 &position) {
     //DebugRenderer::get()->addCircle(position, m_radius);
 }
