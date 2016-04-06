@@ -16,7 +16,6 @@
 #include "processes/P_plusOne.h"
 #include "CPT_math.h"
 #include "core/core.h"
-#include "CPT_event.h"
 #include "input/CPT_inputEngine.h"
 #include "entity/CPT_actorFactory.h"
 #include "UAB_inputs.h"

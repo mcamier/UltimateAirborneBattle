@@ -2,13 +2,15 @@
 #define _UAB_EVENTS_H
 
 #include "core/core.h"
-#include "CPT_event.h"
 #include "scene/AbstractScene.h"
 #include "entity/CPT_entityManager.h"
 #include "components/C_collider.h"
 #include "components/C_player.h"
 #include "components/C_transform.h"
 #include "components/C_missile.h"
+
+#include "event/event.h"
+#include "event/eventManager.h"
 
 #include "glm/vec2.hpp"
 
@@ -22,6 +24,7 @@
 
 using Compote::Scene::AbstractScene;
 using Compote::Core::Locator;
+using namespace Compote::Event;
 
 class MissileFiredEvent : public SceneAwareEvent {
 

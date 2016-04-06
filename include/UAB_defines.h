@@ -24,7 +24,6 @@
 
 #include "core/core.h"
 #include "graphic/rendererManager.h"
-#include "resource/CPT_resourceManager.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
 #define BOMBS_LAYER             1

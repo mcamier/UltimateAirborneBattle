@@ -5,7 +5,6 @@
 #include <SDL2/SDL.h>
 #include "C_rendereable2D.h"
 #include "entity/CPT_component.h"
-#include "resource/CPT_resourceManager.h"
 #include "graphic/graphic.h"
 
 using namespace std;

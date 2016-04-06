@@ -4,7 +4,6 @@
 #include "graphic/graphic.h"
 #include "core/core.h"
 #include "memory/poolAllocator.h"
-#include "resource/CPT_resourceManager.h"
 
 using Compote::Core::GameTime;
 using Compote::Graphic::Sprite;

@@ -4,9 +4,9 @@
 
 #include "core/engine.h"
 #include "CPT_utils.h"
-#include "CPT_event.h"
 
 #include "scenes/UAB_gameScene.h"
+#include "scene/MenuScene.h"
 #include "scenes/UAB_scoreScene.h"
 
 #include "entity/CPT_creator.h"
@@ -34,6 +34,7 @@ extern "C" {
 
 using Compote::Core::CompoteEngine;
 using Compote::Core::Locator;
+using Compote::Scene::AbstractMenuScene;
 
 class UltimateAirborneBattle : public CompoteEngine {
 
@@ -62,9 +63,9 @@ protected:
         //Locator::getActorFactory()->addCreator<CCollider>(new CColliderCreator());
 
         UABGameScene *gameScreen = new UABGameScene();
-        //AbstractMenuScene *mainMenu = new AbstractMenuScene();
+        AbstractMenuScene *mainMenu = new AbstractMenuScene();
         this->pushScene(*gameScreen);
-        //this->pushScene(*mainMenu);
+        this->pushScene(*mainMenu);
     }
 };
 
