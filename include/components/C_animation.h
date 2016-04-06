@@ -6,9 +6,10 @@
 #include "C_rendereable2D.h"
 #include "entity/CPT_component.h"
 #include "resource/CPT_resourceManager.h"
-#include "graphic/CPT_graphic.h"
+#include "graphic/graphic.h"
 
 using namespace std;
+using Compote::Graphic::AnimatedSprite;
 
 class CAnimation : public CRendereable2D {
     friend class PAnimation;

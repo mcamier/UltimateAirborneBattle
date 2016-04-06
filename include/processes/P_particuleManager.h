@@ -3,12 +3,14 @@
 
 #include <vector>
 
-#include "core/CPT_time.h"
+#include "core/core.h"
 #include "entity/CPT_entity.h"
 #include "CPT_process.h"
 #include "entity/CPT_component.h"
 #include "components/C_particuleEmitter.h"
 #include "IParticule.h"
+
+using Compote::Core::GameTime;
 
 class PParticuleManager : public UpdateProcess {
 private:

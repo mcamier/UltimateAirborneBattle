@@ -2,11 +2,9 @@
 #include <assert.h>
 #include <string>
 
-#include "core/CPT_engine.h"
-#include "CPT_scene.h"
+#include "core/engine.h"
 #include "CPT_utils.h"
 #include "CPT_event.h"
-#include "core/CPT_locator.h"
 
 #include "scenes/UAB_gameScene.h"
 #include "scenes/UAB_scoreScene.h"
@@ -15,7 +13,7 @@
 
 #include "components/C_transform.h"
 #include "entity/CPT_actorFactory.h"
-#include "core/CPT_locator.h"
+#include "core/core.h"
 #include "components/C_collider.h"
 #include "components/C_player.h"
 #include "components/C_plusOne.h"
@@ -33,6 +31,9 @@ extern "C" {
 #ifdef main
 # undef main
 #endif /* main */
+
+using Compote::Core::CompoteEngine;
+using Compote::Core::Locator;
 
 class UltimateAirborneBattle : public CompoteEngine {
 
@@ -60,13 +61,13 @@ protected:
         //Locator::getActorFactory()->addCreator<CParticulEmitter>(new CParticulEmitterCreator());
         //Locator::getActorFactory()->addCreator<CCollider>(new CColliderCreator());
 
-
-        //UABScoreScene *scoreScene = new UABScoreScene();
         UABGameScene *gameScreen = new UABGameScene();
+        //AbstractMenuScene *mainMenu = new AbstractMenuScene();
         this->pushScene(*gameScreen);
-        //this->pushScene(*scoreScene);
+        //this->pushScene(*mainMenu);
     }
 };
+
 
 /* Entry point
  */

@@ -7,8 +7,9 @@
 
 #include "CPT_math.h"
 #include "UAB_defines.h"
-#include "core/CPT_locator.h"
+#include "core/core.h"
 
+using Compote::Core::Locator;
 
 ComponentType h[] = { CPlayer::sk_componentType, CTransform::sk_componentType, CRigidBody::sk_componentType };
 const std::vector<ComponentType> PPlayer::sk_requirements(h, h +3);

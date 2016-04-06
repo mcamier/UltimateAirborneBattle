@@ -22,8 +22,8 @@
 #include "collisions_utils.h"
 #include "IParticule.h"
 
-#include "core/CPT_locator.h"
-#include "graphic/CPT_rendererManager.h"
+#include "core/core.h"
+#include "graphic/rendererManager.h"
 #include "resource/CPT_resourceManager.h"
 
 #define ALL_EXCEPT_BOMBS_LAYER  0
@@ -51,8 +51,10 @@
 #define RES_PLAYER_ONE_ANIMATION    11
 #define RES_PLAYER_TWO_ANIMATION    12
 
+using Compote::Core::Locator;
+
 class TempActorFactory : 
-    public GameService {
+    public GameObject {
 
 public:
     static TempActorFactory *m_pInstance;

@@ -2,7 +2,7 @@
 #define _UAB_GAME_SCENE_H_
 
 #include <assert.h>
-#include "CPT_scene.h"
+#include "scene/AbstractScene.h"
 
 #include "UAB_defines.h"
 #include "processes/P_physic.h"
@@ -15,13 +15,15 @@
 #include "components/C_particuleEmitter.h"
 #include "processes/P_plusOne.h"
 #include "CPT_math.h"
-#include "core/CPT_locator.h"
+#include "core/core.h"
 #include "CPT_event.h"
 #include "input/CPT_inputEngine.h"
 #include "entity/CPT_actorFactory.h"
 #include "UAB_inputs.h"
 
 using namespace std;
+using Compote::Scene::AbstractScene;
+using Compote::Core::Locator;
 
 class GameConstant {
 public:

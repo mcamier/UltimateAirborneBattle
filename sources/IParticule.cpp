@@ -1,8 +1,10 @@
 #include "IParticule.h"
 
-#include "graphic/CPT_graphic.h"
-#include "graphic/CPT_rendererManager.h"
-#include "core/CPT_locator.h"
+#include "core/core.h"
+#include "graphic/graphic.h"
+#include "graphic/rendererManager.h"
+
+using Compote::Core::Locator;
 
 /**************************************/
 /*            Base Particule          */

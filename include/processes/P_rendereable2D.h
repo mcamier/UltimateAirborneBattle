@@ -2,13 +2,15 @@
 #define _P_RENDEREABLE_2D_PROCESS_H_
 
 #include "CPT_process.h"
-#include "core/CPT_time.h"
+#include "core/core.h"
 #include "entity/CPT_entity.h"
 
-#include "core/CPT_locator.h"
-#include "graphic/CPT_rendererManager.h"
+#include "graphic/rendererManager.h"
 
 #include "glm/vec2.hpp"
+
+using Compote::Core::Locator;
+using Compote::Core::GameTime;
 
 class PRendereable2D : public RenderProcess {
 private:

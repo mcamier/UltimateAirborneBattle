@@ -1,9 +1,9 @@
 #ifndef _UAB_EVENTS_H
 #define _UAB_EVENTS_H
 
-#include "core/CPT_locator.h"
+#include "core/core.h"
 #include "CPT_event.h"
-#include "CPT_scene.h"
+#include "scene/AbstractScene.h"
 #include "entity/CPT_entityManager.h"
 #include "components/C_collider.h"
 #include "components/C_player.h"
@@ -19,6 +19,9 @@
 #define INPUT_FIRE_EVENT        100
 #define INPUT_THRUST_EVENT      101
 #define INPUT_ORIENTATION_EVENT 102
+
+using Compote::Scene::AbstractScene;
+using Compote::Core::Locator;
 
 class MissileFiredEvent : public SceneAwareEvent {
 

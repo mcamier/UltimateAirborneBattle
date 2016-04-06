@@ -1,11 +1,15 @@
 #ifndef _UAB_IPARTICULE_H_
 #define _UAB_IPARTICULE_H_
 
-#include "graphic/CPT_graphic.h"
-#include "core/CPT_time.h"
-#include "CPT_memory.h"
+#include "graphic/graphic.h"
+#include "core/core.h"
+#include "memory/poolAllocator.h"
 #include "resource/CPT_resourceManager.h"
 
+using Compote::Core::GameTime;
+using Compote::Graphic::Sprite;
+using Compote::Graphic::AnimatedSprite;
+using Compote::Memory::PoolAllocator;
 
 /**************************************/
 /*            Base Particule          */

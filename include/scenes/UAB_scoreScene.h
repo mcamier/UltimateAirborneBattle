@@ -2,7 +2,7 @@
 #define _UAB_SCORE_SCENE_H_
 
 #include <assert.h>
-#include "CPT_scene.h"
+#include "scene/AbstractScene.h"
 
 #include "UAB_defines.h"
 #include "processes/P_physic.h"
@@ -10,6 +10,8 @@
 #include "processes/P_rendereable2D.h"
 #include "processes/P_particuleManager.h"
 #include "processes/P_explosion.h"
+
+using Compote::Scene::AbstractScene;
 
 class UABScoreScene : public AbstractScene {
 public:

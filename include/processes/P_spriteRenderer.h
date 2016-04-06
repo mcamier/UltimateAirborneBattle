@@ -1,18 +1,17 @@
 #ifndef _TILE_PROCESS_H_
 #define _TILE_PROCESS_H_
 
-
-
 #include "CPT_process.h"
-#include "core/CPT_time.h"
+#include "core/core.h"
 #include "entity/CPT_entity.h"
-#include "graphic/CPT_rendererManager.h"
+#include "graphic/rendererManager.h"
 #include "CPT_event.h"
-#include "graphic/CPT_graphic.h"
+#include "graphic/graphic.h"
 
 #include "components/C_transform.h"
 #include "components/C_sprite.h"
 
+using Compote::Core::GameTime;
 
 class PSpriteRenderer : public RenderProcess {
 private:

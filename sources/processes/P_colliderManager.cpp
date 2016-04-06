@@ -1,7 +1,7 @@
 #include "processes/P_colliderManager.h"
 #include "components/C_collider.h"
 #include "UAB_events.h"
-#include "graphic/CPT_debugRenderer.h"
+#include "graphic/debugRenderer.h"
 
 ComponentType w[] = { CCollider::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PColliderManager::sk_requirements(w, w + 2);

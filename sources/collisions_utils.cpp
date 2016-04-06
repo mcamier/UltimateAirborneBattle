@@ -1,7 +1,7 @@
 #include "collisions_utils.h"
 
 #include <stdio.h>
-#include "graphic/CPT_debugRenderer.h"
+#include "graphic/debugRenderer.h"
 #include "entity/CPT_entityManager.h"
 
 const int CircleCollider::getType(void) {

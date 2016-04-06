@@ -3,14 +3,17 @@
 
 #include <vector>
 
-#include "core/CPT_time.h"
+#include "core/core.h"
 #include "entity/CPT_entity.h"
 #include "CPT_process.h"
 #include "entity/CPT_component.h"
-#include "CPT_memory.h"
+#include "memory/doubleBufferedStackAllocator.h"
 #include "components/C_particuleEmitter.h"
 
 #include "collisions_utils.h"
+
+using Compote::Core::GameTime;
+using Compote::Memory::DoubleBufferedStackAllocator;
 
 class PColliderManager : public UpdateProcess {
 

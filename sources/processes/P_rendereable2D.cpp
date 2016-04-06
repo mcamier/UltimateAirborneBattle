@@ -1,12 +1,14 @@
 #include "processes/P_rendereable2D.h"
 
 #include "CPT_math.h"
-#include "graphic/CPT_rendererManager.h"
+#include "graphic/rendererManager.h"
 
 #include "components/C_rendereable2D.h"
 #include "components/C_transform.h"
 #include "components/C_animation.h"
-#include "core/CPT_locator.h"
+#include "core/core.h"
+
+using Compote::Core::Locator;
 
 ComponentType jj[] = { CRendereable2D::sk_componentType, CTransform::sk_componentType };
 const std::vector<ComponentType> PRendereable2D::sk_requirements(jj, jj + 2);

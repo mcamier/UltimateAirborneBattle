@@ -4,13 +4,15 @@
 #include "SDL2/SDL.h"
 #include "entity/CPT_component.h"
 #include "C_rendereable2D.h"
-#include "core/CPT_locator.h"
+#include "core/core.h"
 #include "resource/CPT_resourceManager.h"
-#include "graphic/CPT_graphic.h"
+#include "graphic/graphic.h"
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 
 using namespace rapidjson;
+using Compote::Core::Locator;
+using Compote::Graphic::Sprite;
 
 class CSprite : public CRendereable2D {
     friend class PSpriteRenderer;
