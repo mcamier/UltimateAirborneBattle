@@ -16,13 +16,14 @@
 #include "processes/P_plusOne.h"
 #include "CPT_math.h"
 #include "core/core.h"
-#include "input/CPT_inputEngine.h"
+#include "input/inputManager.h"
 #include "entity/CPT_actorFactory.h"
 #include "UAB_inputs.h"
 
 using namespace std;
 using Compote::Scene::AbstractScene;
 using Compote::Core::Locator;
+using Compote::Input::gameInput_t;
 
 class GameConstant {
 public:
@@ -81,7 +82,7 @@ public:
         AbstractScene::v_initialize();
 
         assert(TempActorFactory::get() != NULL);
-        Locator::getInput()->setContext("IN_GAME");
+        Locator::getInput()->setCurrentContext(Utils::hashString("IN_GAME"));
 
         this->addProcess(new PColliderManager());
         this->addProcess(new PAnimation());
