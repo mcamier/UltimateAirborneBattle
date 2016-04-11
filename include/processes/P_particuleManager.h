@@ -5,12 +5,13 @@
 
 #include "core/core.h"
 #include "entity/CPT_entity.h"
-#include "CPT_process.h"
+#include "process.h"
 #include "entity/CPT_component.h"
 #include "components/C_particuleEmitter.h"
-#include "IParticule.h"
+#include "graphic/particule/particule.h"
 
 using Compote::Core::GameTime;
+using namespace Compote::Graphic::Particule;
 
 class PParticuleManager : public UpdateProcess {
 private:

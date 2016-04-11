@@ -1,6 +1,6 @@
 #include "processes/P_rendereable2D.h"
 
-#include "CPT_math.h"
+#include "math.h"
 #include "graphic/rendererManager.h"
 
 #include "components/C_rendereable2D.h"

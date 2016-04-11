@@ -6,7 +6,7 @@
 
 #include "glm/vec2.hpp"
 
-#include "CPT_utils.h"
+#include "utils.h"
 #include "UAB_events.h"
 
 #include "components/C_rigidbody.h"
@@ -20,7 +20,7 @@
 #include "components/C_missile.h"
 #include "components/C_plusOne.h"
 #include "collisions_utils.h"
-#include "IParticule.h"
+#include "graphic/particule/particule.h"
 
 #include "core/core.h"
 #include "graphic/rendererManager.h"
@@ -51,6 +51,7 @@
 #define RES_PLAYER_TWO_ANIMATION    12
 
 using Compote::Core::Locator;
+using namespace Compote::Graphic::Particule;
 
 class TempActorFactory : 
     public GameObject {

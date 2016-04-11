@@ -5,7 +5,7 @@
 
 #include "core/core.h"
 #include "entity/CPT_entity.h"
-#include "CPT_process.h"
+#include "process.h"
 #include "entity/CPT_component.h"
 #include "memory/doubleBufferedStackAllocator.h"
 #include "components/C_particuleEmitter.h"

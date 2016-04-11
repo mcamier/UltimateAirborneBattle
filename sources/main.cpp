@@ -3,11 +3,10 @@
 #include <string>
 
 #include "core/engine.h"
-#include "CPT_utils.h"
+#include "utils.h"
 
-#include "scenes/UAB_gameScene.h"
+#include "scenes/gameplayScene.h"
 #include "scene/MenuScene.h"
-#include "scenes/UAB_scoreScene.h"
 
 #include "entity/CPT_creator.h"
 

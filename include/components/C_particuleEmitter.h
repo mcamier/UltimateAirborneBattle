@@ -5,7 +5,9 @@
 #include "glm/vec2.hpp"
 #include "entity/CPT_component.h"
 #include "graphic/graphic.h"
-#include "IParticule.h"
+#include "graphic/particule/particule.h"
+
+using namespace Compote::Graphic::Particule;
 
 typedef struct particule_s {
     Sprite* sprite;

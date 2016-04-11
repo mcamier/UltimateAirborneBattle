@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "entity/CPT_component.h"
-#include "CPT_process.h"
+#include "process.h"
 
 class PScreenPosition : public UpdateProcess {
 private:

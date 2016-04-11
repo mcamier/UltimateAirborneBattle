@@ -1,7 +1,7 @@
 #ifndef _P_PHYSICS2D_H_
 #define _P_PHYSICS2D_H_
 
-#include "CPT_process.h"
+#include "process.h"
 
 #include "components/C_rigidbody.h"
 

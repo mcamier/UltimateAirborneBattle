@@ -1,7 +1,7 @@
 #ifndef _TILE_PROCESS_H_
 #define _TILE_PROCESS_H_
 
-#include "CPT_process.h"
+#include "process.h"
 #include "core/core.h"
 #include "entity/CPT_entity.h"
 #include "graphic/rendererManager.h"

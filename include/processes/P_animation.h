@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "CPT_process.h"
+#include "process.h"
 #include "core/core.h"
 #include "entity/CPT_entity.h"
 #include "graphic/rendererManager.h"

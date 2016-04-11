@@ -1,0 +1,8 @@
+//
+// Created by mcamier on 11/04/16.
+//
+
+#ifndef COMPOTEPLUSPLUS_PAUSESCENE_H
+#define COMPOTEPLUSPLUS_PAUSESCENE_H
+
+#endif //COMPOTEPLUSPLUS_PAUSESCENE_H

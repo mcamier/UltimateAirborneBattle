@@ -1,7 +1,7 @@
 #ifndef _P_RENDEREABLE_2D_PROCESS_H_
 #define _P_RENDEREABLE_2D_PROCESS_H_
 
-#include "CPT_process.h"
+#include "process.h"
 #include "core/core.h"
 #include "entity/CPT_entity.h"
 

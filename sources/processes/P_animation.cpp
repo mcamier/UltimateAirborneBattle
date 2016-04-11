@@ -1,7 +1,7 @@
 #include "processes/P_animation.h"
 
 #include <math.h>
-#include "CPT_math.h"
+#include "math.h"
 
 ComponentType c[] = { CAnimation::sk_componentType };
 const std::vector<ComponentType> PAnimation::sk_requirements(c, c + 1);
