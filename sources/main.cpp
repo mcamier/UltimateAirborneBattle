@@ -6,7 +6,7 @@
 #include "utils.h"
 
 #include "scenes/gameplayScene.h"
-#include "scene/MenuScene.h"
+#include "scenes/mainMenuScene.h"
 
 #include "entity/CPT_creator.h"
 
@@ -62,7 +62,7 @@ protected:
         //Locator::getActorFactory()->addCreator<CCollider>(new CColliderCreator());
 
         UABGameScene *gameScreen = new UABGameScene();
-        AbstractMenuScene *mainMenu = new AbstractMenuScene();
+        MainMenuScene *mainMenu = new MainMenuScene();
         this->pushScene(*gameScreen);
         this->pushScene(*mainMenu);
     }

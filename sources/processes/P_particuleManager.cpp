@@ -1,6 +1,6 @@
 #include "processes/P_particuleManager.h"
 
-#include "math.h"
+#include "compotemath.h"
 #include "components/C_particuleEmitter.h"
 #include "components/C_transform.h"
 

@@ -1,4 +1,4 @@
-#include <math.h>
+#include <compotemath.h>
 #include "processes/P_physic.h"
 
 #include "components/C_transform.h"

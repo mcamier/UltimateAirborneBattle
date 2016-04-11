@@ -14,7 +14,7 @@
 #include "processes/P_colliderManager.h"
 #include "components/C_particuleEmitter.h"
 #include "processes/P_plusOne.h"
-#include "math.h"
+#include "compotemath.h"
 #include "core/core.h"
 #include "input/inputManager.h"
 #include "entity/CPT_actorFactory.h"

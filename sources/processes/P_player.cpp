@@ -5,7 +5,7 @@
 #include "components/C_transform.h"
 #include "UAB_events.h"
 
-#include "math.h"
+#include "compotemath.h"
 #include "UAB_defines.h"
 #include "core/core.h"
 
