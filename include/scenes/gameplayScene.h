@@ -41,11 +41,11 @@ enum GameMode {
 };
 
 
-class UABGameScene : public AbstractScene {
+class GameplayScene : public AbstractScene {
 
 public:
-    UABGameScene() :
-            AbstractScene("GAME screen", false, true) {}
+    GameplayScene(CompoteEngine &engine) :
+            AbstractScene(engine, false, 1000, 1000) {}
 
 private:
     GameMode            m_gameMode = GameMode::TWO_VS_TWO;
@@ -97,11 +97,11 @@ public:
         m_camera = TempActorFactory::get()->createCamera(getEntityManager());
         this->addRenderProcess(new PRendereable2D(m_camera));
 
-        d_missileFired = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onMissileFired>(this);
+        d_missileFired = Delegate<IEvent*>::make<GameplayScene, &GameplayScene::onMissileFired>(this);
         Locator::getEventManager()->addListener(MissileFiredEvent::sk_EventType, d_missileFired);
-        d_playerDestroyed = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onExplosion>(this);
+        d_playerDestroyed = Delegate<IEvent*>::make<GameplayScene, &GameplayScene::onExplosion>(this);
         Locator::getEventManager()->addListener(PlayerDestroyedEvent::sk_EventType, d_playerDestroyed);
-        d_explosionOccurs = Delegate<IEvent*>::make<UABGameScene, &UABGameScene::onExplosion>(this);
+        d_explosionOccurs = Delegate<IEvent*>::make<GameplayScene, &GameplayScene::onExplosion>(this);
         Locator::getEventManager()->addListener(ExplosionEvent::sk_EventType, d_explosionOccurs);
 
         initGame();
@@ -110,7 +110,6 @@ public:
 
     void v_update(const GameTime& gameTime) {
         AbstractScene::v_update(gameTime);
-        handleInput();
 
         // camera shaking update
         if (m_bCameraShaking) {
@@ -129,7 +128,7 @@ public:
 
         if (!isMatchDone()) {
             // check if entities are out of world borders
-            for (list<entityID>::iterator it = m_gameWorldEntities.begin()
+            for (auto it = m_gameWorldEntities.begin()
                 ; it != m_gameWorldEntities.end() ;) {
                 CTransform *pos = getEntityManager().getAs<CTransform>((*it));
                 if (pos != NULL) {
@@ -165,8 +164,8 @@ public:
         }
     }
 
-private:
-    void handleInput() {
+protected:
+    void v_handleInput(const GameTime& gameTime) override{
         gameInput_t *gameInput;
         while (nullptr != (gameInput = Locator::getInput()->pollInput())) {
             if (gameInput->ID == GAME_INPUT::FIRE) {
@@ -219,6 +218,7 @@ private:
         }
     }
 
+private:
     void initGame() {
         Locator::getActorFactory()->createActor(0, getEntityManager());
         //TempActorFactory::get()->createBackground(getEntityManager());

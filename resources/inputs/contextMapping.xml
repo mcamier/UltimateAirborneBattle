@@ -3,17 +3,42 @@
 
 	<context name="IN_GAME">
 		<inputMatcher>
-			<rawInput type="ACTION_PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_START" which="0"/>
+			<rawInput type="PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_START" which="0"/>
 			<gameSpecificInput>0</gameSpecificInput>
 		</inputMatcher>
+
 		<inputMatcher>
-			<rawInput type="ACTION_PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_A" which="0" />
+			<rawInput type="PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_START" which="1"/>
+			<gameSpecificInput>0</gameSpecificInput>
+		</inputMatcher>
+
+		<inputMatcher>
+			<rawInput type="PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_START" which="2"/>
+			<gameSpecificInput>0</gameSpecificInput>
+		</inputMatcher>
+
+		<inputMatcher>
+			<rawInput type="PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_START" which="3"/>
+			<gameSpecificInput>0</gameSpecificInput>
+		</inputMatcher>
+
+		<inputMatcher>
+			<rawInput type="PRESS" source="KEYBOARD" code="SDLK_ESCAPE" which="0"/>
+			<gameSpecificInput>0</gameSpecificInput>
+		</inputMatcher>
+
+
+
+		<inputMatcher>
+			<rawInput type="PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_A" which="0" />
 			<gameSpecificInput>1</gameSpecificInput>
 		</inputMatcher>
+
 		<inputMatcher>
-			<rawInput type="ACTION_PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_B" which="0" />
+			<rawInput type="PRESS" source="XBOX_CONTROLLER" code="XBOX_BUTTON_B" which="0" />
 			<gameSpecificInput>2</gameSpecificInput>
 		</inputMatcher>
+
 		<inputMatcher>
 			<rawInput type="RANGE" source="XBOX_CONTROLLER" code="XBOX_AXIS_LEFT" which="0"/>
 			<gameSpecificInput>3</gameSpecificInput>
@@ -23,19 +48,19 @@
 	
 	<context name="MENU">
 		<inputMatcher>
-			<rawInput type="ACTION_PRESS" source="KEYBOARD" code="SDLK_BACKSPACE" />
+			<rawInput type="PRESS" source="KEYBOARD" code="SDLK_BACKSPACE" />
 			<gameSpecificInput>100</gameSpecificInput>
 		</inputMatcher>
 		<inputMatcher>
-			<rawInput type="ACTION_PRESS" source="KEYBOARD" code="SDLK_BACKSPACE" />
+			<rawInput type="PRESS" source="KEYBOARD" code="SDLK_BACKSPACE" />
 			<gameSpecificInput>101</gameSpecificInput>
 		</inputMatcher>
 		<inputMatcher>
-			<rawInput type="ACTION_PRESS" source="KEYBOARD" code="SDLK_BACKSPACE" />
+			<rawInput type="PRESS" source="KEYBOARD" code="SDLK_BACKSPACE" />
 			<gameSpecificInput>102</gameSpecificInput>
 		</inputMatcher>
 		<inputMatcher>
-			<rawInput type="ACTION_PRESS" source="KEYBOARD" code="SDLK_BACKSPACE" />
+			<rawInput type="PRESS" source="KEYBOARD" code="SDLK_BACKSPACE" />
 			<gameSpecificInput>103</gameSpecificInput>
 		</inputMatcher>
 	</context>

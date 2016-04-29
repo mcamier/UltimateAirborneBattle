@@ -7,6 +7,7 @@
 
 #include "scenes/gameplayScene.h"
 #include "scenes/mainMenuScene.h"
+#include "scenes/titleScene.h"
 
 #include "entity/CPT_creator.h"
 
@@ -38,7 +39,7 @@ using Compote::Scene::AbstractMenuScene;
 class UltimateAirborneBattle : public CompoteEngine {
 
 public:
-    UABGameScene *gameScreen;
+    GameplayScene *gameScreen;
 
     UltimateAirborneBattle() : 
         CompoteEngine(1280, 720, 1280, 720, 
@@ -61,10 +62,8 @@ protected:
         //Locator::getActorFactory()->addCreator<CParticulEmitter>(new CParticulEmitterCreator());
         //Locator::getActorFactory()->addCreator<CCollider>(new CColliderCreator());
 
-        UABGameScene *gameScreen = new UABGameScene();
-        MainMenuScene *mainMenu = new MainMenuScene();
-        this->pushScene(*gameScreen);
-        this->pushScene(*mainMenu);
+        TitleScene *titleScene = new TitleScene(*this);
+        Locator::getSceneManager()->addScene(*titleScene);
     }
 };
 
