@@ -16,17 +16,10 @@
 #include "scenes/mainMenuScene.h"
 #include "scenes/titleScene.h"
 
-
-#include "entity/components/C_transform.h"
-#include "core/core.h"
-#include "entity/components/C_collider.h"
+#include "components/C_explosion.h"
 #include "components/C_player.h"
 #include "components/C_plusOne.h"
-#include "entity/components/C_rigidbody.h"
 #include "components/C_missile.h"
-#include "entity/components/C_sprite.h"
-#include "entity/components/C_animation.h"
-
 #include "entity/actorFactory.h"
 
 

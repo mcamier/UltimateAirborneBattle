@@ -5,7 +5,7 @@
 #include "components/C_player.h"
 #include "entity/components/C_transform.h"
 #include "UAB_events.h"
-
+#include "graphic/rendererManager.h"
 #include "compotemath.h"
 #include "core/core.h"
 

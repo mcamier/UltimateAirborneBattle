@@ -18,7 +18,27 @@
 #include "utils.h"
 #include "input/inputManager.h"
 #include "UAB_inputs.h"
+#include "UAB_events.h"
 #include "entity/actorFactory.h"
+#include "event/eventManager.h"
+#include "resource/resourceManager.h"
+
+#define DEAD_ZONE_STICK         5000
+#define STICK_MAX_VALUE         32767
+
+#define RES_BACKGROUND              1
+#define RES_SPRITESHEET             2
+#define RES_FONT                    3
+#define RES_BACKGROUND_SPRITE       4
+#define RES_SMOKE_SPRITE            5
+#define RES_MISSILE_SPRITE          6
+#define RES_BOMB_SPRITE             7
+#define RES_PLUS_ONE_SPRITE         8
+#define RES_EXPLOSION_ANIMATION     9
+#define RES_DARK_SMOKE_ANIMATION    10
+#define RES_PLAYER_ONE_ANIMATION    11
+#define RES_PLAYER_TWO_ANIMATION    12
+
 
 using namespace std;
 using Compote::Utils::hashString;
