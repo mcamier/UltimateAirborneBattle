@@ -1,7 +1,7 @@
 #include "processes/P_explosion.h"
 
 #include "components/C_explosion.h"
-#include "components/C_collider.h"
+#include "entity/components/C_collider.h"
 
 
 ComponentType aa[] = { CExplosion::sk_componentType };

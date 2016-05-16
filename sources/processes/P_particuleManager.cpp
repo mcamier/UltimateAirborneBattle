@@ -1,8 +1,8 @@
 #include "processes/P_particuleManager.h"
 
 #include "compotemath.h"
-#include "components/C_particuleEmitter.h"
-#include "components/C_transform.h"
+#include "entity/components/C_particuleEmitter.h"
+#include "entity/components/C_transform.h"
 
 
 ComponentType p[] = { CTransform::sk_componentType, CParticuleEmitter::sk_componentType };

@@ -4,11 +4,11 @@
 #include <vector>
 
 #include "core/core.h"
-#include "entity/CPT_entity.h"
+#include "entity/entity.h"
 #include "process.h"
-#include "entity/CPT_component.h"
+#include "entity/component.h"
 #include "memory/doubleBufferedStackAllocator.h"
-#include "components/C_particuleEmitter.h"
+#include "entity/components/C_particuleEmitter.h"
 
 #include "collisions_utils.h"
 

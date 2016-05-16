@@ -3,9 +3,9 @@
 #include "compotemath.h"
 #include "graphic/rendererManager.h"
 
-#include "components/C_rendereable2D.h"
-#include "components/C_transform.h"
-#include "components/C_animation.h"
+#include "entity/components/C_rendereable2D.h"
+#include "entity/components/C_transform.h"
+#include "entity/components/C_animation.h"
 #include "core/core.h"
 
 using Compote::Core::Locator;

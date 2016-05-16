@@ -6,12 +6,12 @@
 
 #include "process.h"
 #include "core/core.h"
-#include "entity/CPT_entity.h"
+#include "entity/entity.h"
 #include "graphic/rendererManager.h"
 #include "graphic/graphic.h"
 
-#include "components/C_transform.h"
-#include "components/C_animation.h"
+#include "entity/components/C_transform.h"
+#include "entity/components/C_animation.h"
 
 using Compote::Core::GameTime;
 

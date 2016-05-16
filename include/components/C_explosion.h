@@ -1,10 +1,12 @@
 #ifndef _C_EXPLOSION_H_
 #define _C_EXPLOSION_H_
 
-#include "entity/CPT_component.h"
-#include "entity/CPT_creator.h"
-#include "rapidjson/rapidjson.h"
-#include "rapidjson/document.h"
+#include "entity/component.h"
+#include "entity/actorFactory.h"
+#include "scripting/laccessor.h"
+
+using Compote::Entity::AbstractComponentFactory;
+using Compote::Script::LuaAccessor;
 
 class CExplosion : public IComponent {
 public:
@@ -22,7 +24,7 @@ public:
 
     virtual ~CExplosion() {}
 
-    inline const ComponentType getComponentType(void) const {
+    inline const ComponentType getComponentType(void) const override {
         return CExplosion::sk_componentType;
     }
 
@@ -30,18 +32,21 @@ public:
         return "CExplosion";
     }
 
-    IComponent* clone(void) const {
+    IComponent* clone(void) const override {
         return nullptr;
     }
 };
 
 
-class CExplosionCreator :
-    public BaseCreator<IComponent> {
-
+class CExplosionFactory : public AbstractComponentFactory<CExplosion> {
 public:
-    IComponent* create(const rapidjson::Value& node) {
+    CExplosionFactory() {}
+    ~CExplosionFactory() {}
+
+    IComponent* createWithLuaDatas(LuaAccessor accessor) const {
         return new CExplosion();
     }
 };
+
+
 #endif

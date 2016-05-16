@@ -4,7 +4,6 @@
 #include <assert.h>
 #include "scene/AbstractScene.h"
 
-#include "UAB_defines.h"
 #include "processes/P_physic.h"
 #include "processes/P_player.h"
 #include "processes/P_rendereable2D.h"
@@ -12,17 +11,20 @@
 #include "processes/P_animation.h"
 #include "processes/P_explosion.h"
 #include "processes/P_colliderManager.h"
-#include "components/C_particuleEmitter.h"
+#include "entity/components/C_particuleEmitter.h"
 #include "processes/P_plusOne.h"
 #include "compotemath.h"
 #include "core/core.h"
+#include "utils.h"
 #include "input/inputManager.h"
-#include "entity/CPT_actorFactory.h"
 #include "UAB_inputs.h"
+#include "entity/actorFactory.h"
 
 using namespace std;
+using Compote::Utils::hashString;
 using Compote::Scene::AbstractScene;
 using Compote::Core::Locator;
+using namespace Compote::Entity;
 using Compote::Input::gameInput_t;
 
 class GameConstant {
@@ -80,9 +82,7 @@ private:
 public:
     bool v_initialize(void) {
         AbstractScene::v_initialize();
-
-        assert(TempActorFactory::get() != NULL);
-        Locator::getInput()->setCurrentContext(Utils::hashString("IN_GAME"));
+        Locator::getInput()->setCurrentContext(hashString("IN_GAME"));
 
         this->addProcess(new PColliderManager());
         this->addProcess(new PAnimation());
@@ -94,7 +94,8 @@ public:
 
         //Locator::getActorFactory()->createActor(1, getEntityManager());
 
-        m_camera = TempActorFactory::get()->createCamera(getEntityManager());
+        m_camera = Locator::getActorFactory()->create(getEntityManager(), "camera");
+        //m_camera = TempActorFactory::get()->createCamera(getEntityManager());
         this->addRenderProcess(new PRendereable2D(m_camera));
 
         d_missileFired = Delegate<IEvent*>::make<GameplayScene, &GameplayScene::onMissileFired>(this);
@@ -150,7 +151,8 @@ public:
             // Bomb spawning
             if (m_bombTiming > GameConstant::BOMB_SPAWN_RATE) {
                 m_bombTiming = 0;
-                entityID bomb = TempActorFactory::get()->createBomb(getEntityManager(), MathUtils::randint(1280));
+                entityID bomb = m_camera = Locator::getActorFactory()->create(getEntityManager(), "bomb");
+                //entityID bomb = TempActorFactory::get()->createBomb(getEntityManager(), MathUtils::randint(1280));
                 m_gameWorldEntities.push_back(bomb);
             }
             else {
@@ -220,7 +222,7 @@ protected:
 
 private:
     void initGame() {
-        Locator::getActorFactory()->createActor(0, getEntityManager());
+        //Locator::getActorFactory()->createActor(0, getEntityManager());
         //TempActorFactory::get()->createBackground(getEntityManager());
         switch (m_gameMode) {
         case ONE_VS_ONE:
@@ -239,30 +241,30 @@ private:
     }
 
     void initOneVsOne() {
-        m_playerOne = TempActorFactory::get()->createPlayerOne(getEntityManager(), 120, 360);
-        m_playerTwo = TempActorFactory::get()->createPlayerTwo(getEntityManager(), 1160, 360);
+        m_playerOne = Locator::getActorFactory()->create(getEntityManager(), "playerOne");
+        m_playerTwo = Locator::getActorFactory()->create(getEntityManager(), "playerTwo");
         m_playerThree = -1;
         m_playerFour = -1;
     }
     void initTwoVsTwo() {
-        m_playerOne = TempActorFactory::get()->createPlayerOne(getEntityManager(), 120, 180);
-        m_playerTwo = TempActorFactory::get()->createPlayerTwo(getEntityManager(), 1160, 180);
-        m_playerThree = TempActorFactory::get()->createPlayerThree(getEntityManager(), 120, 540);
-        m_playerFour = TempActorFactory::get()->createPlayerFour(getEntityManager(), 1160, 540);
+        m_playerOne = Locator::getActorFactory()->create(getEntityManager(), "playerOne");
+        m_playerTwo = Locator::getActorFactory()->create(getEntityManager(), "playerTwo");
+        m_playerThree = Locator::getActorFactory()->create(getEntityManager(), "playerThree");
+        m_playerFour = Locator::getActorFactory()->create(getEntityManager(), "playerFour");
     }
 
     void initThreePlayersFFA() {
-        m_playerOne = TempActorFactory::get()->createPlayerOne(getEntityManager(), 120, 180);
-        m_playerTwo = TempActorFactory::get()->createPlayerTwo(getEntityManager(), 1160, 180);
-        m_playerThree = TempActorFactory::get()->createPlayerThree(getEntityManager(), 120, 540);
+        m_playerOne = Locator::getActorFactory()->create(getEntityManager(), "playerOne");
+        m_playerTwo = Locator::getActorFactory()->create(getEntityManager(), "playerTwo");
+        m_playerThree = Locator::getActorFactory()->create(getEntityManager(), "playerThree");
         m_playerFour = -1;
     }
 
     void initFourPlayersFFA() {
-        m_playerOne = TempActorFactory::get()->createPlayerOne(getEntityManager(), 120, 180);
-        m_playerTwo = TempActorFactory::get()->createPlayerTwo(getEntityManager(), 1160, 180);
-        m_playerThree = TempActorFactory::get()->createPlayerThree(getEntityManager(), 120, 540);
-        m_playerFour = TempActorFactory::get()->createPlayerFour(getEntityManager(), 1160, 540);
+        m_playerOne = Locator::getActorFactory()->create(getEntityManager(), "playerOne");
+        m_playerTwo = Locator::getActorFactory()->create(getEntityManager(), "playerTwo");
+        m_playerThree = Locator::getActorFactory()->create(getEntityManager(), "playerThree");
+        m_playerFour = Locator::getActorFactory()->create(getEntityManager(), "playerFour");
     }
 
     bool isMatchDone() {
@@ -307,7 +309,9 @@ private:
         }
 
         glm::vec2 position = glm::vec2(transform->getX(), transform->getY());
-        entityID id = TempActorFactory::get()->createMissile(e->m_playerSource, getEntityManager(), direction, position, angle);
+
+        entityID id = Locator::getActorFactory()->create(getEntityManager(), "missile");
+        //entityID id = TempActorFactory::get()->createMissile(e->m_playerSource, getEntityManager(), direction, position, angle);
         m_gameWorldEntities.push_back(id);
     }
 
@@ -320,10 +324,12 @@ private:
         else if (e->m_player == m_playerFour) { m_bPlayerFourDead = true; }
 
         if (e->m_spaceIDTarget == getID()) {
-            entityID id = TempActorFactory::get()->createExplosion(getEntityManager(), e->m_location);
+            entityID id = Locator::getActorFactory()->create(getEntityManager(), "explosion");
+            //entityID id = TempActorFactory::get()->createExplosion(getEntityManager(), e->m_location);
             m_gameWorldEntities.push_back(id);
 
-            AnimatedParticule *particuleProto = new AnimatedParticule(TempActorFactory::get()->m_darkSmoke, 300.0f);
+            auto darkSmoke = Locator::getResourceManager()->get<AnimatedSprite>(RES_DARK_SMOKE_ANIMATION);
+            AnimatedParticule *particuleProto = new AnimatedParticule(darkSmoke , 300.0f);
             CParticuleEmitter *pe = new CParticuleEmitter(particuleProto, 55, 1500, -90, 40, false);
             pe->m_angleVariation = 35;
             pe->m_spawnPositionVariation = 12;
@@ -332,7 +338,8 @@ private:
             if (e->m_killer >= 0) {
                 CTransform *transform = getEntityManager().getAs<CTransform>(e->m_killer);
                 if (transform != nullptr) {
-                    id = TempActorFactory::get()->createPlusOne(getEntityManager(), transform);
+                    id = Locator::getActorFactory()->create(getEntityManager(), "plusOne");
+                    //id = TempActorFactory::get()->createPlusOne(getEntityManager(), transform);
                     m_gameWorldEntities.push_back(id);
                 }
             }

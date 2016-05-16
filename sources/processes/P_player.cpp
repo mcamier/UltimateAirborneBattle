@@ -1,12 +1,12 @@
+#include <entity/components/C_rigidbody.h>
 #include "processes/P_player.h"
 #include "SDL2/SDL.h"
 
 #include "components/C_player.h"
-#include "components/C_transform.h"
+#include "entity/components/C_transform.h"
 #include "UAB_events.h"
 
 #include "compotemath.h"
-#include "UAB_defines.h"
 #include "core/core.h"
 
 using Compote::Core::Locator;

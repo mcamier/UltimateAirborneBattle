@@ -4,10 +4,10 @@
 #include <vector>
 
 #include "core/core.h"
-#include "entity/CPT_entity.h"
+#include "entity/entity.h"
 #include "process.h"
-#include "entity/CPT_component.h"
-#include "components/C_particuleEmitter.h"
+#include "entity/component.h"
+#include "entity/components/C_particuleEmitter.h"
 #include "graphic/particule/particule.h"
 
 using Compote::Core::GameTime;

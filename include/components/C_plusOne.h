@@ -1,9 +1,13 @@
 #ifndef _C_PLUS_ONE_H_
 #define _C_PLUS_ONE_H_
 
-#include "entity/CPT_component.h"
-#include "entity/CPT_creator.h"
-#include "rapidxml.hpp"
+#include "entity/component.h"
+#include "entity/actorFactory.h"
+#include "scripting/laccessor.h"
+
+using Compote::Entity::AbstractComponentFactory;
+using Compote::Script::LuaAccessor;
+using namespace Compote::Component;
 
 class CPlusOne : public IComponent {
 public:
@@ -18,7 +22,7 @@ public:
 
     virtual ~CPlusOne() {}
 
-    inline const ComponentType getComponentType(void) const {
+    inline const ComponentType getComponentType(void) const override {
         return CPlusOne::sk_componentType;
     }
 
@@ -26,17 +30,18 @@ public:
         return "CPlusOne";
     }
 
-    IComponent* clone(void) const {
+    IComponent* clone(void) const override{
         return nullptr;
     }
 };
 
 
-class CPlusOneCreator :
-    public BaseCreator<IComponent> {
-
+class CPlusOneFactory : public AbstractComponentFactory<CPlusOne> {
 public:
-    IComponent* create(const rapidjson::Value& node) {
+    CPlusOneFactory() {}
+    ~CPlusOneFactory() {}
+
+    IComponent* createWithLuaDatas(LuaAccessor accessor) const {
         return new CPlusOne();
     }
 };

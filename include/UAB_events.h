@@ -3,15 +3,15 @@
 
 #include "core/core.h"
 #include "scene/AbstractScene.h"
-#include "entity/CPT_entityManager.h"
-#include "components/C_collider.h"
+#include "entity/entityManager.h"
+#include "entity/components/C_collider.h"
 #include "components/C_player.h"
-#include "components/C_transform.h"
+#include "entity/components/C_transform.h"
 #include "components/C_missile.h"
 
 #include "event/event.h"
 #include "event/eventManager.h"
-
+#include "colliderFunctor.h"
 #include "glm/vec2.hpp"
 
 
@@ -22,9 +22,10 @@
 #define INPUT_THRUST_EVENT      101
 #define INPUT_ORIENTATION_EVENT 102
 
+using namespace Compote::Entity;
+using namespace Compote::Event;
 using Compote::Scene::AbstractScene;
 using Compote::Core::Locator;
-using namespace Compote::Event;
 
 class MissileFiredEvent : public SceneAwareEvent {
 
@@ -96,12 +97,6 @@ public:
 
     const EventType getEventType(void) const { return sk_EventType; }
     const char* getName(void) const { return "Player_Destroyed"; }
-};
-
-
-class Functor {
-public:
-    virtual void operator()(entityID thisEntity, entityID collidesAgainst, const AbstractScene* withinScene) const = 0;
 };
 
 

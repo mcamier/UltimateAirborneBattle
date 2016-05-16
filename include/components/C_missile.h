@@ -1,11 +1,15 @@
 #ifndef C_INFORMATION_H_
 #define C_INFORMATION_H_
 
-#include "entity/CPT_entity.h"
-#include "entity/CPT_component.h"
-#include "entity/CPT_creator.h"
-#include "rapidjson/document.h"
-#include "rapidjson/rapidjson.h"
+#include "entity/entity.h"
+#include "entity/component.h"
+#include "entity/actorFactory.h"
+#include "scripting/laccessor.h"
+
+using Compote::Entity::AbstractComponentFactory;
+using Compote::Script::LuaAccessor;
+using namespace Compote::Component;
+using Compote::Entity::entityID;
 
 class CMissile : public IComponent {
 public:
@@ -20,7 +24,7 @@ public:
 
     virtual ~CMissile() {}
 
-    inline const ComponentType getComponentType(void) const {
+    inline const ComponentType getComponentType(void) const override {
         return CMissile::sk_componentType;
     }
 
@@ -28,19 +32,19 @@ public:
         return "CMissile";
     }
 
-    IComponent* clone(void) const {
+    IComponent* clone(void) const override {
         return nullptr;
     }
-
 
 };
 
 
-class CMissileCreator :
-    public BaseCreator<IComponent> {
-
+class CMissileFactory : public AbstractComponentFactory<CMissile> {
 public:
-    IComponent* create(const rapidjson::Value& node) {
+    CMissileFactory() {}
+    ~CMissileFactory() {}
+
+    IComponent* createWithLuaDatas(LuaAccessor accessor) const {
         return new CMissile();
     }
 };

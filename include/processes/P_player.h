@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "entity/CPT_component.h"
+#include "entity/component.h"
 #include "process.h"
 
 class PPlayer : public UpdateProcess {
