@@ -41,7 +41,7 @@ public:
     CPlusOneFactory() {}
     ~CPlusOneFactory() {}
 
-    IComponent* createWithLuaDatas(LuaAccessor accessor) const {
+    IComponent* createWithLuaDatas(LuaAccessor& accessor) const {
         return new CPlusOne();
     }
 };

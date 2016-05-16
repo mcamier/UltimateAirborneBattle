@@ -44,7 +44,7 @@ public:
     CMissileFactory() {}
     ~CMissileFactory() {}
 
-    IComponent* createWithLuaDatas(LuaAccessor accessor) const {
+    IComponent* createWithLuaDatas(LuaAccessor& accessor) const {
         return new CMissile();
     }
 };

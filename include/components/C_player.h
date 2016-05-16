@@ -63,8 +63,11 @@ public:
     CPlayerFactory() {}
     ~CPlayerFactory() {}
 
-    IComponent* createWithLuaDatas(LuaAccessor accessor) const {
-        return new CPlayer();
+    IComponent* createWithLuaDatas(LuaAccessor& accessor) const {
+        CPlayer *component = new CPlayer();
+        component->m_forward.x = accessor["forwardX"];
+        component->m_forward.y = accessor["forwardY"];
+        return component;
     }
 };
 #endif

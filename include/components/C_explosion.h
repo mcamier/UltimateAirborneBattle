@@ -43,7 +43,7 @@ public:
     CExplosionFactory() {}
     ~CExplosionFactory() {}
 
-    IComponent* createWithLuaDatas(LuaAccessor accessor) const {
+    IComponent* createWithLuaDatas(LuaAccessor& accessor) const {
         return new CExplosion();
     }
 };
